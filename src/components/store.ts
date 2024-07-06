@@ -16,10 +16,10 @@ import {
 import Dagre from '@dagrejs/dagre';
 import { dagreLayout, basicLayout } from './layout';
 
-import { NodeData } from "./types";
+import { NodeGraphData } from "./types";
 
 export type RFState = {
-  nodes: Node<NodeData>[];
+  nodes: Node<NodeGraphData>[];
   edges: Edge[];
   viewPort: Viewport;
   dagreGraph: Dagre.graphlib.Graph;
@@ -33,7 +33,7 @@ export type RFState = {
   layoutDagre: () => void;
 };
 
-const initialNodes: Node<NodeData>[] = [
+const initialNodes: Node<NodeGraphData>[] = [
   {
     id: "0",
     type: "custom",

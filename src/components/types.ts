@@ -1,4 +1,4 @@
-export type NodeData = {
+export type NodeGraphData = {
   label: string,
   text: string,
   generateCallback: () => void;

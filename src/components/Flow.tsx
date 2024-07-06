@@ -5,7 +5,7 @@ import ReactFlow, { SelectionMode, Controls, MiniMap } from "reactflow";
 import "reactflow/dist/style.css";
 
 import useStore, { RFState } from './store';
-import LoomNode from "./LoomNode"
+import LoomGraphNode from "./LoomGraphNode"
 import LayoutButton from "./LayoutButton";
 import { on } from "events";
 
@@ -27,7 +27,7 @@ const onInit = (reactFlowInstance: any) => {
 };
 
 const nodeTypes = {
-  custom: LoomNode
+  custom: LoomGraphNode
 };
 
 function Flow() {

@@ -1,8 +1,8 @@
 import React from "react";
 import { NodeProps, Handle, Position } from 'reactflow';
-import { NodeData } from "./types"
+import { NodeGraphData } from "./types"
 
-function LoomNode({ data }: NodeProps<NodeData>) {
+function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
 
   return (
     <>
@@ -27,4 +27,4 @@ function LoomNode({ data }: NodeProps<NodeData>) {
   );
 };
 
-export default LoomNode;
+export default LoomGraphNode;
