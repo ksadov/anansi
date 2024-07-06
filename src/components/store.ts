@@ -16,7 +16,7 @@ import {
 import Dagre from '@dagrejs/dagre';
 import { dagreLayout, basicLayout } from './layout';
 
-import { NodeGraphData } from "./types";
+import { LoomNode, NodeGraphData } from "./types";
 
 export type RFState = {
   nodes: Node<NodeGraphData>[];
@@ -33,13 +33,17 @@ export type RFState = {
   layoutDagre: () => void;
 };
 
+const initialLoomNode: LoomNode = {
+  text: "This is a custom node"
+};
+
 const initialNodes: Node<NodeGraphData>[] = [
   {
     id: "0",
     type: "custom",
     data: {
       label: "Node 0",
-      text: `This is a custom node`,
+      loomNode: initialLoomNode,
       generateCallback: () => useStore.getState().spawnChildren("0")
     },
     position: { x: 0, y: 0 }
@@ -58,6 +62,7 @@ const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 const new_child_nodes = 3;
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useStore = create<RFState>((set, get) => ({
+  loomNodes: [initialLoomNode],
   nodes: initialNodes,
   edges: initialEdges,
   dagreGraph: g,
@@ -89,16 +94,21 @@ const useStore = create<RFState>((set, get) => ({
   spawnChildren: (nodeId: string) => {
     let nodes = get().nodes;
     let edges = get().edges;
+    let newLoomNodes: LoomNode[] = [];
     let new_nodes: Node[] = [];
     let new_edges: Edge[] = [];
     for (let i = 0; i < new_child_nodes; i++) {
       let new_node_id = getNodeId();
+      let newLoomNode = {
+        text: `This is custom node ${new_node_id}`
+      }
+      newLoomNodes.push(newLoomNode);
       new_nodes.push({
         id: new_node_id,
         type: "custom",
         data: {
           label: `Node ${new_node_id}`,
-          text: `This is custom node ${new_node_id}`,
+          loomNode: newLoomNode,
           generateCallback: () => useStore.getState().spawnChildren(new_node_id)
         },
         position: { x: 0, y: 0 }

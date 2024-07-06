@@ -11,7 +11,7 @@ function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
         <div>
           <textarea
             name="text"
-            defaultValue={data.text}
+            defaultValue={data.loomNode.text}
           />
         </div>
         <div>

@@ -1,5 +1,9 @@
+export type LoomNode = {
+  text: string,
+}
+
 export type NodeGraphData = {
   label: string,
-  text: string,
+  loomNode: LoomNode,
   generateCallback: () => void;
 };
