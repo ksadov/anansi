@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export interface AccordionItem {
   id: string;
@@ -16,6 +16,51 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
+  // Use useCallback to memoize these functions
+  const getAllItemIds = useCallback((items: AccordionItem[]): string[] => {
+    return items.reduce((acc: string[], item) => {
+      acc.push(item.id);
+      if (item.children) {
+        acc.push(...getAllItemIds(item.children));
+      }
+      return acc;
+    }, []);
+  }, []);
+
+  const findPathToItem = useCallback((items: AccordionItem[], targetId: string, path: string[] = []): string[] | null => {
+    for (const item of items) {
+      if (item.id === targetId) {
+        return [...path, item.id];
+      }
+      if (item.children) {
+        const childPath = findPathToItem(item.children, targetId, [...path, item.id]);
+        if (childPath) {
+          return childPath;
+        }
+      }
+    }
+    return null;
+  }, []);
+
+
+  // Initialize expanded items and handle persistence
+  useEffect(() => {
+    const allIds = getAllItemIds(items);
+    const storedCollapsed = localStorage.getItem('collapsedItems');
+    if (storedCollapsed) {
+      const collapsedSet = new Set(JSON.parse(storedCollapsed));
+      setExpandedItems(new Set(allIds.filter(id => !collapsedSet.has(id))));
+    } else {
+      setExpandedItems(new Set(allIds));
+    }
+  }, [items]);
+
+  // Update local storage when expanded items change
+  useEffect(() => {
+    const allIds = getAllItemIds(items);
+    const collapsedItems = allIds.filter(id => !expandedItems.has(id));
+    localStorage.setItem('collapsedItems', JSON.stringify(collapsedItems));
+  }, [expandedItems, items]);
   const itemMatchesSearch = (item: AccordionItem): boolean => {
     const titleMatch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
     const contentMatch = item.content ? item.content.toLowerCase().includes(searchTerm.toLowerCase()) : false;
@@ -35,31 +80,34 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
     return matches;
   };
 
-  const findPathToItem = (items: AccordionItem[], targetId: string, path: string[] = []): string[] | null => {
-    for (const item of items) {
-      if (item.id === targetId) {
-        return [...path, item.id];
-      }
-      if (item.children) {
-        const childPath = findPathToItem(item.children, targetId, [...path, item.id]);
-        if (childPath) {
-          return childPath;
-        }
-      }
+  // Initialize expanded items and handle persistence
+  useEffect(() => {
+    const allIds = getAllItemIds(items);
+    const storedCollapsed = localStorage.getItem('collapsedItems');
+    if (storedCollapsed) {
+      const collapsedSet = new Set(JSON.parse(storedCollapsed));
+      setExpandedItems(new Set(allIds.filter(id => !collapsedSet.has(id))));
+    } else {
+      setExpandedItems(new Set(allIds));
     }
-    return null;
-  };
+  }, [items, getAllItemIds]);
 
+  // Update local storage when expanded items change
+  useEffect(() => {
+    const allIds = getAllItemIds(items);
+    const collapsedItems = allIds.filter(id => !expandedItems.has(id));
+    localStorage.setItem('collapsedItems', JSON.stringify(collapsedItems));
+  }, [expandedItems, items, getAllItemIds]);
+
+  // Handle selected item expansion
   useEffect(() => {
     if (selectedItemId) {
       const path = findPathToItem(items, selectedItemId);
       if (path) {
         setExpandedItems(new Set(path));
       }
-    } else {
-      setExpandedItems(new Set());
     }
-  }, [selectedItemId, items]);
+  }, [selectedItemId, items, findPathToItem]);
 
   const renderAccordionItem = (item: AccordionItem) => {
     const isExpanded = expandedItems.has(item.id);
@@ -101,7 +149,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
             </div>
           )
         }
-      </div >
+      </div>
     );
   };
 
