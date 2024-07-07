@@ -115,6 +115,10 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
     const hasChildren = item.children && item.children.length > 0;
     const isSelected = item.loomNode.id === selectedItemId;
 
+    if (isSelected) {
+      item.loomNode.inFocus = true;
+    }
+
     return (
       <div key={item.loomNode.id}>
         <div

@@ -38,7 +38,8 @@ const initialLoomNode: LoomNode = {
   id: "0",
   text: "This is a custom node",
   parent: undefined,
-  children: []
+  children: [],
+  inFocus: true
 };
 
 const initialNodes: Node<NodeGraphData>[] = [
@@ -107,7 +108,8 @@ const useStore = create<RFState>((set, get) => ({
         id: new_node_id,
         text: `This is custom node ${new_node_id}`,
         parent: get().loomNodes.find(loomNode => loomNode.id === nodeId),
-        children: []
+        children: [],
+        inFocus: false
       }
       // update parent node
       let parent_node = get().loomNodes.find(loomNode => loomNode.id === nodeId);

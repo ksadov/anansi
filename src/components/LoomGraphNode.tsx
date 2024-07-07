@@ -3,11 +3,11 @@ import { NodeProps, Handle, Position } from 'reactflow';
 import { NodeGraphData } from "./types"
 
 function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
-
+  const borderHighlight = data.loomNode.inFocus ? "2px solid red" : "";
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div >
+      <div style={{ border: borderHighlight }}>
         <div>
           <textarea
             name="text"
