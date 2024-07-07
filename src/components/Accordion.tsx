@@ -9,12 +9,12 @@ export interface AccordionItem {
 
 export interface AccordionProps {
   items: AccordionItem[];
-  searchTerm: string;
 }
 
-const Accordion: React.FC<AccordionProps> = ({ items, searchTerm }) => {
+const Accordion: React.FC<AccordionProps> = ({ items }) => {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const itemMatchesSearch = (item: AccordionItem): boolean => {
     const titleMatch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -69,68 +69,94 @@ const Accordion: React.FC<AccordionProps> = ({ items, searchTerm }) => {
     return (
       <div key={item.id}>
         <div
-          onClick={() => {
-            if (hasChildren) {
-              setExpandedItems(prev => {
-                const newSet = new Set(prev);
-                if (newSet.has(item.id)) {
-                  newSet.delete(item.id);
-                } else {
-                  newSet.add(item.id);
-                }
-                return newSet;
-              });
-            }
-          }}
           style={{
             cursor: hasChildren ? 'pointer' : 'default',
             fontWeight: isExpanded ? 'bold' : 'normal',
             backgroundColor: isSelected ? 'yellow' : 'transparent'
           }}
         >
-          {hasChildren ? (isExpanded ? '▼' : '►') : '•'} {item.title}
+          <span
+            onClick={() => {
+              if (hasChildren) {
+                setExpandedItems(prev => {
+                  const newSet = new Set(prev);
+                  if (newSet.has(item.id)) {
+                    newSet.delete(item.id);
+                  } else {
+                    newSet.add(item.id);
+                  }
+                  return newSet;
+                });
+              }
+            }}
+          >
+            {hasChildren ? (isExpanded ? '▼' : '►') : '•'}
+          </span> {item.title}
         </div>
-        {isExpanded && (
-          <div style={{ marginLeft: '20px' }}>
-            {item.content && <p>{item.content}</p>}
-            {hasChildren && item.children!.map(renderAccordionItem)}
-          </div>
-        )}
-      </div>
+        {
+          isExpanded && (
+            <div style={{ marginLeft: '20px' }}>
+              {item.content && <p>{item.content}</p>}
+              {hasChildren && item.children!.map(renderAccordionItem)}
+            </div>
+          )
+        }
+      </div >
     );
   };
 
   const matchingItems = findMatchingItems(items);
 
-  if (searchTerm && matchingItems.length === 0) {
-    return <div>Not found</div>;
-  }
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setSelectedItemId(null);
+  };
 
-  if (searchTerm && !selectedItemId) {
-    return (
-      <div>
-        <h3>Search Results:</h3>
-        <ul>
-          {matchingItems.map(item => (
-            <li
-              key={item.id}
-              onClick={() => setSelectedItemId(item.id)}
-              style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
-            >
-              {item.title}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+  const handleBackToSearch = () => {
+    setSelectedItemId(null);
+  };
 
   return (
     <div>
-      {selectedItemId && (
-        <button onClick={() => setSelectedItemId(null)}>Back to Search Results</button>
+      {!selectedItemId && (
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearch}
+          placeholder="Search..."
+          style={{ marginBottom: '10px', width: '100%', padding: '5px' }}
+        />
       )}
-      {items.map(renderAccordionItem)}
+
+      {searchTerm && matchingItems.length === 0 ? (
+        <div>Not found</div>
+      ) : searchTerm && !selectedItemId ? (
+        <div>
+          <h3>Search Results:</h3>
+          <ul>
+            {matchingItems.map(item => (
+              <li
+                key={item.id}
+                onClick={() => setSelectedItemId(item.id)}
+                style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+              >
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>
+          {selectedItemId && (
+            <button onClick={handleBackToSearch} style={{ marginBottom: '10px' }}>
+              Back to Search Results
+            </button>
+          )}
+          <div className="searchable-accordion-body">
+            {items.map(renderAccordionItem)}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

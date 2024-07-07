@@ -10,26 +10,18 @@ function loomNodeToAccordionItem(loomNode: LoomNode): AccordionItem {
   };
 }
 
-function accordionLoom(root_node: LoomNode, searchTerm: string): AccordionProps {
+function accordionLoom(root_node: LoomNode): AccordionProps {
   return {
     items: [loomNodeToAccordionItem(root_node)],
-    searchTerm
   };
 }
 
 
 export default function LoomList({ root_node }: { root_node: LoomNode }) {
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm] = useState('');
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <Accordion {...accordionLoom(root_node, searchTerm)} />
+      <Accordion {...accordionLoom(root_node)} />
     </div>
   );
 }
