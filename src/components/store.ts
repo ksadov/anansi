@@ -19,6 +19,7 @@ import { dagreLayout, basicLayout } from './layout';
 import { LoomNode, NodeGraphData } from "./types";
 
 export type RFState = {
+  loomNodes: LoomNode[];
   nodes: Node<NodeGraphData>[];
   edges: Edge[];
   viewPort: Viewport;
@@ -34,7 +35,10 @@ export type RFState = {
 };
 
 const initialLoomNode: LoomNode = {
-  text: "This is a custom node"
+  id: "0",
+  text: "This is a custom node",
+  parent: undefined,
+  children: []
 };
 
 const initialNodes: Node<NodeGraphData>[] = [
@@ -100,7 +104,16 @@ const useStore = create<RFState>((set, get) => ({
     for (let i = 0; i < new_child_nodes; i++) {
       let new_node_id = getNodeId();
       let newLoomNode = {
-        text: `This is custom node ${new_node_id}`
+        id: new_node_id,
+        text: `This is custom node ${new_node_id}`,
+        parent: get().loomNodes.find(loomNode => loomNode.id === nodeId),
+        children: []
+      }
+      // update parent node
+      let parent_node = get().loomNodes.find(loomNode => loomNode.id === nodeId);
+      if (parent_node) {
+        console.log("Found parent node", parent_node.id, "pushing child", newLoomNode.id)
+        parent_node.children.push(newLoomNode);
       }
       newLoomNodes.push(newLoomNode);
       new_nodes.push({
@@ -134,6 +147,7 @@ const useStore = create<RFState>((set, get) => ({
     let layoutedEdges = edges.concat(new_edges);
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
+    set({ loomNodes: get().loomNodes.concat(newLoomNodes) });
   },
   layoutDagre: () => {
     const { nodes, edges } = get();

@@ -1,5 +1,8 @@
 export type LoomNode = {
+  id: string,
   text: string,
+  parent?: LoomNode,
+  children: LoomNode[]
 }
 
 export type NodeGraphData = {
