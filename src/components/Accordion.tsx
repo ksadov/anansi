@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
+import { LoomNode } from './types';
 // TODO: Maybe we should be managing state via our Zustand store?
 
 export interface AccordionItem {
-  id: string;
-  title: string;
+  loomNode: LoomNode,
   content?: string;
   children?: AccordionItem[];
 }
@@ -21,7 +20,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
   // Use useCallback to memoize these functions
   const getAllItemIds = useCallback((items: AccordionItem[]): string[] => {
     return items.reduce((acc: string[], item) => {
-      acc.push(item.id);
+      acc.push(item.loomNode.id);
       if (item.children) {
         acc.push(...getAllItemIds(item.children));
       }
@@ -31,11 +30,11 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
 
   const findPathToItem = useCallback((items: AccordionItem[], targetId: string, path: string[] = []): string[] | null => {
     for (const item of items) {
-      if (item.id === targetId) {
-        return [...path, item.id];
+      if (item.loomNode.id === targetId) {
+        return [...path, item.loomNode.id];
       }
       if (item.children) {
-        const childPath = findPathToItem(item.children, targetId, [...path, item.id]);
+        const childPath = findPathToItem(item.children, targetId, [...path, item.loomNode.id]);
         if (childPath) {
           return childPath;
         }
@@ -64,7 +63,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
     localStorage.setItem('collapsedItems', JSON.stringify(collapsedItems));
   }, [expandedItems, items]);
   const itemMatchesSearch = (item: AccordionItem): boolean => {
-    const titleMatch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const titleMatch = item.loomNode.text.toLowerCase().includes(searchTerm.toLowerCase());
     const contentMatch = item.content ? item.content.toLowerCase().includes(searchTerm.toLowerCase()) : false;
     return titleMatch || contentMatch;
   };
@@ -112,12 +111,12 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
   }, [selectedItemId, items, findPathToItem]);
 
   const renderAccordionItem = (item: AccordionItem) => {
-    const isExpanded = expandedItems.has(item.id);
+    const isExpanded = expandedItems.has(item.loomNode.id);
     const hasChildren = item.children && item.children.length > 0;
-    const isSelected = item.id === selectedItemId;
+    const isSelected = item.loomNode.id === selectedItemId;
 
     return (
-      <div key={item.id}>
+      <div key={item.loomNode.id}>
         <div
           style={{
             cursor: hasChildren ? 'pointer' : 'default',
@@ -130,10 +129,10 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
               if (hasChildren) {
                 setExpandedItems(prev => {
                   const newSet = new Set(prev);
-                  if (newSet.has(item.id)) {
-                    newSet.delete(item.id);
+                  if (newSet.has(item.loomNode.id)) {
+                    newSet.delete(item.loomNode.id);
                   } else {
-                    newSet.add(item.id);
+                    newSet.add(item.loomNode.id);
                   }
                   return newSet;
                 });
@@ -141,7 +140,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
             }}
           >
             {hasChildren ? (isExpanded ? '▼' : '►') : '•'}
-          </span> {item.title}
+          </span> {item.loomNode.text}
         </div>
         {
           isExpanded && (
@@ -186,11 +185,11 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
           <ul>
             {matchingItems.map(item => (
               <li
-                key={item.id}
-                onClick={() => setSelectedItemId(item.id)}
+                key={item.loomNode.id}
+                onClick={() => setSelectedItemId(item.loomNode.id)}
                 style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
               >
-                {item.title}
+                {item.loomNode.text}
               </li>
             ))}
           </ul>

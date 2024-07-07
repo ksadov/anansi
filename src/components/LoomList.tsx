@@ -4,9 +4,8 @@ import { LoomNode } from './types';
 
 function loomNodeToAccordionItem(loomNode: LoomNode): AccordionItem {
   return {
-    id: loomNode.id,
-    title: loomNode.text,
-    children: loomNode.children.map(loomNodeToAccordionItem)
+    loomNode,
+    children: loomNode.children.map(loomNodeToAccordionItem),
   };
 }
 
