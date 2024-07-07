@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+// TODO: Maybe we should be managing state via our Zustand store?
+
 export interface AccordionItem {
   id: string;
   title: string;
