@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useShallow } from 'zustand/react/shallow';
 import ReactFlow, { SelectionMode, Controls, MiniMap } from "reactflow";
 import {
@@ -19,11 +19,14 @@ const selector = (state: RFState) => ({
   loomNodes: state.loomNodes,
   nodes: state.nodes,
   edges: state.edges,
+  setNodes: state.setNodes,
   dagreGraph: state.dagreGraph,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
-  layoutDagre: state.layoutDagre
+  layoutDagre: state.layoutDagre,
+  focusedNodeId: state.focusedNodeId,
+  setFocusedNodeId: state.setFocusedNodeId
 });
 
 // TODO: somehow manage view state in store
@@ -38,9 +41,32 @@ const nodeTypes = {
 };
 
 function Flow() {
-  const { loomNodes, nodes, edges, onNodesChange, onEdgesChange, onConnect, layoutDagre } = useStore(
-    useShallow(selector),
-  );
+  const { loomNodes, nodes, edges, setNodes, onNodesChange, onEdgesChange, onConnect, layoutDagre,
+    focusedNodeId, setFocusedNodeId } = useStore(
+      useShallow(selector),
+    );
+
+  useEffect(() => {
+    setNodes(
+      nodes.map((node) => {
+        if (node.id === focusedNodeId) {
+          node.data.loomNode.inFocus = true;
+          node.data = {
+            ...node.data,
+          };
+          console.log("Focused on node: ", node.id);
+        }
+        else if (node.data.loomNode.inFocus) {
+          node.data.loomNode.inFocus = false;
+          node.data = {
+            ...node.data,
+          };
+        }
+        return node;
+      })
+    );
+  }, [focusedNodeId, setNodes]);
+
 
   let onLayoutClick = () => {
     layoutDagre(); window.requestAnimationFrame(() => {
@@ -51,7 +77,7 @@ function Flow() {
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel defaultSize={15}>
-        <LoomList root_node={loomNodes[0]} />
+        <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={85}>

@@ -10,9 +10,10 @@ export interface AccordionItem {
 
 export interface AccordionProps {
   items: AccordionItem[];
+  setFocusedNodeId: (id: string) => void;
 }
 
-const Accordion: React.FC<AccordionProps> = ({ items }) => {
+const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -110,14 +111,16 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
     }
   }, [selectedItemId, items, findPathToItem]);
 
+  useEffect(() => {
+    if (selectedItemId) {
+      setFocusedNodeId(selectedItemId);
+    }
+  }, [selectedItemId, setFocusedNodeId]);
+
   const renderAccordionItem = (item: AccordionItem) => {
     const isExpanded = expandedItems.has(item.loomNode.id);
     const hasChildren = item.children && item.children.length > 0;
     const isSelected = item.loomNode.id === selectedItemId;
-
-    if (isSelected) {
-      item.loomNode.inFocus = true;
-    }
 
     return (
       <div key={item.loomNode.id}>

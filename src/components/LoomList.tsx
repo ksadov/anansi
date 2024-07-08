@@ -9,18 +9,19 @@ function loomNodeToAccordionItem(loomNode: LoomNode): AccordionItem {
   };
 }
 
-function accordionLoom(root_node: LoomNode): AccordionProps {
+function accordionLoom(root_node: LoomNode, setFocusedNodeId: (id: string) => void): AccordionProps {
   return {
     items: [loomNodeToAccordionItem(root_node)],
+    setFocusedNodeId
   };
 }
 
 
-export default function LoomList({ root_node }: { root_node: LoomNode }) {
+export default function LoomList({ root_node, setFocusedNodeId }: { root_node: LoomNode, setFocusedNodeId: (id: string) => void }) {
   const [searchTerm] = useState('');
   return (
     <div>
-      <Accordion {...accordionLoom(root_node)} />
+      <Accordion {...accordionLoom(root_node, setFocusedNodeId)} />
     </div>
   );
 }

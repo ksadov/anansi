@@ -2,7 +2,7 @@ export type LoomNode = {
   id: string,
   text: string,
   parent?: LoomNode,
-  children: LoomNode[]
+  children: LoomNode[],
   inFocus: boolean
 }
 
