@@ -25,7 +25,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   if (editEnabled) {
     return (
       <div className="">
-        <div className="">
+        <div>
           <div className="flex justify-end space-x-2">
             <button onClick={() => {
               setEditEnabled(false);
@@ -39,14 +39,17 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
               }
             }>Cancel</button>
           </div>
-          {previousRead}
-          <div className="flex">
-            <input type="text"
-              defaultValue={loomNode.text}
-              id="editNodeText"
-              onChange={() => {
-              }}
-            ></input>
+          <div className="rounded-md border p-2">
+            {previousRead}
+            <div className="">
+              <input
+                type="text"
+                defaultValue={loomNode.text}
+                id="editNodeText"
+                onChange={() => {
+                }}
+              ></input>
+            </div>
           </div>
         </div>
       </div>
@@ -54,13 +57,15 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   }
   else {
     return (
-      <div className="relative">
-        {previousRead}
+      <div className="">
         <div className="">
           <div className="flex justify-end">
             <button onClick={() => setEditEnabled(true)}>Edit</button>
           </div>
-          <span>{loomNode.text}</span>
+          <div className="rounded-md border p-2">
+            {previousRead}
+            <span>{loomNode.text}</span>
+          </div>
           <div>
             <button
               onClick={() => spawnChildren()}
