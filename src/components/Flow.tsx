@@ -13,6 +13,10 @@ import "reactflow/dist/style.css";
 import useStore, { RFState } from './store';
 import LoomGraphNode from "./LoomGraphNode"
 import LayoutButton from "./LayoutButton";
+import NodeDetails from "./NodeDetails";
+
+import { LoomNode } from "./types";
+
 import { on } from "events";
 
 const selector = (state: RFState) => ({
@@ -45,6 +49,8 @@ function Flow() {
     focusedNodeId, setFocusedNodeId } = useStore(
       useShallow(selector),
     );
+
+  const focusedNode: LoomNode = loomNodes.find((node) => node.id === focusedNodeId) ?? loomNodes[0];
 
   useEffect(() => {
     setNodes(
@@ -103,7 +109,7 @@ function Flow() {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={15}>
-        <div>Right Panel</div>
+        <NodeDetails loomNode={focusedNode} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );
