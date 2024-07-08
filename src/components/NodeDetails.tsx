@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
 
@@ -17,7 +18,38 @@ function constructReadTree(loomNode: LoomNode) {
   return lineageText
 }
 
+function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode) {
+  const previousRead = <span className={"previousRead"}>{constructReadTree(loomNode)}</span>
+  if (editEnabled) {
+    return (
+      <div>
+        {previousRead}
+        <div>
+          <input type="text" value={loomNode.text} />
+          <div>
+            <button onClick={() => setEditEnabled(false)}>Save</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  else {
+    return (
+      <div>
+        {previousRead}
+        <div>
+          <span>{loomNode.text}</span>
+          <div>
+            <button onClick={() => setEditEnabled(true)}>Edit</button>
+          </div>
+        </div>
+      </div >
+    )
+  }
+}
+
 export default function NodeDetails({ loomNode }: { loomNode: LoomNode }) {
+  const [editEnabled, setEditEnabled] = useState(false)
   return (
     <Tabs defaultValue="read">
       <TabsList>
@@ -25,10 +57,7 @@ export default function NodeDetails({ loomNode }: { loomNode: LoomNode }) {
         <TabsTrigger value="info">Info</TabsTrigger>
       </TabsList>
       <TabsContent value="read">
-        <div>
-          <span className={"previousRead"}>{constructReadTree(loomNode)}</span>
-          <span className={"currentRead"}>{loomNode.text}</span>
-        </div>
+        {readView(editEnabled, setEditEnabled, loomNode)}
       </TabsContent>
       <TabsContent value="info">
         <div>
