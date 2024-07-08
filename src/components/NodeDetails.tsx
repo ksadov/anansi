@@ -19,7 +19,7 @@ function constructReadTree(loomNode: LoomNode) {
 }
 
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
-  setFocusedNodeText: (text: string) => void) {
+  setFocusedNodeText: (text: string) => void, spawnChildren: () => void) {
   const previousRead = <span className={"previousRead"}>{constructReadTree(loomNode)}</span>
 
   if (editEnabled) {
@@ -59,6 +59,13 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
           <div>
             <button onClick={() => setEditEnabled(true)}>Edit</button>
           </div>
+          <div>
+            <button
+              onClick={() => spawnChildren()}
+            >
+              Generate
+            </button>
+          </div>
         </div>
       </div >
     )
@@ -75,14 +82,7 @@ export default function NodeDetails({ loomNode, setFocusedNodeText, spawnChildre
         <TabsTrigger value="info">Info</TabsTrigger>
       </TabsList>
       <TabsContent value="read">
-        {readView(editEnabled, setEditEnabled, loomNode, setFocusedNodeText)}
-        <div>
-          <button
-            onClick={() => spawnChildren()}
-          >
-            Generate
-          </button>
-        </div>
+        {readView(editEnabled, setEditEnabled, loomNode, setFocusedNodeText, spawnChildren)}
       </TabsContent>
       <TabsContent value="info">
         <div>
