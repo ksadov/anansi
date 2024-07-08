@@ -73,6 +73,19 @@ function Flow() {
     );
   }, [focusedNodeId, setNodes]);
 
+  function setFocusedNodeText(text: string) {
+    setNodes(
+      nodes.map((node) => {
+        if (node.id === focusedNodeId) {
+          node.data.loomNode.text = text;
+          node.data = {
+            ...node.data,
+          };
+        }
+        return node;
+      })
+    );
+  }
 
   let onLayoutClick = () => {
     layoutDagre(); window.requestAnimationFrame(() => {
@@ -109,7 +122,7 @@ function Flow() {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={15}>
-        <NodeDetails loomNode={focusedNode} />
+        <NodeDetails loomNode={focusedNode} setFocusedNodeText={setFocusedNodeText} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

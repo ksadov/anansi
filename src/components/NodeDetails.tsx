@@ -18,16 +18,28 @@ function constructReadTree(loomNode: LoomNode) {
   return lineageText
 }
 
-function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode) {
+function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
+  setFocusedNodeText: (text: string) => void) {
   const previousRead = <span className={"previousRead"}>{constructReadTree(loomNode)}</span>
+
   if (editEnabled) {
     return (
       <div>
         {previousRead}
         <div>
-          <input type="text" value={loomNode.text} />
+          <input type="text"
+            defaultValue={loomNode.text}
+            id="editNodeText"
+            onChange={() => {
+            }}
+          ></input>
           <div>
-            <button onClick={() => setEditEnabled(false)}>Save</button>
+            <button onClick={() => {
+              setEditEnabled(false);
+              const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
+              setFocusedNodeText(text);
+            }
+            }>Save</button>
           </div>
         </div>
       </div>
@@ -48,7 +60,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   }
 }
 
-export default function NodeDetails({ loomNode }: { loomNode: LoomNode }) {
+export default function NodeDetails({ loomNode, setFocusedNodeText }: { loomNode: LoomNode, setFocusedNodeText: (text: string) => void }) {
   const [editEnabled, setEditEnabled] = useState(false)
   return (
     <Tabs defaultValue="read">
@@ -57,7 +69,7 @@ export default function NodeDetails({ loomNode }: { loomNode: LoomNode }) {
         <TabsTrigger value="info">Info</TabsTrigger>
       </TabsList>
       <TabsContent value="read">
-        {readView(editEnabled, setEditEnabled, loomNode)}
+        {readView(editEnabled, setEditEnabled, loomNode, setFocusedNodeText)}
       </TabsContent>
       <TabsContent value="info">
         <div>
