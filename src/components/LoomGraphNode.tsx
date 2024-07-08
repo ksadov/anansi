@@ -7,7 +7,7 @@ function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div style={{ border: borderHighlight }}>
+      <div style={{ border: borderHighlight }} onClick={data.focusNode}>
         <div>
           <textarea
             name="text"

@@ -52,6 +52,7 @@ const initialNodes: Node<NodeGraphData>[] = [
       label: "Node 0",
       loomNode: initialLoomNode,
       generateCallback: () => useStore.getState().spawnChildren("0"),
+      focusNode: () => useStore.getState().setFocusedNodeId("0")
     },
     position: { x: 0, y: 0 }
   }
@@ -128,7 +129,8 @@ const useStore = create<RFState>((set, get) => ({
         data: {
           label: `Node ${new_node_id}`,
           loomNode: newLoomNode,
-          generateCallback: () => useStore.getState().spawnChildren(new_node_id)
+          generateCallback: () => useStore.getState().spawnChildren(new_node_id),
+          focusNode: () => useStore.getState().setFocusedNodeId(new_node_id)
         },
         position: { x: 0, y: 0 }
       });
