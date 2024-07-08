@@ -28,6 +28,7 @@ const selector = (state: RFState) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  spawnChildren: state.spawnChildren,
   layoutDagre: state.layoutDagre,
   focusedNodeId: state.focusedNodeId,
   setFocusedNodeId: state.setFocusedNodeId
@@ -45,7 +46,7 @@ const nodeTypes = {
 };
 
 function Flow() {
-  const { loomNodes, nodes, edges, setNodes, onNodesChange, onEdgesChange, onConnect, layoutDagre,
+  const { loomNodes, nodes, edges, setNodes, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
     focusedNodeId, setFocusedNodeId } = useStore(
       useShallow(selector),
     );
@@ -87,6 +88,10 @@ function Flow() {
     );
   }
 
+  function spawnChildrenForFocusedNode() {
+    spawnChildren(focusedNodeId);
+  }
+
   let onLayoutClick = () => {
     layoutDagre(); window.requestAnimationFrame(() => {
       myFitView();
@@ -122,7 +127,11 @@ function Flow() {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={15}>
-        <NodeDetails loomNode={focusedNode} setFocusedNodeText={setFocusedNodeText} />
+        <NodeDetails
+          loomNode={focusedNode}
+          setFocusedNodeText={setFocusedNodeText}
+          spawnChildren={spawnChildrenForFocusedNode}
+        />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

@@ -9,6 +9,5 @@ export type LoomNode = {
 export type NodeGraphData = {
   label: string,
   loomNode: LoomNode,
-  generateCallback: () => void;
-  focusNode: () => void;
+  focusNode: () => void
 };

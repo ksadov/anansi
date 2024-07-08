@@ -37,7 +37,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
             <button onClick={() => {
               setEditEnabled(false);
               const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
-              setFocusedNodeText(text);
+              loomNode.text = text;
             }
             }>Save</button>
           </div>
@@ -60,7 +60,8 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   }
 }
 
-export default function NodeDetails({ loomNode, setFocusedNodeText }: { loomNode: LoomNode, setFocusedNodeText: (text: string) => void }) {
+export default function NodeDetails({ loomNode, setFocusedNodeText, spawnChildren }:
+  { loomNode: LoomNode, setFocusedNodeText: (text: string) => void, spawnChildren: () => void }) {
   const [editEnabled, setEditEnabled] = useState(false)
   return (
     <Tabs defaultValue="read">
@@ -70,6 +71,13 @@ export default function NodeDetails({ loomNode, setFocusedNodeText }: { loomNode
       </TabsList>
       <TabsContent value="read">
         {readView(editEnabled, setEditEnabled, loomNode, setFocusedNodeText)}
+        <div>
+          <button
+            onClick={() => spawnChildren()}
+          >
+            Generate
+          </button>
+        </div>
       </TabsContent>
       <TabsContent value="info">
         <div>
