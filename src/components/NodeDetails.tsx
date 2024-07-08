@@ -76,22 +76,24 @@ export default function NodeDetails({ loomNode, setFocusedNodeText, spawnChildre
   { loomNode: LoomNode, setFocusedNodeText: (text: string) => void, spawnChildren: () => void }) {
   const [editEnabled, setEditEnabled] = useState(false)
   return (
-    <Tabs defaultValue="read">
-      <TabsList>
-        <TabsTrigger value="read">Read</TabsTrigger>
-        <TabsTrigger value="info">Info</TabsTrigger>
-      </TabsList>
-      <TabsContent value="read">
-        {readView(editEnabled, setEditEnabled, loomNode, setFocusedNodeText, spawnChildren)}
-      </TabsContent>
-      <TabsContent value="info">
-        <div>
-          <p>id: {loomNode.id}</p>
-          <p>text: {loomNode.text}</p>
-          <p>parent: {loomNode.parent?.text}</p>
-          <p>children: {loomNode.children.map(child => child.text).join(", ")}</p>
-        </div>
-      </TabsContent>
-    </Tabs>
+    <div className="p-2">
+      <Tabs defaultValue="read">
+        <TabsList>
+          <TabsTrigger value="read">Read</TabsTrigger>
+          <TabsTrigger value="info">Info</TabsTrigger>
+        </TabsList>
+        <TabsContent className="p-2" value="read">
+          {readView(editEnabled, setEditEnabled, loomNode, setFocusedNodeText, spawnChildren)}
+        </TabsContent>
+        <TabsContent className="p-2" value="info">
+          <div>
+            <p>id: {loomNode.id}</p>
+            <p>text: {loomNode.text}</p>
+            <p>parent: {loomNode.parent?.text}</p>
+            <p>children: {loomNode.children.map(child => child.text).join(", ")}</p>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }

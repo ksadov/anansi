@@ -173,7 +173,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
   };
 
   return (
-    <div>
+    <div className="p-2">
       {!selectedItemId && (
         <input
           type="text"
