@@ -40,6 +40,11 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
               loomNode.text = text;
             }
             }>Save</button>
+            <button onClick={
+              () => {
+                setEditEnabled(false);
+              }
+            }>Cancel</button>
           </div>
         </div>
       </div>
