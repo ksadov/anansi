@@ -80,7 +80,7 @@ function Flow() {
         <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={85}>
+      <ResizablePanel defaultSize={70}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -100,6 +100,10 @@ function Flow() {
             <LayoutButton layoutCallback={onLayoutClick} />
           </Controls>
         </ReactFlow>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={15}>
+        <div>Right Panel</div>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
