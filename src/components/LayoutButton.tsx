@@ -3,7 +3,7 @@ import { ImTree } from "react-icons/im";
 
 export default function LayoutButton(layoutCallback: { layoutCallback: () => void }) {
   return (
-    <ControlButton
+    <ControlButton className="text-black"
       onClick={layoutCallback.layoutCallback}
     >
       <ImTree />

@@ -39,7 +39,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
               }
             }>Cancel</button>
           </div>
-          <div className="rounded-md border p-2">
+          <div className="rounded-md border  border-slate-500 p-2">
             {previousRead}
             <div className="">
               <input
@@ -62,7 +62,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
           <div className="flex justify-end">
             <button onClick={() => setEditEnabled(true)}>Edit</button>
           </div>
-          <div className="rounded-md border p-2">
+          <div className="rounded-md border  border-slate-500 p-2">
             {previousRead}
             <span>{loomNode.text}</span>
           </div>

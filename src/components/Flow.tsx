@@ -99,10 +99,10 @@ function Flow() {
   };
 
   return (
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel defaultSize={15}>
+    <ResizablePanelGroup direction="horizontal" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      < ResizablePanel defaultSize={15} >
         <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
-      </ResizablePanel>
+      </ResizablePanel >
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={70}>
         <ReactFlow
@@ -133,7 +133,7 @@ function Flow() {
           spawnChildren={spawnChildrenForFocusedNode}
         />
       </ResizablePanel>
-    </ResizablePanelGroup>
+    </ResizablePanelGroup >
   );
 }
 
