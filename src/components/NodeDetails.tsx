@@ -24,10 +24,10 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   setFocusedNodeText: (text: string) => void, spawnChildren: () => void) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode)}</span>
 
-  const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button onClick={() => spawnChildren()}> Generate </Button>
+  const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
 
   const generateButton = <div
-    className="flex p-1 generateDisabled"
+    className="flex p-3 generateDisabled place-content-center"
   >
     {genButton}
   </div >
@@ -36,30 +36,33 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     return (
       <div className="">
         <div className="">
-          <div className="flex justify-end space-x-1 p-1">
-            <Button onClick={() => {
-              setEditEnabled(false);
-              const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
-              setFocusedNodeText(text);
-            }
-            }>Save</Button>
-            <Button
-              variant="secondary"
-              onClick={
-                () => {
-                  setEditEnabled(false);
-                }
-              }>Cancel</Button>
-          </div>
           <div className="rounded-md border p-2">
             {previousRead}
-            <div className="m-1">
+            <div className="m-2">
               <Textarea
                 defaultValue={loomNode.text}
                 id="editNodeText"
                 onChange={() => {
                 }}
               />
+              <div className="flex justify-end space-x-1 pt-2">
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setEditEnabled(false);
+                    const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
+                    setFocusedNodeText(text);
+                  }
+                  }>Save</Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={
+                    () => {
+                      setEditEnabled(false);
+                    }
+                  }>Cancel</Button>
+              </div>
             </div>
           </div>
           {generateButton}
@@ -71,15 +74,15 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     return (
       <div className="">
         <div className="">
-          <div className="flex justify-end space-x-1 p-1">
-            <Button onClick={() => setEditEnabled(true)}>Edit</Button>
+          <div className="flex justify-end m-0.5">
+            <Button variant="ghost" size="xs" onClick={() => setEditEnabled(true)}>Edit</Button>
           </div>
           <div className="rounded-md border p-2">
             {previousRead}
             <span>{loomNode.text}</span>
           </div>
-          {generateButton}
         </div>
+        {generateButton}
       </div >
     )
   }
