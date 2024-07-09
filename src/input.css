@@ -101,14 +101,6 @@ body,
   font-family: sans-serif;
 }
 
-.react-flow__node-custom {
-  padding: 10px;
-  background-color: #556677;
-  color: white;
-  width: 200px;
-  height: 100px;
-}
-
 .App {
   display: flex;
   flex-direction: column;
