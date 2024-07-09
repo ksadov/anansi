@@ -17,6 +17,7 @@ import LayoutButton from "./LayoutButton";
 import NodeDetails from "./NodeDetails";
 
 import { LoomNode } from "./types";
+import { initialThemePref } from "./utils"
 
 import { on } from "events";
 
@@ -99,7 +100,7 @@ function Flow() {
     });
   };
 
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(initialThemePref());
   // Use this solution for themes: https://stackoverflow.com/a/70480061
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
