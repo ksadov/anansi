@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronRight, ChevronDown } from "lucide-react"
 import { LoomNode } from './types';
+import { SearchInput } from "../@/components/ui/input"
 // TODO: Maybe we should be managing state via our Zustand store?
 
 export interface AccordionItem {
@@ -184,46 +185,49 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
 
   return (
     <div className="p-2">
-      {!selectedItemId && (
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="Search..."
-          className={"mb-2.5 w-full p-1"}
-        />
-      )}
+      <div className="mb-2">
+        {!selectedItemId && (
+          <SearchInput
+            type="text"
+            value={searchTerm}
+            onChange={handleSearch}
+            placeholder="Search..."
+          />
+        )}
+      </div>
 
-      {searchTerm && matchingItems.length === 0 ? (
-        <div>Not found</div>
-      ) : searchTerm && !selectedItemId ? (
-        <div>
-          <h3>Search Results:</h3>
-          <ul>
-            {matchingItems.map(item => (
-              <li
-                key={item.loomNode.id}
-                onClick={() => setSelectedItemId(item.loomNode.id)}
-                className={"cursor-pointer text-blue-500 text-decoration-line: underline"}
-              >
-                {item.loomNode.text}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>
-          {selectedItemId && (
-            <button onClick={handleBackToSearch} className="mb-2.5 flex underline">
-              Back to Search Results
-            </button>
-          )}
-          <div className="searchable-accordion-body">
-            {items.map(renderAccordionItem)}
+      {
+        searchTerm && matchingItems.length === 0 ? (
+          <div>Not found</div>
+        ) : searchTerm && !selectedItemId ? (
+          <div>
+            <h3>Search Results:</h3>
+            <ul>
+              {matchingItems.map(item => (
+                <li
+                  key={item.loomNode.id}
+                  onClick={() => setSelectedItemId(item.loomNode.id)}
+                  className={"cursor-pointer text-blue-500 text-decoration-line: underline"}
+                >
+                  {item.loomNode.text}
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div>
+            {selectedItemId && (
+              <button onClick={handleBackToSearch} className="mb-2.5 flex underline">
+                Back to Search Results
+              </button>
+            )}
+            <div className="searchable-accordion-body">
+              {items.map(renderAccordionItem)}
+            </div>
+          </div>
+        )
+      }
+    </div >
   );
 };
 
