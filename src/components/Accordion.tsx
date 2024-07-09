@@ -214,7 +214,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
       ) : (
         <div>
           {selectedItemId && (
-            <button onClick={handleBackToSearch} className="mb-2.5">
+            <button onClick={handleBackToSearch} className="mb-2.5 flex underline">
               Back to Search Results
             </button>
           )}
