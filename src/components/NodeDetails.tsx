@@ -39,7 +39,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
             <Button onClick={() => {
               setEditEnabled(false);
               const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
-              loomNode.text = text;
+              setFocusedNodeText(text);
             }
             }>Save</Button>
             <Button
