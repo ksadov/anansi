@@ -158,7 +158,12 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
             }}
           >
             {itemIcon(hasChildren, isExpanded)}
-          </span > <p>{item.loomNode.text}</p>
+          </span >
+          <p
+            className="cursor-pointer"
+            onClick={() => setFocusedNodeId(item.loomNode.id)}
+          >{item.loomNode.text}
+          </p>
         </div>
         {
           isExpanded && (
