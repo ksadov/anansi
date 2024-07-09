@@ -5,11 +5,13 @@ import {
 
 import ThemeSwitch from "./ThemeSwitch"
 
-export default function LoomMenu() {
+export default function LoomMenu(
+  { setTheme }: { setTheme: (theme: string) => void }
+) {
   return (
     <Menubar>
       <MenubarMenu>
-        <ThemeSwitch />
+        <ThemeSwitch setTheme={setTheme} />
       </MenubarMenu>
     </Menubar>
   );

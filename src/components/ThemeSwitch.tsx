@@ -4,7 +4,9 @@ import { Moon, Sun } from "lucide-react"
 
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
 
-export default function Themeswitch() {
+export default function Themeswitch(
+  { setTheme }: { setTheme: (theme: string) => void }
+) {
   return (
     <div className="size-full flex justify-end">
       <MenubarMenu>
@@ -14,10 +16,14 @@ export default function Themeswitch() {
           <span className="sr-only">Toggle theme</span>
         </MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>
+          <MenubarItem
+            onClick={() => setTheme("dark")}
+          >
             Dark
           </MenubarItem>
-          <MenubarItem>
+          <MenubarItem
+            onClick={() => setTheme("light")}
+          >
             Light
           </MenubarItem>
         </MenubarContent>

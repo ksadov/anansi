@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useShallow } from 'zustand/react/shallow';
 import ReactFlow, { SelectionMode, Controls, MiniMap } from "reactflow";
 import {
@@ -99,15 +99,21 @@ function Flow() {
     });
   };
 
+  const [theme, setTheme] = useState("dark");
+  const baseClasses = theme + " h-full w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white";
+
+
   return (
-    <div className="h-screen w-screen bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+    <div className={baseClasses}>
       <ResizablePanelGroup direction="horizontal">
         < ResizablePanel defaultSize={15} >
           <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
         </ResizablePanel >
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={55}>
-          <LoomMenu></LoomMenu>
+          <LoomMenu
+            setTheme={setTheme}
+          />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow
               nodes={nodes}
