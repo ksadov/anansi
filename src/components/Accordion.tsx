@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronRight, ChevronDown } from "lucide-react"
 import { LoomNode } from './types';
 import { SearchInput } from "../@/components/ui/input"
+import { textPreview } from "./utils"
 // TODO: Maybe we should be managing state via our Zustand store?
 
 export interface AccordionItem {
@@ -158,7 +159,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
             }}
           >
             {itemIcon(hasChildren, isExpanded)}
-          </span> {item.loomNode.text}
+          </span> {textPreview(item.loomNode.text)}
         </div>
         {
           isExpanded && (
