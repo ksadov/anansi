@@ -7,6 +7,7 @@ import {
   ResizablePanelGroup,
 } from "../@/components/ui/resizable"
 import LoomList from "./LoomList";
+import LoomMenu from "./LoomMenu";
 
 import "reactflow/dist/style.css";
 
@@ -99,41 +100,46 @@ function Flow() {
   };
 
   return (
-    <ResizablePanelGroup direction="horizontal" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
-      < ResizablePanel defaultSize={15} >
-        <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
-      </ResizablePanel >
-      <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={55}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onInit={onInit}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          nodeTypes={nodeTypes}
-          minZoom={0.01}
-          fitView
-          panOnScroll
-          selectionOnDrag
-          selectionMode={SelectionMode.Partial}
-          panOnDrag={[1, 2]}
-        >
-          <Controls>
-            <LayoutButton layoutCallback={onLayoutClick} />
-          </Controls>
-        </ReactFlow>
-      </ResizablePanel>
-      <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={30}>
-        <NodeDetails
-          loomNode={focusedNode}
-          setFocusedNodeText={setFocusedNodeText}
-          spawnChildren={spawnChildrenForFocusedNode}
-        />
-      </ResizablePanel>
-    </ResizablePanelGroup >
+    <div className="h-screen w-screen bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      <ResizablePanelGroup direction="horizontal">
+        < ResizablePanel defaultSize={15} >
+          <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
+        </ResizablePanel >
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={55}>
+          <LoomMenu></LoomMenu>
+          <div className="h-[calc(100vh-40px)]">
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onInit={onInit}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              nodeTypes={nodeTypes}
+              minZoom={0.01}
+              fitView
+              panOnScroll
+              selectionOnDrag
+              selectionMode={SelectionMode.Partial}
+              panOnDrag={[1, 2]}
+            >
+              <Controls>
+                <LayoutButton layoutCallback={onLayoutClick} />
+              </Controls>
+            </ReactFlow>
+          </div>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={30}>
+          <NodeDetails
+            loomNode={focusedNode}
+            setFocusedNodeText={setFocusedNodeText}
+            spawnChildren={spawnChildrenForFocusedNode}
+          />
+        </ResizablePanel>
+      </ResizablePanelGroup >
+    </div>
   );
 }
 
