@@ -6,12 +6,12 @@ import {
 import ThemeSwitch from "./ThemeSwitch"
 
 export default function LoomMenu(
-  { setTheme }: { setTheme: (theme: string) => void }
+  { theme, setTheme }: { theme: string, setTheme: (theme: string) => void }
 ) {
   return (
     <Menubar>
       <MenubarMenu>
-        <ThemeSwitch setTheme={setTheme} />
+        <ThemeSwitch theme={theme} setTheme={setTheme} />
       </MenubarMenu>
     </Menubar>
   );

@@ -116,6 +116,7 @@ function Flow() {
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={55}>
           <LoomMenu
+            theme={theme}
             setTheme={setTheme}
           />
           <div className="h-[calc(100vh-40px)]">
