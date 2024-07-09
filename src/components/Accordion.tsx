@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronRight, ChevronDown } from "lucide-react"
 import { LoomNode } from './types';
 // TODO: Maybe we should be managing state via our Zustand store?
 
@@ -117,6 +118,14 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
     }
   }, [selectedItemId, setFocusedNodeId]);
 
+  const itemIcon = (hasChildren: boolean | undefined, isExpanded: boolean) => {
+    return (
+      <span>
+        {hasChildren ? (isExpanded ? <ChevronDown /> : <ChevronRight />) : '•'}
+      </span>
+    );
+  }
+
   const renderAccordionItem = (item: AccordionItem) => {
     const isExpanded = expandedItems.has(item.loomNode.id);
     const hasChildren = item.children && item.children.length > 0;
@@ -125,7 +134,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
     const bgColor = isSelected ? 'bg-accent' : 'transparent'
     const cursor = hasChildren ? 'cursor-pointer' : 'cursor-default'
     const fontWeight = isExpanded ? 'font-bold' : 'font-normal'
-    const classString = `${bgColor} ${cursor} ${fontWeight}`
+    const classString = `${bgColor} ${cursor} ${fontWeight} flex items-center rounded-md`
 
     return (
       <div key={item.loomNode.id}>
@@ -147,7 +156,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
               }
             }}
           >
-            {hasChildren ? (isExpanded ? '▼' : '►') : '•'}
+            {itemIcon(hasChildren, isExpanded)}
           </span> {item.loomNode.text}
         </div>
         {
