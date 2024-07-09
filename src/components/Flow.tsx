@@ -100,7 +100,11 @@ function Flow() {
   };
 
   const [theme, setTheme] = useState("dark");
-  const baseClasses = theme + " h-full w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white";
+  // Use this solution for themes: https://stackoverflow.com/a/70480061
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  })
+  const baseClasses = "h-full w-full";
 
 
   return (

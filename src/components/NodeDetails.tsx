@@ -21,7 +21,7 @@ function constructReadTree(loomNode: LoomNode) {
 
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
   setFocusedNodeText: (text: string) => void, spawnChildren: () => void) {
-  const previousRead = <span className="text-slate-500">{constructReadTree(loomNode)}</span>
+  const previousRead = <span>{constructReadTree(loomNode)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button onClick={() => spawnChildren()}> Generate </Button>
 
@@ -29,7 +29,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     className="flex p-1 generateDisabled"
   >
     {genButton}
-  </div>
+  </div >
 
   if (editEnabled) {
     return (
@@ -50,7 +50,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
                 }
               }>Cancel</Button>
           </div>
-          <div className="rounded-md border  border-slate-500 p-1">
+          <div className="rounded-md border p-1">
             {previousRead}
             <div className="">
               <input
@@ -74,7 +74,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
           <div className="flex justify-end space-x-1 p-1">
             <Button onClick={() => setEditEnabled(true)}>Edit</Button>
           </div>
-          <div className="rounded-md border border-slate-500 p-2">
+          <div className="rounded-md border p-2">
             {previousRead}
             <span>{loomNode.text}</span>
           </div>
