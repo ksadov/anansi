@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
 import { Button } from "../@/components/ui/button"
+import { Textarea } from "../@/components/ui/textarea"
 
 function constructReadTree(loomNode: LoomNode) {
   const lineage = []
@@ -50,16 +51,15 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
                 }
               }>Cancel</Button>
           </div>
-          <div className="rounded-md border p-1">
+          <div className="rounded-md border p-2">
             {previousRead}
-            <div className="">
-              <input
-                type="textarea"
+            <div className="m-1">
+              <Textarea
                 defaultValue={loomNode.text}
                 id="editNodeText"
                 onChange={() => {
                 }}
-              ></input>
+              />
             </div>
           </div>
           {generateButton}

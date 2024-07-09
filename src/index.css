@@ -634,6 +634,10 @@ body {
   z-index: 50;
 }
 
+.m-1 {
+  margin: 0.25rem;
+}
+
 .-mx-1 {
   margin-left: -0.25rem;
   margin-right: -0.25rem;
@@ -747,6 +751,10 @@ body {
 
 .h-5 {
   height: 1.25rem;
+}
+
+.min-h-\[80px\] {
+  min-height: 80px;
 }
 
 .w-10 {
