@@ -652,6 +652,22 @@ body {
   margin-top: 0.5rem;
 }
 
+.ml-5 {
+  margin-left: 1.25rem;
+}
+
+.ml-20 {
+  margin-left: 5rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-2\.5 {
+  margin-bottom: 0.625rem;
+}
+
 .flex {
   display: flex;
 }
@@ -772,6 +788,10 @@ body {
   cursor: default;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .select-none {
   -webkit-user-select: none;
           user-select: none;
@@ -855,6 +875,10 @@ body {
   background-color: hsl(var(--secondary));
 }
 
+.bg-accent {
+  background-color: hsl(var(--accent));
+}
+
 .fill-current {
   fill: currentColor;
 }
@@ -928,6 +952,14 @@ body {
   font-weight: 600;
 }
 
+.font-bold {
+  font-weight: 700;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
 .tracking-widest {
   letter-spacing: 0.1em;
 }
@@ -959,6 +991,20 @@ body {
 
 .text-secondary-foreground {
   color: hsl(var(--secondary-foreground));
+}
+
+.text-accent-foreground {
+  color: hsl(var(--accent-foreground));
+}
+
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
 .underline {

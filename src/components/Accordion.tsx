@@ -122,14 +122,15 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
     const hasChildren = item.children && item.children.length > 0;
     const isSelected = item.loomNode.id === selectedItemId;
 
+    const bgColor = isSelected ? 'bg-accent' : 'transparent'
+    const cursor = hasChildren ? 'cursor-pointer' : 'cursor-default'
+    const fontWeight = isExpanded ? 'font-bold' : 'font-normal'
+    const classString = `${bgColor} ${cursor} ${fontWeight}`
+
     return (
       <div key={item.loomNode.id}>
         <div
-          style={{
-            cursor: hasChildren ? 'pointer' : 'default',
-            fontWeight: isExpanded ? 'bold' : 'normal',
-            backgroundColor: isSelected ? 'yellow' : 'transparent'
-          }}
+          className={classString}
         >
           <span
             onClick={() => {
@@ -151,7 +152,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
         </div>
         {
           isExpanded && (
-            <div style={{ marginLeft: '20px' }}>
+            <div className="ml-5">
               {item.content && <p>{item.content}</p>}
               {hasChildren && item.children!.map(renderAccordionItem)}
             </div>
@@ -180,7 +181,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
           value={searchTerm}
           onChange={handleSearch}
           placeholder="Search..."
-          style={{ marginBottom: '10px', width: '100%', padding: '5px' }}
+          className={"mb-2.5 w-full p-1"}
         />
       )}
 
@@ -194,7 +195,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
               <li
                 key={item.loomNode.id}
                 onClick={() => setSelectedItemId(item.loomNode.id)}
-                style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                className={"cursor-pointer text-blue-500 text-decoration-line: underline"}
               >
                 {item.loomNode.text}
               </li>
@@ -204,7 +205,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
       ) : (
         <div>
           {selectedItemId && (
-            <button onClick={handleBackToSearch} style={{ marginBottom: '10px' }}>
+            <button onClick={handleBackToSearch} className="mb-2.5">
               Back to Search Results
             </button>
           )}
