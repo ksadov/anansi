@@ -22,7 +22,7 @@ function constructReadTree(loomNode: LoomNode) {
 
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
   setFocusedNodeText: (text: string) => void, spawnChildren: () => void) {
-  const previousRead = <span>{constructReadTree(loomNode)}</span>
+  const previousRead = <span className="opacity-65">{constructReadTree(loomNode)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button onClick={() => spawnChildren()}> Generate </Button>
 
