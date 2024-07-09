@@ -12,7 +12,7 @@ function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
         className={"border-2 rounded-md p-2 " + borderHighlight}
         onClick={data.focusNode}>
         <div>
-          {textPreview(data.loomNode.text)}
+          {textPreview(data.loomNode.originalText)}
         </div>
       </div>
       <Handle type="source" position={Position.Bottom} id="a" />

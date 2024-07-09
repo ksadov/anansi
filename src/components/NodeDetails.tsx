@@ -16,7 +16,7 @@ function constructReadTree(loomNode: LoomNode) {
       current = undefined
     }
   }
-  const lineageText = lineage.map(node => node.text).join("")
+  const lineageText = lineage.map(node => node.originalText).join("")
   return lineageText
 }
 
@@ -40,7 +40,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
             {previousRead}
             <div className="m-2">
               <Textarea
-                defaultValue={loomNode.text}
+                defaultValue={loomNode.originalText}
                 id="editNodeText"
                 onChange={() => {
                 }}
@@ -79,7 +79,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
           </div>
           <div className="rounded-md border p-2">
             {previousRead}
-            <span>{loomNode.text}</span>
+            <span>{loomNode.originalText}</span>
           </div>
         </div>
         {generateButton}
@@ -104,9 +104,10 @@ export default function NodeDetails({ loomNode, setFocusedNodeText, spawnChildre
         <TabsContent className="p-2" value="info">
           <div>
             <p>id: {loomNode.id}</p>
-            <p>text: {loomNode.text}</p>
-            <p>parent: {loomNode.parent?.text}</p>
-            <p>children: {loomNode.children.map(child => child.text).join(", ")}</p>
+            <p>originalText: {loomNode.originalText}</p>
+            <p>diffs: {loomNode.diffs.map(diff => diff.content).join(", ")}</p>
+            <p>parent: {loomNode.parent?.id}</p>
+            <p>children: {loomNode.children.map(child => child.id).join(", ")}</p>
           </div>
         </TabsContent>
       </Tabs>

@@ -80,7 +80,7 @@ function Flow() {
     setNodes(
       nodes.map((node) => {
         if (node.id === focusedNodeId) {
-          node.data.loomNode.text = text;
+          node.data.loomNode.originalText = text;
           node.data = {
             ...node.data,
           };

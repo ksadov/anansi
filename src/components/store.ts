@@ -17,6 +17,7 @@ import Dagre from '@dagrejs/dagre';
 import { dagreLayout, basicLayout } from './layout';
 
 import { LoomNode, NodeGraphData } from "./types";
+import { createLoomNode } from "./loomNode"
 
 export type RFState = {
   loomNodes: LoomNode[];
@@ -36,13 +37,7 @@ export type RFState = {
   setFocusedNodeId: (nodeId: string) => void;
 };
 
-const initialLoomNode: LoomNode = {
-  id: "0",
-  text: "This is a custom node",
-  parent: undefined,
-  children: [],
-  inFocus: true,
-};
+const initialLoomNode: LoomNode = createLoomNode("0", "Node 0", undefined, true);
 
 const initialNodes: Node<NodeGraphData>[] = [
   {
@@ -108,13 +103,11 @@ const useStore = create<RFState>((set, get) => ({
     let new_edges: Edge[] = [];
     for (let i = 0; i < new_child_nodes; i++) {
       let new_node_id = getNodeId();
-      let newLoomNode = {
-        id: new_node_id,
-        text: `This is custom node ${new_node_id}`,
-        parent: get().loomNodes.find(loomNode => loomNode.id === nodeId),
-        children: [],
-        inFocus: false
-      }
+      let newLoomNode = createLoomNode(
+        new_node_id,
+        `This is custom node ${new_node_id}`,
+        get().loomNodes.find(loomNode => loomNode.id === nodeId),
+      )
       // update parent node
       let parent_node = get().loomNodes.find(loomNode => loomNode.id === nodeId);
       if (parent_node) {
