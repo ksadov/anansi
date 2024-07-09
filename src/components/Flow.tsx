@@ -104,7 +104,7 @@ function Flow() {
         <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
       </ResizablePanel >
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={70}>
+      <ResizablePanel defaultSize={55}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -126,7 +126,7 @@ function Flow() {
         </ReactFlow>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={15}>
+      <ResizablePanel defaultSize={30}>
         <NodeDetails
           loomNode={focusedNode}
           setFocusedNodeText={setFocusedNodeText}

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
+import { Button } from "../@/components/ui/button"
 
 function constructReadTree(loomNode: LoomNode) {
   const lineage = []
@@ -22,28 +23,38 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   setFocusedNodeText: (text: string) => void, spawnChildren: () => void) {
   const previousRead = <span className={"previousRead"}>{constructReadTree(loomNode)}</span>
 
+  const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button onClick={() => spawnChildren()}> Generate </Button>
+
+  const generateButton = <div
+    className="flex p-1 generateDisabled"
+  >
+    {genButton}
+  </div>
+
   if (editEnabled) {
     return (
       <div className="">
-        <div>
-          <div className="flex justify-end space-x-2">
-            <button onClick={() => {
+        <div className="">
+          <div className="flex justify-end space-x-1 p-1">
+            <Button onClick={() => {
               setEditEnabled(false);
               const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
               loomNode.text = text;
             }
-            }>Save</button>
-            <button onClick={
-              () => {
-                setEditEnabled(false);
-              }
-            }>Cancel</button>
+            }>Save</Button>
+            <Button
+              variant="secondary"
+              onClick={
+                () => {
+                  setEditEnabled(false);
+                }
+              }>Cancel</Button>
           </div>
-          <div className="rounded-md border  border-slate-500 p-2">
+          <div className="rounded-md border  border-slate-500 p-1">
             {previousRead}
             <div className="">
               <input
-                type="text"
+                type="textarea"
                 defaultValue={loomNode.text}
                 id="editNodeText"
                 onChange={() => {
@@ -51,6 +62,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
               ></input>
             </div>
           </div>
+          {generateButton}
         </div>
       </div>
     )
@@ -59,20 +71,14 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     return (
       <div className="">
         <div className="">
-          <div className="flex justify-end">
-            <button onClick={() => setEditEnabled(true)}>Edit</button>
+          <div className="flex justify-end space-x-1 p-1">
+            <Button onClick={() => setEditEnabled(true)}>Edit</Button>
           </div>
-          <div className="rounded-md border  border-slate-500 p-2">
+          <div className="rounded-md border border-slate-500 p-2">
             {previousRead}
             <span>{loomNode.text}</span>
           </div>
-          <div>
-            <button
-              onClick={() => spawnChildren()}
-            >
-              Generate
-            </button>
-          </div>
+          {generateButton}
         </div>
       </div >
     )
