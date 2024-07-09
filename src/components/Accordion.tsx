@@ -158,7 +158,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
             }}
           >
             {itemIcon(hasChildren, isExpanded)}
-          </span > <p className="text-ellipsis">{item.loomNode.text}</p>
+          </span > <p>{item.loomNode.text}</p>
         </div>
         {
           isExpanded && (
