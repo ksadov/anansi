@@ -4,6 +4,14 @@ import { LoomNode } from "./types"
 import { constructLineage, patchToVersion } from "./loomNode"
 import { Button } from "../@/components/ui/button"
 import { Textarea } from "../@/components/ui/textarea"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectLabel,
+} from "../@/components/ui/select"
 
 function constructReadTree(loomNode: LoomNode, dmp: any) {
   const lineage = constructLineage(loomNode);
@@ -13,7 +21,7 @@ function constructReadTree(loomNode: LoomNode, dmp: any) {
 }
 
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
-  editFocusedNode: (text: string) => void, spawnChildren: () => void, dmp: any) {
+  editFocusedNode: (text: string) => void, spawnChildren: () => void, dmp: any, version?: number) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
@@ -66,8 +74,21 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     return (
       <div className="">
         <div className="">
-          <div className="flex justify-end m-0.5">
+          <div className="flex justify-end items-center m-0.5">
             <Button variant="ghost" size="xs" onClick={() => setEditEnabled(true)}>Edit</Button>
+            <Select>
+              <SelectTrigger className="w-16">
+                <SelectValue placeholder="v0" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
+                <SelectItem value="cst">Central Standard Time (CST)</SelectItem>
+                <SelectItem value="mst">Mountain Standard Time (MST)</SelectItem>
+                <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
+                <SelectItem value="akst">Alaska Standard Time (AKST)</SelectItem>
+                <SelectItem value="hst">Hawaii Standard Time (HST)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="rounded-md border p-2">
             {previousRead}
