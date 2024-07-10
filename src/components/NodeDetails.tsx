@@ -24,7 +24,7 @@ function VersionSelectContent(loomNode: LoomNode) {
   const options = [];
   for (let i = -1; i < loomNode.diffs.length; i++) {
     const valueString = (i + 1).toString();
-    options.push(<SelectItem value={valueString}>{"v" + valueString}</SelectItem>)
+    options.push(<SelectItem key={valueString} value={valueString}>{"v" + valueString}</SelectItem>)
   }
   return (
     <SelectContent>
