@@ -1,4 +1,4 @@
-import { LoomNode } from "./types"
+import { LoomNode, SavedLoomNode } from "./types"
 
 export function createLoomNode(
   id: string,
@@ -69,4 +69,37 @@ export function nodeToJson(loomNode: LoomNode) {
     children: loomNode.children.map((child) => child.id),
   }
   return json
+}
+
+function jsonToNode(json: any, parent: { loomNode: LoomNode, version: number } | undefined): LoomNode {
+  const loomNode = {
+    id: json.id,
+    timestamp: json.timestamp,
+    originalText: json.originalText,
+    latestText: json.latestText,
+    diffs: json.diffs,
+    parent: parent,
+    children: [],
+    inFocus: false
+  }
+  return loomNode
+}
+
+export function fromSaveFile(json: any): LoomNode[] {
+  const nodeList: SavedLoomNode[] = json.loomTree
+  // sort nodes by timestamp, oldest first
+  const nodeListSorted = nodeList.sort((a, b) => a.timestamp - b.timestamp)
+  const createdNodes: LoomNode[] = []
+  for (const node of nodeListSorted) {
+    if (node.parent == null) {
+      createdNodes.push(jsonToNode(node, undefined));
+    }
+    else {
+      const parentNodeId = node.parent.id;
+      const parentVersion = node.parent.version;
+      const parentNode = createdNodes.find((n) => n.id === parentNodeId);
+      createdNodes.push(jsonToNode(node, { loomNode: parentNode!, version: parentVersion }));
+    }
+  }
+  return createdNodes;
 }

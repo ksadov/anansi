@@ -22,3 +22,13 @@ export type NodeGraphData = {
   loomNode: LoomNode,
   focusNode: () => void
 };
+
+export type SavedLoomNode = {
+  id: string,
+  timestamp: number,
+  originalText: string,
+  latestText: string,
+  diffs: LoomNodeDiff[],
+  parent: { id: string, version: number } | null
+  children: string[],
+}
