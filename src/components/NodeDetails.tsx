@@ -20,6 +20,19 @@ function constructReadTree(loomNode: LoomNode, dmp: any) {
   return ancestorTexts.join("");
 }
 
+function VersionSelectContent(loomNode: LoomNode) {
+  const options = [];
+  for (let i = -1; i < loomNode.diffs.length; i++) {
+    const valueString = (i + 1).toString();
+    options.push(<SelectItem value={valueString}>{"v" + valueString}</SelectItem>)
+  }
+  return (
+    <SelectContent>
+      {options}
+    </SelectContent>
+  )
+}
+
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
   editFocusedNode: (text: string) => void, spawnChildren: () => void, dmp: any, version?: number) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp)}</span>
@@ -31,6 +44,8 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   >
     {genButton}
   </div >
+
+  const displayVersion = version ? version : loomNode.diffs.length;
 
   if (editEnabled) {
     return (
@@ -78,16 +93,9 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
             <Button variant="ghost" size="xs" onClick={() => setEditEnabled(true)}>Edit</Button>
             <Select>
               <SelectTrigger className="w-16">
-                <SelectValue placeholder="v0" />
+                <SelectValue placeholder={"v" + displayVersion} />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
-                <SelectItem value="cst">Central Standard Time (CST)</SelectItem>
-                <SelectItem value="mst">Mountain Standard Time (MST)</SelectItem>
-                <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
-                <SelectItem value="akst">Alaska Standard Time (AKST)</SelectItem>
-                <SelectItem value="hst">Hawaii Standard Time (HST)</SelectItem>
-              </SelectContent>
+              {VersionSelectContent(loomNode)}
             </Select>
           </div>
           <div className="rounded-md border p-2">
