@@ -33,7 +33,7 @@ function VersionSelectContent(loomNode: LoomNode) {
   )
 }
 
-function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode, version: number,
+function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode, setVersion: number | null,
   editFocusedNode: (text: string) => void, setFocusedNodeVersion: (version: number) => void, spawnChildren: () => void,
   dmp: any) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp)}</span>
@@ -46,6 +46,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     {genButton}
   </div >
 
+  const version = (setVersion == null) ? loomNode.diffs.length : setVersion;
   const isLatest = version === loomNode.diffs.length;
 
   if (editEnabled) {
@@ -94,7 +95,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
           <div className="flex justify-end items-center m-0.5">
             {isLatest ? <Button variant="ghost" size="xs" onClick={() => setEditEnabled(true)}>Edit</Button> : null}
             <Select
-              defaultValue={version.toString()}
+              value={version.toString()}
               onValueChange={(value) => { setFocusedNodeVersion(parseInt(value)) }}
             >
               <SelectTrigger className="w-16">
@@ -114,10 +115,10 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   }
 }
 
-export default function NodeDetails({ loomNode, version, editFocusedNode, setFocusedNodeVersion, spawnChildren, dmp }:
+export default function NodeDetails({ loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, dmp }:
   {
     loomNode: LoomNode,
-    version: number,
+    setVersion: number | null,
     editFocusedNode: (text: string) => void,
     setFocusedNodeVersion: (version: number) => void,
     spawnChildren: () => void,
@@ -133,7 +134,7 @@ export default function NodeDetails({ loomNode, version, editFocusedNode, setFoc
         </TabsList>
         <TabsContent className="p-2" value="read">
           {readView(
-            editEnabled, setEditEnabled, loomNode, version, editFocusedNode, setFocusedNodeVersion, spawnChildren, dmp
+            editEnabled, setEditEnabled, loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, dmp
           )}
         </TabsContent>
         <TabsContent className="p-2" value="info">

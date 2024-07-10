@@ -35,7 +35,7 @@ export type RFState = {
   layoutDagre: () => void;
   focusedNodeId: string;
   setFocusedNodeId: (nodeId: string) => void;
-  focusedNodeVersion: number;
+  focusedNodeVersion: number | null;
   setFocusedNodeVersion: (version: number) => void;
 };
 
@@ -165,8 +165,14 @@ const useStore = create<RFState>((set, get) => ({
     set({ edges: layoutedEdges });
     set({ viewPort: { x: 0, y: 0, zoom: 1 } });
   },
-  setFocusedNodeId: (nodeId: string) => {
+  setFocusedNodeId: (nodeId: string, version?: number) => {
     set({ focusedNodeId: nodeId });
+    if (version) {
+      set({ focusedNodeVersion: version });
+    }
+    else {
+      set({ focusedNodeVersion: null });
+    }
   },
   setFocusedNodeVersion: (version: number) => {
     set({ focusedNodeVersion: version });

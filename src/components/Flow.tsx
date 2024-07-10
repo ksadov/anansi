@@ -152,7 +152,7 @@ function Flow() {
         <ResizablePanel defaultSize={30}>
           <NodeDetails
             loomNode={focusedNode}
-            version={focusedNodeVersion}
+            setVersion={focusedNodeVersion}
             editFocusedNode={editFocusedNode}
             setFocusedNodeVersion={setFocusedNodeVersion}
             spawnChildren={spawnChildrenForFocusedNode}
