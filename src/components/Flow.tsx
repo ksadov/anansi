@@ -95,7 +95,7 @@ function Flow() {
   }
 
   function spawnChildrenForFocusedNode() {
-    spawnChildren(focusedNodeId);
+    spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
   }
 
   let onLayoutClick = () => {

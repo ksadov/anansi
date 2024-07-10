@@ -31,7 +31,7 @@ export type RFState = {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   setViewPort: (viewPort: Viewport) => void;
-  spawnChildren: (nodeId: string) => void;
+  spawnChildren: (nodeId: string, version: number) => void;
   layoutDagre: () => void;
   focusedNodeId: string;
   setFocusedNodeId: (nodeId: string) => void;
@@ -98,7 +98,7 @@ const useStore = create<RFState>((set, get) => ({
   setViewPort: (viewPort: Viewport) => {
     set({ viewPort });
   },
-  spawnChildren: (nodeId: string) => {
+  spawnChildren: (nodeId: string, version: number) => {
     let nodes = get().nodes;
     let edges = get().edges;
     let newLoomNodes: LoomNode[] = [];
@@ -107,7 +107,7 @@ const useStore = create<RFState>((set, get) => ({
     for (let i = 0; i < new_child_nodes; i++) {
       let new_node_id = getNodeId();
       let parentNode = get().loomNodes.find(loomNode => loomNode.id === nodeId);
-      let parentDict = parentNode ? { loomNode: parentNode, version: parentNode?.diffs.length ?? 0 } : undefined;
+      let parentDict = parentNode ? { loomNode: parentNode, version: version } : undefined;
       let newLoomNode = createLoomNode(
         new_node_id,
         `This is custom node ${new_node_id}`,
