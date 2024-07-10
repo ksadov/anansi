@@ -55,5 +55,5 @@ export function constructLineage(loomNode: LoomNode) {
     lineage.push(current)
     current = current.loomNode.parent
   }
-  return lineage
+  return lineage.reverse()
 }
