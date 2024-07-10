@@ -35,7 +35,9 @@ const selector = (state: RFState) => ({
   spawnChildren: state.spawnChildren,
   layoutDagre: state.layoutDagre,
   focusedNodeId: state.focusedNodeId,
-  setFocusedNodeId: state.setFocusedNodeId
+  setFocusedNodeId: state.setFocusedNodeId,
+  focusedNodeVersion: state.focusedNodeVersion,
+  setFocusedNodeVersion: state.setFocusedNodeVersion
 });
 
 // TODO: somehow manage view state in store
@@ -51,7 +53,7 @@ const nodeTypes = {
 
 function Flow() {
   const { loomNodes, nodes, edges, setNodes, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
-    focusedNodeId, setFocusedNodeId } = useStore(
+    focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion } = useStore(
       useShallow(selector),
     );
 
@@ -150,7 +152,9 @@ function Flow() {
         <ResizablePanel defaultSize={30}>
           <NodeDetails
             loomNode={focusedNode}
+            version={focusedNodeVersion}
             editFocusedNode={editFocusedNode}
+            setFocusedNodeVersion={setFocusedNodeVersion}
             spawnChildren={spawnChildrenForFocusedNode}
             dmp={dmp}
           />

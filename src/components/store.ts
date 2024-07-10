@@ -35,6 +35,8 @@ export type RFState = {
   layoutDagre: () => void;
   focusedNodeId: string;
   setFocusedNodeId: (nodeId: string) => void;
+  focusedNodeVersion: number;
+  setFocusedNodeVersion: (version: number) => void;
 };
 
 const initialLoomNode: LoomNode = createLoomNode("0", "Node 0", undefined, true);
@@ -71,6 +73,7 @@ const useStore = create<RFState>((set, get) => ({
   dagreGraph: g,
   viewPort: { x: 0, y: 0, zoom: 1 },
   focusedNodeId: "0",
+  focusedNodeVersion: 0,
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -165,6 +168,9 @@ const useStore = create<RFState>((set, get) => ({
   setFocusedNodeId: (nodeId: string) => {
     set({ focusedNodeId: nodeId });
   },
+  setFocusedNodeVersion: (version: number) => {
+    set({ focusedNodeVersion: version });
+  }
 }));
 
 export default useStore;
