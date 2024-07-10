@@ -17,25 +17,23 @@ export default function Themeswitch(
   { theme, setTheme }: { theme: string, setTheme: (theme: string) => void }
 ) {
   return (
-    <div className="size-full flex justify-end">
-      <MenubarMenu>
-        <MenubarTrigger>
-          {themeIcon(theme)}
-          <span className="sr-only">Toggle theme</span>
-        </MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem
-            onClick={() => setTheme("dark")}
-          >
-            Dark
-          </MenubarItem>
-          <MenubarItem
-            onClick={() => setTheme("light")}
-          >
-            Light
-          </MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-    </div>
+    <MenubarMenu>
+      <MenubarTrigger>
+        {themeIcon(theme)}
+        <span className="sr-only">Toggle theme</span>
+      </MenubarTrigger>
+      <MenubarContent>
+        <MenubarItem
+          onClick={() => setTheme("dark")}
+        >
+          Dark
+        </MenubarItem>
+        <MenubarItem
+          onClick={() => setTheme("light")}
+        >
+          Light
+        </MenubarItem>
+      </MenubarContent>
+    </MenubarMenu>
   );
 }

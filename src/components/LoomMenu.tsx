@@ -4,6 +4,7 @@ import {
 } from "../@/components/ui/menubar"
 
 import ThemeSwitch from "./ThemeSwitch"
+import FileMenu from "./FileMenu";
 
 export default function LoomMenu(
   { theme, setTheme }: { theme: string, setTheme: (theme: string) => void }
@@ -11,7 +12,10 @@ export default function LoomMenu(
   return (
     <Menubar>
       <MenubarMenu>
-        <ThemeSwitch theme={theme} setTheme={setTheme} />
+        <FileMenu />
+        <div className="size-full flex justify-end">
+          <ThemeSwitch theme={theme} setTheme={setTheme} />
+        </div>
       </MenubarMenu>
     </Menubar>
   );
