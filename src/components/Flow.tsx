@@ -82,8 +82,7 @@ function Flow() {
     setNodes(
       nodes.map((node) => {
         if (node.id === focusedNodeId) {
-          const newDiff = addDiff(node.data.loomNode, text, dmp);
-          const newDiffs = [...node.data.loomNode.diffs, newDiff];
+          addDiff(node.data.loomNode, text, dmp);
           node.data = {
             ...node.data,
           };
