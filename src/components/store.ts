@@ -116,7 +116,6 @@ const useStore = create<RFState>((set, get) => ({
       // update parent node
       let parent_node = get().loomNodes.find(loomNode => loomNode.id === nodeId);
       if (parent_node) {
-        console.log("Found parent node", parent_node.id, "pushing child", newLoomNode.id)
         parent_node.children.push(newLoomNode);
       }
       newLoomNodes.push(newLoomNode);
@@ -167,7 +166,7 @@ const useStore = create<RFState>((set, get) => ({
   },
   setFocusedNodeId: (nodeId: string, version?: number) => {
     set({ focusedNodeId: nodeId });
-    if (version) {
+    if (version !== undefined) {
       set({ focusedNodeVersion: version });
     }
     else {

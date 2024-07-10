@@ -67,7 +67,6 @@ function Flow() {
           node.data = {
             ...node.data,
           };
-          console.log("Focused on node: ", node.id);
         }
         else if (node.data.loomNode.inFocus) {
           node.data.loomNode.inFocus = false;
@@ -113,7 +112,6 @@ function Flow() {
 
   const [dmp] = useState(new diff_match_patch())
 
-
   return (
     <div className={baseClasses}>
       <ResizablePanelGroup direction="horizontal">
@@ -156,6 +154,7 @@ function Flow() {
             editFocusedNode={editFocusedNode}
             setFocusedNodeVersion={setFocusedNodeVersion}
             spawnChildren={spawnChildrenForFocusedNode}
+            setFocusedNodeId={setFocusedNodeId}
             dmp={dmp}
           />
         </ResizablePanel>

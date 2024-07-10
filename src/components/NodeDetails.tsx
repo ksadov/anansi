@@ -12,12 +12,24 @@ import {
   SelectValue,
   SelectLabel,
 } from "../@/components/ui/select"
+import NodeLink from "./NodeLink"
 
-function constructReadTree(loomNode: LoomNode, dmp: any) {
+function constructReadTree(loomNode: LoomNode, dmp: any, setFocusedNodeId: (id: string) => void) {
   const lineage = constructLineage(loomNode);
-  const ancestorTexts = lineage.map((node) =>
-    node.loomNode ? patchToVersion(node.loomNode, node.version, dmp) : "");
-  return ancestorTexts.join("");
+  const ancestorLinks = lineage.map((node) =>
+    <NodeLink
+      text={patchToVersion(node.loomNode, node.version, dmp)}
+      nodeId={node.loomNode.id}
+      version={node.version}
+      setFocusedNodeId={setFocusedNodeId}
+    />
+  )
+  return (
+    <span>
+      {ancestorLinks}
+    </span>
+  )
+
 }
 
 function VersionSelectContent(loomNode: LoomNode) {
@@ -33,10 +45,16 @@ function VersionSelectContent(loomNode: LoomNode) {
   )
 }
 
-function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode, setVersion: number | null,
-  editFocusedNode: (text: string) => void, setFocusedNodeVersion: (version: number) => void, spawnChildren: () => void,
+function readView(
+  editEnabled: boolean,
+  setEditEnabled: (enabled: boolean) => void,
+  loomNode: LoomNode, setVersion: number | null,
+  editFocusedNode: (text: string) => void,
+  setFocusedNodeVersion: (version: number) => void,
+  setFocusedNodeId: (id: string) => void,
+  spawnChildren: () => void,
   dmp: any) {
-  const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp)}</span>
+  const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp, setFocusedNodeId)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
 
@@ -115,13 +133,14 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   }
 }
 
-export default function NodeDetails({ loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, dmp }:
+export default function NodeDetails({ loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp }:
   {
     loomNode: LoomNode,
     setVersion: number | null,
     editFocusedNode: (text: string) => void,
     setFocusedNodeVersion: (version: number) => void,
     spawnChildren: () => void,
+    setFocusedNodeId: (id: string) => void,
     dmp: any
   }) {
   const [editEnabled, setEditEnabled] = useState(false)
@@ -134,7 +153,8 @@ export default function NodeDetails({ loomNode, setVersion, editFocusedNode, set
         </TabsList>
         <TabsContent className="p-2" value="read">
           {readView(
-            editEnabled, setEditEnabled, loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, dmp
+            editEnabled, setEditEnabled, loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, setFocusedNodeId,
+            spawnChildren, dmp
           )}
         </TabsContent>
         <TabsContent className="p-2" value="info">
