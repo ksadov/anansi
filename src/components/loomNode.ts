@@ -57,3 +57,16 @@ export function constructLineage(loomNode: LoomNode) {
   }
   return lineage.reverse()
 }
+
+export function nodeToJson(loomNode: LoomNode) {
+  const json = {
+    id: loomNode.id,
+    timestamp: loomNode.timestamp,
+    originalText: loomNode.originalText,
+    latestText: loomNode.latestText,
+    diffs: loomNode.diffs,
+    parent: loomNode.parent ? { id: loomNode.parent.loomNode.id, version: loomNode.parent.version } : null,
+    children: loomNode.children.map((child) => child.id),
+  }
+  return json
+}

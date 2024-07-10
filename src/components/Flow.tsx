@@ -121,6 +121,7 @@ function Flow() {
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={55}>
           <LoomMenu
+            loomNodes={loomNodes}
             theme={theme}
             setTheme={setTheme}
           />
