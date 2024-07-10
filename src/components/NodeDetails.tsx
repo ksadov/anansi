@@ -134,12 +134,15 @@ function readView(
   }
 }
 
+function infoLabel(text: string) {
+  return <span className="font-semibold">{text}:</span>
+}
 function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   var parentLine = null
   if (loomNode.parent != null) {
     const parent = loomNode.parent.loomNode;
     const parentIdText = parent.id + " (v" + loomNode.parent.version + ")";
-    parentLine = <p>parent: <NodeLink
+    parentLine = <p>{infoLabel("parent")}<NodeLink
       text={parentIdText}
       nodeId={parent.id}
       version={loomNode.parent.version}
@@ -157,12 +160,12 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
         key={child.id}
       /></li>
     });
-    childrenList = <ul className="list-disc list-inside">children: {children}</ul>
+    childrenList = <ul className="list-disc list-inside">{infoLabel("children")} {children}</ul >
   }
   return (
     <div className="p-2 border rounded-md">
-      <p>id: {loomNode.id}</p>
-      <p>timestamp: {loomNode.timestamp}</p>
+      <p>{infoLabel("id")} {loomNode.id}</p>
+      <p>{infoLabel("timestamp")} {new Date(loomNode.timestamp).toUTCString()}</p>
       {parentLine}
       {childrenList}
     </div>
