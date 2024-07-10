@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
+import { patchToLatest } from "./loomNode"
 import { Button } from "../@/components/ui/button"
 import { Textarea } from "../@/components/ui/textarea"
 
-function constructReadTree(loomNode: LoomNode) {
+function constructReadTree(loomNode: LoomNode, dmp: any) {
   const lineage = []
   let current: LoomNode | undefined = loomNode.parent
   while (current) {
@@ -16,13 +17,13 @@ function constructReadTree(loomNode: LoomNode) {
       current = undefined
     }
   }
-  const lineageText = lineage.map(node => node.originalText).join("")
+  const lineageText = lineage.map(node => patchToLatest(node, dmp)).join("")
   return lineageText
 }
 
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
-  editFocusedNode: (text: string) => void, spawnChildren: () => void) {
-  const previousRead = <span className="opacity-65">{constructReadTree(loomNode)}</span>
+  editFocusedNode: (text: string) => void, spawnChildren: () => void, dmp: any) {
+  const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
 
@@ -32,6 +33,8 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     {genButton}
   </div >
 
+  const latestText = patchToLatest(loomNode, dmp)
+
   if (editEnabled) {
     return (
       <div className="">
@@ -40,7 +43,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
             {previousRead}
             <div className="m-2">
               <Textarea
-                defaultValue={loomNode.originalText}
+                defaultValue={latestText}
                 id="editNodeText"
                 onChange={() => {
                 }}
@@ -79,7 +82,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
           </div>
           <div className="rounded-md border p-2">
             {previousRead}
-            <span>{loomNode.originalText}</span>
+            <span>{latestText}</span>
           </div>
         </div>
         {generateButton}
@@ -88,8 +91,8 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   }
 }
 
-export default function NodeDetails({ loomNode, editFocusedNode, spawnChildren }:
-  { loomNode: LoomNode, editFocusedNode: (text: string) => void, spawnChildren: () => void }) {
+export default function NodeDetails({ loomNode, editFocusedNode, spawnChildren, dmp }:
+  { loomNode: LoomNode, editFocusedNode: (text: string) => void, spawnChildren: () => void, dmp: any }) {
   const [editEnabled, setEditEnabled] = useState(false)
   return (
     <div className="p-2">
@@ -99,7 +102,7 @@ export default function NodeDetails({ loomNode, editFocusedNode, spawnChildren }
           <TabsTrigger value="info">Info</TabsTrigger>
         </TabsList>
         <TabsContent className="p-2" value="read">
-          {readView(editEnabled, setEditEnabled, loomNode, editFocusedNode, spawnChildren)}
+          {readView(editEnabled, setEditEnabled, loomNode, editFocusedNode, spawnChildren, dmp)}
         </TabsContent>
         <TabsContent className="p-2" value="info">
           <div>

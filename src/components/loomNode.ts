@@ -36,6 +36,7 @@ export function patchToLatest(loomNode: LoomNode, dmp: any) {
     return loomNode.originalText;
   }
   const lastElement = loomNode.diffs[loomNode.diffs.length - 1];
+  console.log("Patching to diff: ", lastElement);
   return patchToId(loomNode, lastElement.id, dmp);
 }
 
@@ -47,8 +48,14 @@ export function patchToId(loomNode: LoomNode, diffId: string, dmp: any) {
   }
   else {
     const diffContent = loomNode.diffs.slice(0, diffIndex + 1).map(diff => diff.content);
-    const patch = dmp.patch_make(diffContent);
-    const appliedPatch = dmp.patch_apply(patch, loomNode.originalText);
-    return appliedPatch[0];
+    let text = loomNode.originalText;
+    let results;
+    for (let i = 0; i < diffContent.length; i++) {
+      const patch = dmp.patch_make(text, diffContent[i]);
+      console.log("Created patch: ", patch);
+      [text, results] = dmp.patch_apply(patch, loomNode.originalText);
+      console.log("Applied patch: ", results);
+    }
+    return text;
   }
 }

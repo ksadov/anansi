@@ -153,6 +153,7 @@ function Flow() {
             loomNode={focusedNode}
             editFocusedNode={editFocusedNode}
             spawnChildren={spawnChildrenForFocusedNode}
+            dmp={dmp}
           />
         </ResizablePanel>
       </ResizablePanelGroup >
