@@ -21,7 +21,7 @@ function constructReadTree(loomNode: LoomNode) {
 }
 
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
-  setFocusedNodeText: (text: string) => void, spawnChildren: () => void) {
+  editFocusedNode: (text: string) => void, spawnChildren: () => void) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
@@ -51,7 +51,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
                   onClick={() => {
                     setEditEnabled(false);
                     const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
-                    setFocusedNodeText(text);
+                    editFocusedNode(text);
                   }
                   }>Save</Button>
                 <Button
@@ -88,8 +88,8 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
   }
 }
 
-export default function NodeDetails({ loomNode, setFocusedNodeText, spawnChildren }:
-  { loomNode: LoomNode, setFocusedNodeText: (text: string) => void, spawnChildren: () => void }) {
+export default function NodeDetails({ loomNode, editFocusedNode, spawnChildren }:
+  { loomNode: LoomNode, editFocusedNode: (text: string) => void, spawnChildren: () => void }) {
   const [editEnabled, setEditEnabled] = useState(false)
   return (
     <div className="p-2">
@@ -99,7 +99,7 @@ export default function NodeDetails({ loomNode, setFocusedNodeText, spawnChildre
           <TabsTrigger value="info">Info</TabsTrigger>
         </TabsList>
         <TabsContent className="p-2" value="read">
-          {readView(editEnabled, setEditEnabled, loomNode, setFocusedNodeText, spawnChildren)}
+          {readView(editEnabled, setEditEnabled, loomNode, editFocusedNode, spawnChildren)}
         </TabsContent>
         <TabsContent className="p-2" value="info">
           <div>

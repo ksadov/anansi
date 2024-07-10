@@ -19,13 +19,24 @@ export function createLoomNode(
 }
 
 export function addDiff(loomNode: LoomNode, edit: string, dmp: any) {
-  const rawDiff = dmp.diff_main(patchToLatest(loomNode, dmp), edit)
-  const cleanDiff = dmp.diff_cleanupSemantic(rawDiff);
-  loomNode.diffs.push(cleanDiff)
+  const latestPatch = patchToLatest(loomNode, dmp);
+  const diff = dmp.diff_main(latestPatch, edit)
+  dmp.diff_cleanupSemantic(diff);
+  const cleanDiffId = Math.floor(Math.random() * 100).toString();
+  const newDiff = {
+    id: cleanDiffId,
+    timestamp: Date.now(),
+    content: diff
+  }
+  loomNode.diffs.push(newDiff)
 }
 
 export function patchToLatest(loomNode: LoomNode, dmp: any) {
-  return patchToId(loomNode, loomNode.diffs[-1].id, dmp)
+  if (loomNode.diffs.length == 0) {
+    return loomNode.originalText;
+  }
+  const lastElement = loomNode.diffs[loomNode.diffs.length - 1];
+  return patchToId(loomNode, lastElement.id, dmp);
 }
 
 export function patchToId(loomNode: LoomNode, diffId: string, dmp: any) {
@@ -35,6 +46,9 @@ export function patchToId(loomNode: LoomNode, diffId: string, dmp: any) {
     throw new Error(`Could not patch Loom node ${loomNode.id} to diff ${diffId}`)
   }
   else {
-    return dmp.patch_apply(loomNode.originalText, dmp.patch_make(loomNode.diffs.slice(0, diffIndex)));
+    const diffContent = loomNode.diffs.slice(0, diffIndex + 1).map(diff => diff.content);
+    const patch = dmp.patch_make(diffContent);
+    const appliedPatch = dmp.patch_apply(patch, loomNode.originalText);
+    return appliedPatch[0];
   }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useShallow } from 'zustand/react/shallow';
+import { diff_match_patch } from "diff-match-patch";
 import ReactFlow, { SelectionMode, Controls, MiniMap } from "reactflow";
 import {
   ResizableHandle,
@@ -17,6 +18,7 @@ import LayoutButton from "./LayoutButton";
 import NodeDetails from "./NodeDetails";
 
 import { LoomNode } from "./types";
+import { addDiff } from "./loomNode"
 import { initialThemePref } from "./utils"
 
 import { on } from "events";
@@ -76,11 +78,12 @@ function Flow() {
     );
   }, [focusedNodeId, setNodes]);
 
-  function setFocusedNodeText(text: string) {
+  function editFocusedNode(text: string) {
     setNodes(
       nodes.map((node) => {
         if (node.id === focusedNodeId) {
-          node.data.loomNode.originalText = text;
+          const newDiff = addDiff(node.data.loomNode, text, dmp);
+          const newDiffs = [...node.data.loomNode.diffs, newDiff];
           node.data = {
             ...node.data,
           };
@@ -106,6 +109,8 @@ function Flow() {
     document.documentElement.setAttribute("data-theme", theme);
   })
   const baseClasses = "h-full w-full";
+
+  const [dmp] = useState(new diff_match_patch())
 
 
   return (
@@ -146,7 +151,7 @@ function Flow() {
         <ResizablePanel defaultSize={30}>
           <NodeDetails
             loomNode={focusedNode}
-            setFocusedNodeText={setFocusedNodeText}
+            editFocusedNode={editFocusedNode}
             spawnChildren={spawnChildrenForFocusedNode}
           />
         </ResizablePanel>
