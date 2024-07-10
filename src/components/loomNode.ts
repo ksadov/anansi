@@ -1,4 +1,3 @@
-import { Diff, patch_obj } from "diff-match-patch";
 import { LoomNode } from "./types"
 
 export function createLoomNode(
@@ -22,9 +21,8 @@ export function addDiff(loomNode: LoomNode, edit: string, dmp: any) {
   const latestPatch = patchToLatest(loomNode, dmp);
   const diff = dmp.diff_main(latestPatch, edit)
   dmp.diff_cleanupSemantic(diff);
-  const cleanDiffId = Math.floor(Math.random() * 100).toString();
   const newDiff = {
-    id: cleanDiffId,
+    version: loomNode.diffs.length + 1,
     timestamp: Date.now(),
     content: diff
   }
@@ -35,15 +33,14 @@ export function patchToLatest(loomNode: LoomNode, dmp: any) {
   if (loomNode.diffs.length == 0) {
     return loomNode.originalText;
   }
-  const lastElement = loomNode.diffs[loomNode.diffs.length - 1];
-  return patchToId(loomNode, lastElement.id, dmp);
+  return patchToVersion(loomNode, loomNode.diffs.length, dmp);
 }
 
-export function patchToId(loomNode: LoomNode, diffId: string, dmp: any) {
+export function patchToVersion(loomNode: LoomNode, version: number, dmp: any) {
   // find index of corresponding diff
-  const diffIndex = loomNode.diffs.findIndex((diff) => diff.id == diffId);
+  const diffIndex = version - 1;
   if (diffIndex == -1) {
-    throw new Error(`Could not patch Loom node ${loomNode.id} to diff ${diffId}`)
+    return loomNode.originalText;
   }
   else {
     const diffContent = loomNode.diffs.slice(0, diffIndex + 1).map(diff => diff.content);

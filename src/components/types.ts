@@ -1,7 +1,7 @@
-import { Diff, patch_obj } from 'diff-match-patch';
+import { Diff } from 'diff-match-patch';
 
 export type LoomNodeDiff = {
-  id: string,
+  version: number,
   timestamp: number,
   content: Diff
 }
