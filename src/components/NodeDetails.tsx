@@ -134,6 +134,41 @@ function readView(
   }
 }
 
+function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
+  var parentLine = null
+  if (loomNode.parent != null) {
+    const parent = loomNode.parent.loomNode;
+    const parentIdText = parent.id + " (v" + loomNode.parent.version + ")";
+    parentLine = <p>parent: <NodeLink
+      text={parentIdText}
+      nodeId={parent.id}
+      version={loomNode.parent.version}
+      setFocusedNodeId={setFocusedNodeId}
+    /></p>
+  }
+  var childrenList = null
+  if (loomNode.children.length > 0) {
+    const children = loomNode.children.map((child) => {
+      const childIdText = child.id
+      return <li className="ml-4"><NodeLink
+        text={childIdText}
+        nodeId={child.id}
+        setFocusedNodeId={setFocusedNodeId}
+        key={child.id}
+      /></li>
+    });
+    childrenList = <ul className="list-disc list-inside">children: {children}</ul>
+  }
+  return (
+    <div className="p-2 border rounded-md">
+      <p>id: {loomNode.id}</p>
+      <p>timestamp: {loomNode.timestamp}</p>
+      {parentLine}
+      {childrenList}
+    </div>
+  )
+}
+
 export default function NodeDetails({ loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp }:
   {
     loomNode: LoomNode,
@@ -159,13 +194,7 @@ export default function NodeDetails({ loomNode, setVersion, editFocusedNode, set
           )}
         </TabsContent>
         <TabsContent className="p-2" value="info">
-          <div>
-            <p>id: {loomNode.id}</p>
-            <p>originalText: {loomNode.originalText}</p>
-            <p>diffs: {loomNode.diffs.map(diff => diff.content).join(", ")}</p>
-            <p>parent: {loomNode.parent?.loomNode.id + " (v" + loomNode.parent?.version + ")"}</p>
-            <p>children: {loomNode.children.map(child => child.id).join(", ")}</p>
-          </div>
+          {infoCard(loomNode, setFocusedNodeId)}
         </TabsContent>
       </Tabs>
     </div>
