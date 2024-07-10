@@ -103,10 +103,12 @@ const useStore = create<RFState>((set, get) => ({
     let new_edges: Edge[] = [];
     for (let i = 0; i < new_child_nodes; i++) {
       let new_node_id = getNodeId();
+      let parentNode = get().loomNodes.find(loomNode => loomNode.id === nodeId);
+      let parentDict = parentNode ? { loomNode: parentNode, version: parentNode?.diffs.length ?? 0 } : undefined;
       let newLoomNode = createLoomNode(
         new_node_id,
         `This is custom node ${new_node_id}`,
-        get().loomNodes.find(loomNode => loomNode.id === nodeId),
+        parentDict
       )
       // update parent node
       let parent_node = get().loomNodes.find(loomNode => loomNode.id === nodeId);

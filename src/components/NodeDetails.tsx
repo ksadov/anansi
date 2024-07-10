@@ -1,23 +1,15 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
+import { constructLineage, patchToVersion } from "./loomNode"
 import { Button } from "../@/components/ui/button"
 import { Textarea } from "../@/components/ui/textarea"
 
 function constructReadTree(loomNode: LoomNode, dmp: any) {
-  const lineage = []
-  let current: LoomNode | undefined = loomNode.parent
-  while (current) {
-    lineage.push(current)
-    if (current.parent) {
-      current = current.parent
-    }
-    else {
-      current = undefined
-    }
-  }
-  const lineageText = lineage.map(node => node.latestText).join("")
-  return lineageText
+  const lineage = constructLineage(loomNode);
+  const ancestorTexts = lineage.map((node) =>
+    node.loomNode ? patchToVersion(node.loomNode, node.version, dmp) : "");
+  return ancestorTexts.join("");
 }
 
 function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => void, loomNode: LoomNode,
@@ -106,7 +98,7 @@ export default function NodeDetails({ loomNode, editFocusedNode, spawnChildren, 
             <p>id: {loomNode.id}</p>
             <p>originalText: {loomNode.originalText}</p>
             <p>diffs: {loomNode.diffs.map(diff => diff.content).join(", ")}</p>
-            <p>parent: {loomNode.parent?.id}</p>
+            <p>parent: {loomNode.parent?.loomNode.id + " (v" + loomNode.parent?.version + ")"}</p>
             <p>children: {loomNode.children.map(child => child.id).join(", ")}</p>
           </div>
         </TabsContent>

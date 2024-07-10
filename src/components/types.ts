@@ -12,7 +12,7 @@ export type LoomNode = {
   originalText: string,
   latestText: string,
   diffs: LoomNodeDiff[],
-  parent?: LoomNode,
+  parent: { loomNode: LoomNode, version: number } | undefined,
   children: LoomNode[],
   inFocus: boolean
 }

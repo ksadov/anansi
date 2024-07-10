@@ -3,7 +3,7 @@ import { LoomNode } from "./types"
 export function createLoomNode(
   id: string,
   text: string,
-  parent?: LoomNode,
+  parent?: { loomNode: LoomNode, version: number } | undefined,
   inFocus: boolean = false,
 ): LoomNode {
   return {
@@ -46,4 +46,14 @@ export function patchToVersion(loomNode: LoomNode, version: number, dmp: any) {
     }
     return text;
   }
+}
+
+export function constructLineage(loomNode: LoomNode) {
+  const lineage = []
+  let current = loomNode.parent
+  while (current) {
+    lineage.push(current)
+    current = current.loomNode.parent
+  }
+  return lineage
 }
