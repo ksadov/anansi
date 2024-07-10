@@ -10,6 +10,7 @@ export type LoomNode = {
   id: string,
   timestamp: number,
   originalText: string,
+  latestText: string,
   diffs: LoomNodeDiff[],
   parent?: LoomNode,
   children: LoomNode[],

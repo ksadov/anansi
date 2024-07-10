@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
-import { patchToLatest } from "./loomNode"
 import { Button } from "../@/components/ui/button"
 import { Textarea } from "../@/components/ui/textarea"
 
@@ -17,7 +16,7 @@ function constructReadTree(loomNode: LoomNode, dmp: any) {
       current = undefined
     }
   }
-  const lineageText = lineage.map(node => patchToLatest(node, dmp)).join("")
+  const lineageText = lineage.map(node => node.latestText).join("")
   return lineageText
 }
 
@@ -33,8 +32,6 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
     {genButton}
   </div >
 
-  const latestText = patchToLatest(loomNode, dmp)
-
   if (editEnabled) {
     return (
       <div className="">
@@ -43,7 +40,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
             {previousRead}
             <div className="m-2">
               <Textarea
-                defaultValue={latestText}
+                defaultValue={loomNode.latestText}
                 id="editNodeText"
                 onChange={() => {
                 }}
@@ -82,7 +79,7 @@ function readView(editEnabled: boolean, setEditEnabled: (enabled: boolean) => vo
           </div>
           <div className="rounded-md border p-2">
             {previousRead}
-            <span>{latestText}</span>
+            <span>{loomNode.latestText}</span>
           </div>
         </div>
         {generateButton}

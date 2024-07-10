@@ -66,7 +66,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
     localStorage.setItem('collapsedItems', JSON.stringify(collapsedItems));
   }, [expandedItems, items]);
   const itemMatchesSearch = (item: AccordionItem): boolean => {
-    const titleMatch = item.loomNode.originalText.toLowerCase().includes(searchTerm.toLowerCase());
+    const titleMatch = item.loomNode.latestText.toLowerCase().includes(searchTerm.toLowerCase());
     const contentMatch = item.content ? item.content.toLowerCase().includes(searchTerm.toLowerCase()) : false;
     return titleMatch || contentMatch;
   };
@@ -162,7 +162,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
           <p
             className="cursor-pointer"
             onClick={() => setFocusedNodeId(item.loomNode.id)}
-          >{item.loomNode.originalText}
+          >{item.loomNode.latestText}
           </p>
         </div>
         {
@@ -214,7 +214,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
                   onClick={() => setSelectedItemId(item.loomNode.id)}
                   className={"cursor-pointer text-blue-500 text-decoration-line: underline"}
                 >
-                  {item.loomNode.originalText}
+                  {item.loomNode.latestText}
                 </li>
               ))}
             </ul>

@@ -10,6 +10,7 @@ export function createLoomNode(
     id,
     timestamp: Date.now(),
     originalText: text,
+    latestText: text,
     diffs: [],
     parent,
     children: [],
@@ -18,8 +19,7 @@ export function createLoomNode(
 }
 
 export function addDiff(loomNode: LoomNode, edit: string, dmp: any) {
-  const latestPatch = patchToLatest(loomNode, dmp);
-  const diff = dmp.diff_main(latestPatch, edit)
+  const diff = dmp.diff_main(loomNode.latestText, edit)
   dmp.diff_cleanupSemantic(diff);
   const newDiff = {
     version: loomNode.diffs.length + 1,
@@ -27,13 +27,7 @@ export function addDiff(loomNode: LoomNode, edit: string, dmp: any) {
     content: diff
   }
   loomNode.diffs.push(newDiff)
-}
-
-export function patchToLatest(loomNode: LoomNode, dmp: any) {
-  if (loomNode.diffs.length == 0) {
-    return loomNode.originalText;
-  }
-  return patchToVersion(loomNode, loomNode.diffs.length, dmp);
+  loomNode.latestText = edit
 }
 
 export function patchToVersion(loomNode: LoomNode, version: number, dmp: any) {
