@@ -3,7 +3,7 @@ export default function NodeLink({ text, nodeId, version, setFocusedNodeId }:
     text: string,
     nodeId: string,
     version?: number
-    setFocusedNodeId: (nodeId: string, version?: number) => void
+    setFocusedNodeId: (nodeId: string, version?: number) => void,
   }
 ) {
   return (

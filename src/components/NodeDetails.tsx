@@ -22,6 +22,7 @@ function constructReadTree(loomNode: LoomNode, dmp: any, setFocusedNodeId: (id: 
       nodeId={node.loomNode.id}
       version={node.version}
       setFocusedNodeId={setFocusedNodeId}
+      key={node.loomNode.id + node.version}
     />
   )
   return (
