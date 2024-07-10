@@ -1,5 +1,6 @@
 
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
+import { Import, ArrowRightFromLine } from "lucide-react"
 
 export default function FileMenu() {
   return (
@@ -9,12 +10,12 @@ export default function FileMenu() {
       </MenubarTrigger>
       <MenubarContent>
         <MenubarItem>
-          Download savefile
+          <span className="p-1"><ArrowRightFromLine size={16} /></span> Export to savefile
         </MenubarItem>
         <MenubarItem>
-          Load from savefile
+          <span className="p-1"><Import size={16} /></span>  Import from savefile
         </MenubarItem>
       </MenubarContent>
-    </MenubarMenu>
+    </MenubarMenu >
   );
 }
