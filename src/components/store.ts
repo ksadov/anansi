@@ -75,12 +75,27 @@ function initGraphNodesFromLoomNodes(loomNodes: LoomNode[]): Node<NodeGraphData>
       data: {
         label: loomNode.latestText,
         loomNode: loomNode,
-        focusNode: () => { console.log("focus") }
+        focusNode: () => { useStore.getState().setFocusedNodeId(loomNode.id) }
       },
       position: { x: 0, y: 0 }
     }
   })
   return graphNodes;
+}
+
+function initEdgesFromGraphNodes(nodes: Node<NodeGraphData>[]): Edge[] {
+  const edges: Edge[] = [];
+  for (let i = 0; i < nodes.length; i++) {
+    const parentId = nodes[i].data.loomNode.parent?.loomNode.id;
+    if (parentId) {
+      edges.push({
+        id: getEdgeId(),
+        source: parentId,
+        target: nodes[i].id
+      });
+    }
+  }
+  return edges;
 }
 
 const useStore = create<RFState>((set, get) => ({
@@ -196,9 +211,16 @@ const useStore = create<RFState>((set, get) => ({
   initFromSaveFile: (savedNodes: SavedLoomNode[]) => {
     const loomNodes = fromSaveFile(savedNodes);
     const graphNodes = initGraphNodesFromLoomNodes(loomNodes);
+    const edges = initEdgesFromGraphNodes(graphNodes);
+    const { nodes: layoutedNodes, edges: layoutedEdges } = dagreLayout(
+      get().dagreGraph,
+      graphNodes,
+      edges,
+      { direction: "TB" }
+    );
     set({ loomNodes: loomNodes });
-    set({ nodes: graphNodes });
-    set({ edges: [] });
+    set({ nodes: layoutedNodes });
+    set({ edges: layoutedEdges });
     set({ focusedNodeId: loomNodes[0].id });
     set({ focusedNodeVersion: 0 });
   }
