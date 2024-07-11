@@ -31,7 +31,7 @@ export type RFState = {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   setViewPort: (viewPort: Viewport) => void;
-  spawnChildren: (nodeId: string, version: number) => void;
+  spawnChildren: (nodeId: string, version: number) => { x: number, y: number }[];
   layoutDagre: () => void;
   focusedNodeId: string;
   setFocusedNodeId: (nodeId: string) => void;
@@ -183,6 +183,10 @@ const useStore = create<RFState>((set, get) => ({
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
     set({ loomNodes: get().loomNodes.concat(newLoomNodes) });
+    const parentPosition = { x: parent_x, y: parent_y };
+    const childPositions = formattedNew.map(node => node.position);
+    const nodePositions = [parentPosition, ...childPositions];
+    return nodePositions;
   },
   layoutDagre: () => {
     const { nodes, edges } = get();

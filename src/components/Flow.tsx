@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useShallow } from 'zustand/react/shallow';
 import { diff_match_patch } from "diff-match-patch";
-import ReactFlow, { SelectionMode, Controls, MiniMap } from "reactflow";
+import ReactFlow, { SelectionMode, Controls, Rect } from "reactflow";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -43,9 +43,11 @@ const selector = (state: RFState) => ({
 
 // TODO: somehow manage view state in store
 var myFitView = () => { };
+var myFitBounds = (bounds: Rect, padding: number) => { }
 
 const onInit = (reactFlowInstance: any) => {
   myFitView = () => reactFlowInstance.fitView();
+  myFitBounds = (bounds: Rect, padding: number) => reactFlowInstance.fitBounds(bounds, padding);
 };
 
 const nodeTypes = {
@@ -94,8 +96,35 @@ function Flow() {
     );
   }
 
+  function getBoundingRect(positions: { x: number, y: number }[]): Rect {
+    let minX = positions[0].x;
+    let minY = positions[0].y;
+    let maxX = positions[0].x;
+    let maxY = positions[0].y;
+    for (let i = 1; i < positions.length; i++) {
+      if (positions[i].x < minX) {
+        minX = positions[i].x;
+      }
+      if (positions[i].y < minY) {
+        minY = positions[i].y;
+      }
+      if (positions[i].x > maxX) {
+        maxX = positions[i].x;
+      }
+      if (positions[i].y > maxY) {
+        maxY = positions[i].y;
+      }
+    }
+    return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+  }
+
   function spawnChildrenForFocusedNode() {
-    spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
+    const nodePositions = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
+    const boundingRect: Rect = getBoundingRect(nodePositions);
+    window.requestAnimationFrame(() => {
+      myFitBounds(boundingRect, 0.1);
+    }
+    );
   }
 
   let onLayoutClick = () => {
