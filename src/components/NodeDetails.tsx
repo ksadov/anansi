@@ -78,6 +78,7 @@ function readView(
               <Textarea
                 defaultValue={patchToVersion(loomNode, version, dmp)}
                 id="editNodeText"
+                autoFocus
                 onChange={() => {
                 }}
               />
