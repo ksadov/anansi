@@ -16,8 +16,8 @@ import {
 import Dagre from '@dagrejs/dagre';
 import { dagreLayout, basicLayout } from './layout';
 
-import { LoomNode, NodeGraphData } from "./types";
-import { createLoomNode } from "./loomNode"
+import { LoomNode, NodeGraphData, SavedLoomNode } from "./types";
+import { createLoomNode, nodeToJson, fromSaveFile } from "./loomNode"
 
 export type RFState = {
   loomNodes: LoomNode[];
@@ -37,6 +37,7 @@ export type RFState = {
   setFocusedNodeId: (nodeId: string) => void;
   focusedNodeVersion: number | null;
   setFocusedNodeVersion: (version: number) => void;
+  initFromSaveFile: (loomNodes: SavedLoomNode[]) => void;
 };
 
 const initialLoomNode: LoomNode = createLoomNode("0", "Node 0", undefined, true);
@@ -65,6 +66,22 @@ const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 
 const new_child_nodes = 3;
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
+
+function initGraphNodesFromLoomNodes(loomNodes: LoomNode[]): Node<NodeGraphData>[] {
+  const graphNodes = loomNodes.map(loomNode => {
+    return {
+      id: loomNode.id,
+      type: "custom",
+      data: {
+        label: loomNode.latestText,
+        loomNode: loomNode,
+        focusNode: () => { console.log("focus") }
+      },
+      position: { x: 0, y: 0 }
+    }
+  })
+  return graphNodes;
+}
 
 const useStore = create<RFState>((set, get) => ({
   loomNodes: [initialLoomNode],
@@ -175,6 +192,15 @@ const useStore = create<RFState>((set, get) => ({
   },
   setFocusedNodeVersion: (version: number) => {
     set({ focusedNodeVersion: version });
+  },
+  initFromSaveFile: (savedNodes: SavedLoomNode[]) => {
+    const loomNodes = fromSaveFile(savedNodes);
+    const graphNodes = initGraphNodesFromLoomNodes(loomNodes);
+    set({ loomNodes: loomNodes });
+    set({ nodes: graphNodes });
+    set({ edges: [] });
+    set({ focusedNodeId: loomNodes[0].id });
+    set({ focusedNodeVersion: 0 });
   }
 }));
 

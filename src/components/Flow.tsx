@@ -37,7 +37,8 @@ const selector = (state: RFState) => ({
   focusedNodeId: state.focusedNodeId,
   setFocusedNodeId: state.setFocusedNodeId,
   focusedNodeVersion: state.focusedNodeVersion,
-  setFocusedNodeVersion: state.setFocusedNodeVersion
+  setFocusedNodeVersion: state.setFocusedNodeVersion,
+  initFromSaveFile: state.initFromSaveFile
 });
 
 // TODO: somehow manage view state in store
@@ -53,7 +54,7 @@ const nodeTypes = {
 
 function Flow() {
   const { loomNodes, nodes, edges, setNodes, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
-    focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion } = useStore(
+    focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSaveFile } = useStore(
       useShallow(selector),
     );
 
@@ -124,6 +125,7 @@ function Flow() {
             loomNodes={loomNodes}
             theme={theme}
             setTheme={setTheme}
+            initFromSaveFile={initFromSaveFile}
           />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow
