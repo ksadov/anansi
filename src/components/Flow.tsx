@@ -181,8 +181,10 @@ function Flow() {
     const version = (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion;
     setEditEnabled(false);
     const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
-    editFocusedNode(text);
-    setFocusedNodeVersion(version + 1);
+    if (text != focusedNode.latestText) {
+      editFocusedNode(text);
+      setFocusedNodeVersion(version + 1);
+    }
   }
 
   /// Hotkey handling
