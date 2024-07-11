@@ -172,7 +172,7 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   )
 }
 
-export default function NodeDetails({ loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp }:
+export default function NodeDetails({ loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled }:
   {
     loomNode: LoomNode,
     setVersion: number | null,
@@ -181,8 +181,9 @@ export default function NodeDetails({ loomNode, setVersion, editFocusedNode, set
     spawnChildren: () => void,
     setFocusedNodeId: (id: string) => void,
     dmp: any
+    editEnabled: boolean,
+    setEditEnabled: (enabled: boolean) => void
   }) {
-  const [editEnabled, setEditEnabled] = useState(false)
   return (
     <div className="p-2">
       <Tabs defaultValue="read">

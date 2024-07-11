@@ -167,6 +167,8 @@ function Flow() {
 
   const [dmp] = useState(new diff_match_patch())
 
+  const [editEnabled, setEditEnabled] = useState(false)
+
   /// Hotkey handling
   const modifierKey = getPlatformModifierKey();
   const modifierKeyText = getPlatformModifierKeyText();
@@ -176,6 +178,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+down`, () => navToChild(focusedNode, setFocusedNodeId), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+left`, () => navToSibling(focusedNode, setFocusedNodeId, 'prev'), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+e`, () => setEditEnabled(!editEnabled), HOTKEY_CONFIG);
 
   return (
     <div className={baseClasses}>
@@ -224,6 +227,8 @@ function Flow() {
             spawnChildren={spawnChildrenForFocusedNode}
             setFocusedNodeId={setFocusedNodeWithViewport}
             dmp={dmp}
+            editEnabled={editEnabled}
+            setEditEnabled={setEditEnabled}
           />
         </ResizablePanel>
       </ResizablePanelGroup >
