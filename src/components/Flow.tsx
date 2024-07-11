@@ -169,6 +169,14 @@ function Flow() {
 
   const [editEnabled, setEditEnabled] = useState(false)
 
+  function saveEdit() {
+    const version = (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion;
+    setEditEnabled(false);
+    const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
+    editFocusedNode(text);
+    setFocusedNodeVersion(version + 1);
+  }
+
   /// Hotkey handling
   const modifierKey = getPlatformModifierKey();
   const modifierKeyText = getPlatformModifierKeyText();
@@ -179,6 +187,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+left`, () => navToSibling(focusedNode, setFocusedNodeId, 'prev'), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+e`, () => setEditEnabled(!editEnabled), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+s`, saveEdit, HOTKEY_CONFIG);
 
   return (
     <div className={baseClasses}>
@@ -222,13 +231,13 @@ function Flow() {
           <NodeDetails
             loomNode={focusedNode}
             setVersion={focusedNodeVersion}
-            editFocusedNode={editFocusedNode}
             setFocusedNodeVersion={setFocusedNodeVersion}
             spawnChildren={spawnChildrenForFocusedNode}
             setFocusedNodeId={setFocusedNodeWithViewport}
             dmp={dmp}
             editEnabled={editEnabled}
             setEditEnabled={setEditEnabled}
+            saveEdit={saveEdit}
           />
         </ResizablePanel>
       </ResizablePanelGroup >

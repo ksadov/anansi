@@ -50,11 +50,11 @@ function readView(
   editEnabled: boolean,
   setEditEnabled: (enabled: boolean) => void,
   loomNode: LoomNode, setVersion: number | null,
-  editFocusedNode: (text: string) => void,
   setFocusedNodeVersion: (version: number) => void,
   setFocusedNodeId: (id: string) => void,
   spawnChildren: () => void,
-  dmp: any) {
+  dmp: any,
+  saveEdit: () => void) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp, setFocusedNodeId)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
@@ -84,13 +84,8 @@ function readView(
               <div className="flex justify-end space-x-1 pt-2">
                 <Button
                   size="sm"
-                  onClick={() => {
-                    setEditEnabled(false);
-                    const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
-                    editFocusedNode(text);
-                    setFocusedNodeVersion(version + 1);
-                  }
-                  }>Save</Button>
+                  onClick={saveEdit}
+                >Save</Button>
                 <Button
                   variant="secondary"
                   size="sm"
@@ -172,17 +167,17 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   )
 }
 
-export default function NodeDetails({ loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled }:
+export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled, saveEdit }:
   {
     loomNode: LoomNode,
     setVersion: number | null,
-    editFocusedNode: (text: string) => void,
     setFocusedNodeVersion: (version: number) => void,
     spawnChildren: () => void,
     setFocusedNodeId: (id: string) => void,
     dmp: any
     editEnabled: boolean,
     setEditEnabled: (enabled: boolean) => void
+    saveEdit: () => void
   }) {
   return (
     <div className="p-2">
@@ -193,8 +188,8 @@ export default function NodeDetails({ loomNode, setVersion, editFocusedNode, set
         </TabsList>
         <TabsContent className="p-2" value="read">
           {readView(
-            editEnabled, setEditEnabled, loomNode, setVersion, editFocusedNode, setFocusedNodeVersion, setFocusedNodeId,
-            spawnChildren, dmp
+            editEnabled, setEditEnabled, loomNode, setVersion, setFocusedNodeVersion, setFocusedNodeId,
+            spawnChildren, dmp, saveEdit
           )}
         </TabsContent>
         <TabsContent className="p-2" value="info">
