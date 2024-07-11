@@ -111,6 +111,17 @@ function Flow() {
     );
   }
 
+  function setFocusedNodeWithViewport(nodeId: string) {
+    setFocusedNodeId(nodeId);
+    window.requestAnimationFrame(() => {
+      const focusedNode = nodes.find((node) => node.id === nodeId);
+      if (focusedNode) {
+        setViewForNodes([focusedNode]);
+      }
+    }
+    );
+  }
+
   let onLayoutClick = () => {
     layoutDagre(); window.requestAnimationFrame(() => {
       myFitView();
@@ -130,7 +141,7 @@ function Flow() {
     <div className={baseClasses}>
       <ResizablePanelGroup direction="horizontal">
         < ResizablePanel defaultSize={15} >
-          <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeId} />
+          <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeWithViewport} />
         </ResizablePanel >
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={55}>
@@ -170,7 +181,7 @@ function Flow() {
             editFocusedNode={editFocusedNode}
             setFocusedNodeVersion={setFocusedNodeVersion}
             spawnChildren={spawnChildrenForFocusedNode}
-            setFocusedNodeId={setFocusedNodeId}
+            setFocusedNodeId={setFocusedNodeWithViewport}
             dmp={dmp}
           />
         </ResizablePanel>
