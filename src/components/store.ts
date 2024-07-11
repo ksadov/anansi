@@ -13,7 +13,7 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
 } from 'reactflow';
-import Dagre from '@dagrejs/dagre';
+import Dagre, { layout } from '@dagrejs/dagre';
 import { dagreLayout, basicLayout } from './layout';
 
 import { LoomNode, NodeGraphData, SavedLoomNode } from "./types";
@@ -180,6 +180,15 @@ const useStore = create<RFState>((set, get) => ({
     );
     let layoutedNodes = nodes.concat(formattedNew);
     let layoutedEdges = edges.concat(new_edges);
+    // set new nodes to be invisible
+    layoutedNodes.forEach(node => {
+      if (node.id !== nodeId) {
+        node.data.invisible = true;
+      }
+    });
+    layoutedEdges.forEach(edge => {
+      edge.hidden = true;
+    });
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
     set({ loomNodes: get().loomNodes.concat(newLoomNodes) });

@@ -21,6 +21,7 @@ export type NodeGraphData = {
   label: string,
   loomNode: LoomNode,
   focusNode: () => void
+  invisible?: boolean
 };
 
 export type SavedLoomNode = {

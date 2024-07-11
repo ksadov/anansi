@@ -614,6 +614,14 @@ body {
   border-width: 0;
 }
 
+.visible {
+  visibility: visible;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
 .absolute {
   position: absolute;
 }
@@ -694,6 +702,10 @@ body {
 
 .contents {
   display: contents;
+}
+
+.hidden {
+  display: none;
 }
 
 .size-full {

@@ -5,8 +5,9 @@ import { textPreview } from "./utils"
 
 function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
   const borderHighlight = data.loomNode.inFocus ? "ring" : "";
+  const invisibleString = data.invisible ? "invisible" : "";
   return (
-    <div>
+    <div className={invisibleString}>
       <Handle type="target" position={Position.Top} />
       <div
         className={"border-2 rounded-md p-2 " + borderHighlight}
