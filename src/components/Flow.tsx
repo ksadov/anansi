@@ -106,7 +106,7 @@ function Flow() {
     const boundingRectPx = myFlowToScreenPosition(boundingRect.x, boundingRect.y);
     console.log("boundingRectPx ", boundingRectPx);
     window.requestAnimationFrame(() => {
-      myFitBounds(boundingRect, { padding: 0, duration: 800 });
+      myFitBounds(boundingRect, { padding: 0.1, duration: 800 });
     }
     );
   }

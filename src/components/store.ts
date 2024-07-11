@@ -187,7 +187,7 @@ const useStore = create<RFState>((set, get) => ({
     set({ loomNodes: get().loomNodes.concat(newLoomNodes) });
     var zoomableNodes = [...formattedNew];
     const rawBounds = getNodesBounds(zoomableNodes);
-    const width = 200;
+    const width = 150;
     const height = 0;
     const boundsWithDimensions = { x: rawBounds.x, y: rawBounds.y, width: rawBounds.width + width, height: rawBounds.height + height }
     return boundsWithDimensions;
