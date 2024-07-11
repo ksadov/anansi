@@ -99,7 +99,7 @@ function Flow() {
   function setViewForNodes(n: Node[]) {
     console.log("setting view for nodes");
     const viewport = myGetViewport();
-    window.requestAnimationFrame(() => { myFitView({ nodes: n, duration: 500, maxZoom: viewport.zoom }); });
+    window.requestAnimationFrame(() => { myFitView({ nodes: n, duration: 0, maxZoom: viewport.zoom }); });
   }
 
   function spawnChildrenForFocusedNode() {
