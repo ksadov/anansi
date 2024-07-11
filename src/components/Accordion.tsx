@@ -196,6 +196,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
       <div className="mb-2">
         {!selectedItemId && (
           <SearchInput
+            id="loom-search-input"
             type="text"
             value={searchTerm}
             onChange={handleSearch}

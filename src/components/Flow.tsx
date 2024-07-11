@@ -59,6 +59,13 @@ const nodeTypes = {
   custom: LoomGraphNode
 };
 
+function focusSearchBar() {
+  const searchBar = document.getElementById("loom-search-input");
+  if (searchBar) {
+    searchBar.focus();
+  }
+}
+
 function Flow() {
   const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
     focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSaveFile } = useStore(
@@ -189,6 +196,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+e`, () => setEditEnabled(true), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+s`, saveEdit, HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+l`, onLayoutClick, HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+f`, focusSearchBar, HOTKEY_CONFIG);
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`${modifierKey}+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
   return (
