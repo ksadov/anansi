@@ -42,11 +42,12 @@ const selector = (state: RFState) => ({
   initFromSaveFile: state.initFromSaveFile
 });
 
-// TODO: somehow manage view state in store
 var myFitView = (options?: any) => { };
+var myGetViewport = () => { { return { x: 0, y: 0, zoom: 1 }; } };
 
 const onInit = (reactFlowInstance: any) => {
   myFitView = (options?) => reactFlowInstance.fitView(options);
+  myGetViewport = () => reactFlowInstance.getViewport();
 };
 
 const nodeTypes = {
@@ -97,7 +98,8 @@ function Flow() {
 
   function setViewForNodes(n: Node[]) {
     console.log("setting view for nodes");
-    window.requestAnimationFrame(() => { myFitView({ nodes: n, duration: 500 }); });
+    const viewport = myGetViewport();
+    window.requestAnimationFrame(() => { myFitView({ nodes: n, duration: 500, maxZoom: viewport.zoom }); });
   }
 
   function spawnChildrenForFocusedNode() {
