@@ -23,7 +23,7 @@ import { initialThemePref, getPlatformModifierKey, getPlatformModifierKeyText }
   from "./utils"
 import { useHotkeys } from "react-hotkeys-hook";
 import { HOTKEY_CONFIG } from "./constants";
-import { navToParent } from "./navigate"
+import { navToParent, navToChild, navToSibling } from "./navigate"
 
 import { on } from "events";
 import { get } from "http";
@@ -173,6 +173,9 @@ function Flow() {
 
   useHotkeys(`${modifierKey}+g`, spawnChildrenForFocusedNode, HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+up`, () => navToParent(focusedNode, setFocusedNodeId), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+down`, () => navToChild(focusedNode, setFocusedNodeId), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+left`, () => navToSibling(focusedNode, setFocusedNodeId, 'prev'), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
 
   return (
     <div className={baseClasses}>
