@@ -19,7 +19,7 @@ import NodeDetails from "./NodeDetails";
 
 import { LoomNode } from "./types";
 import { addDiff } from "./loomNode"
-import { initialThemePref, getPlatformModifierKey, getPlatformModifierKeyText }
+import { initialThemePref, saveThemePref, getPlatformModifierKey, getPlatformModifierKeyText }
   from "./utils"
 import { useHotkeys } from "react-hotkeys-hook";
 import { HOTKEY_CONFIG } from "./constants";
@@ -170,6 +170,7 @@ function Flow() {
   // Use this solution for themes: https://stackoverflow.com/a/70480061
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    saveThemePref(theme);
   })
   const baseClasses = "h-full w-full";
 
