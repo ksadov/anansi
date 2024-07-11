@@ -186,7 +186,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+down`, () => navToChild(focusedNode, setFocusedNodeId), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+left`, () => navToSibling(focusedNode, setFocusedNodeId, 'prev'), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+e`, () => setEditEnabled(!editEnabled), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+e`, () => setEditEnabled(true), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+s`, saveEdit, HOTKEY_CONFIG);
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`${modifierKey}+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
