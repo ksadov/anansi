@@ -43,11 +43,15 @@ const selector = (state: RFState) => ({
 
 // TODO: somehow manage view state in store
 var myFitView = () => { };
-var myFitBounds = (bounds: Rect, padding: number) => { }
+var myFitBounds = (bounds: Rect, options: { padding: number, duration: number }) => { }
+var myScreenToFlowPosition = (x: number, y: number) => { return { x: 0, y: 0 } }
+var myFlowToScreenPosition = (x: number, y: number) => { return { x: 0, y: 0 } }
 
 const onInit = (reactFlowInstance: any) => {
   myFitView = () => reactFlowInstance.fitView();
-  myFitBounds = (bounds: Rect, padding: number) => reactFlowInstance.fitBounds(bounds, padding);
+  myFitBounds = (bounds: Rect, options: { padding: number, duration: number }) => reactFlowInstance.fitBounds(bounds, options);
+  myScreenToFlowPosition = (x: number, y: number) => reactFlowInstance.screenToFlowPosition(x, y);
+  myFlowToScreenPosition = (x: number, y: number) => reactFlowInstance.flowToScreenPosition(x, y);
 };
 
 const nodeTypes = {
@@ -96,33 +100,13 @@ function Flow() {
     );
   }
 
-  function getBoundingRect(positions: { x: number, y: number }[]): Rect {
-    let minX = positions[0].x;
-    let minY = positions[0].y;
-    let maxX = positions[0].x;
-    let maxY = positions[0].y;
-    for (let i = 1; i < positions.length; i++) {
-      if (positions[i].x < minX) {
-        minX = positions[i].x;
-      }
-      if (positions[i].y < minY) {
-        minY = positions[i].y;
-      }
-      if (positions[i].x > maxX) {
-        maxX = positions[i].x;
-      }
-      if (positions[i].y > maxY) {
-        maxY = positions[i].y;
-      }
-    }
-    return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-  }
 
   function spawnChildrenForFocusedNode() {
-    const nodePositions = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
-    const boundingRect: Rect = getBoundingRect(nodePositions);
+    const boundingRect = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
+    const boundingRectPx = myFlowToScreenPosition(boundingRect.x, boundingRect.y);
+    console.log("boundingRectPx ", boundingRectPx);
     window.requestAnimationFrame(() => {
-      myFitBounds(boundingRect, 0.1);
+      myFitBounds(boundingRect, { padding: 0, duration: 800 });
     }
     );
   }

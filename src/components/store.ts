@@ -12,6 +12,8 @@ import {
   OnConnect,
   applyNodeChanges,
   applyEdgeChanges,
+  getNodesBounds,
+  Rect,
 } from 'reactflow';
 import Dagre from '@dagrejs/dagre';
 import { dagreLayout, basicLayout } from './layout';
@@ -31,7 +33,7 @@ export type RFState = {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   setViewPort: (viewPort: Viewport) => void;
-  spawnChildren: (nodeId: string, version: number) => { x: number, y: number }[];
+  spawnChildren: (nodeId: string, version: number) => Rect;
   layoutDagre: () => void;
   focusedNodeId: string;
   setFocusedNodeId: (nodeId: string) => void;
@@ -183,10 +185,12 @@ const useStore = create<RFState>((set, get) => ({
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
     set({ loomNodes: get().loomNodes.concat(newLoomNodes) });
-    const parentPosition = { x: parent_x, y: parent_y };
-    const childPositions = formattedNew.map(node => node.position);
-    const nodePositions = [parentPosition, ...childPositions];
-    return nodePositions;
+    var zoomableNodes = [...formattedNew];
+    const rawBounds = getNodesBounds(zoomableNodes);
+    const width = 200;
+    const height = 0;
+    const boundsWithDimensions = { x: rawBounds.x, y: rawBounds.y, width: rawBounds.width + width, height: rawBounds.height + height }
+    return boundsWithDimensions;
   },
   layoutDagre: () => {
     const { nodes, edges } = get();
