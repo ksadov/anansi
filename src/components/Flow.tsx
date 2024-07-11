@@ -29,6 +29,7 @@ const selector = (state: RFState) => ({
   nodes: state.nodes,
   edges: state.edges,
   setNodes: state.setNodes,
+  setEdges: state.setEdges,
   dagreGraph: state.dagreGraph,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
@@ -55,12 +56,36 @@ const nodeTypes = {
 };
 
 function Flow() {
-  const { loomNodes, nodes, edges, setNodes, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
+  const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
     focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSaveFile } = useStore(
       useShallow(selector),
     );
 
   const focusedNode: LoomNode = loomNodes.find((node) => node.id === focusedNodeId) ?? loomNodes[0];
+  const [needsReveal, setNeedsReveal] = useState(false);
+
+  // Reveal nodes and edges after view for newly-generated nodes has been set
+  // otherwise we get a flash of the nodes and edges in their initial positions
+  useEffect(() => {
+    if (needsReveal) {
+      setNodes(
+        nodes.map((node) => {
+          node.data.invisible = false;
+          node.data = {
+            ...node.data
+          };
+          return node;
+        })
+      );
+      setEdges(
+        edges.map((edge) => {
+          edge.hidden = false;
+          return edge;
+        })
+      );
+      setNeedsReveal(false);
+    }
+  }, [needsReveal, setNodes, setEdges]);
 
   useEffect(() => {
     setNodes(
@@ -97,16 +122,17 @@ function Flow() {
   }
 
   function setViewForNodes(n: Node[]) {
-    console.log("setting view for nodes");
     const viewport = myGetViewport();
     window.requestAnimationFrame(() => { myFitView({ nodes: n, duration: 0, maxZoom: viewport.zoom }); });
   }
 
   function spawnChildrenForFocusedNode() {
-    //const boundingRect = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
     const newNodes = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
     window.requestAnimationFrame(() => {
       setViewForNodes(newNodes);
+      setTimeout(() => {
+        setNeedsReveal(true);
+      }, 20);
     }
     );
   }
