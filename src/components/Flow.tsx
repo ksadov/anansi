@@ -202,7 +202,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+f`, () => focusElement("loom-search-input"), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+i`, () => focusElement("info-tab"), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+r`, () => focusElement("read-tab"), HOTKEY_CONFIG);
-  const editCancelRef = useHotkeys<HTMLTextAreaElement>(`${modifierKey}+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
+  const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
   return (
     <div className={baseClasses}>
