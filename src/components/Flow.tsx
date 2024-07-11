@@ -59,12 +59,13 @@ const nodeTypes = {
   custom: LoomGraphNode
 };
 
-function focusSearchBar() {
-  const searchBar = document.getElementById("loom-search-input");
+function focusElement(id: string) {
+  const searchBar = document.getElementById(id);
   if (searchBar) {
     searchBar.focus();
   }
 }
+
 
 function Flow() {
   const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
@@ -193,10 +194,12 @@ function Flow() {
   useHotkeys(`${modifierKey}+down`, () => navToChild(focusedNode, setFocusedNodeId), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+left`, () => navToSibling(focusedNode, setFocusedNodeId, 'prev'), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+e`, () => setEditEnabled(true), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+e`, () => { focusElement("read-tab"); setEditEnabled(true); focusElement("editNodeText"); }, HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+s`, saveEdit, HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+l`, onLayoutClick, HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+f`, focusSearchBar, HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+f`, () => focusElement("loom-search-input"), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+i`, () => focusElement("info-tab"), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+r`, () => focusElement("read-tab"), HOTKEY_CONFIG);
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`${modifierKey}+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
   return (

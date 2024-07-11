@@ -188,8 +188,8 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     <div className="p-2">
       <Tabs defaultValue="read">
         <TabsList>
-          <TabsTrigger value="read">Read</TabsTrigger>
-          <TabsTrigger value="info">Info</TabsTrigger>
+          <TabsTrigger id="read-tab" value="read">Read</TabsTrigger>
+          <TabsTrigger id="info-tab" value="info">Info</TabsTrigger>
         </TabsList>
         <TabsContent className="p-2" value="read">
           {readView(
