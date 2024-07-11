@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useShallow } from 'zustand/react/shallow';
 import { diff_match_patch } from "diff-match-patch";
-import ReactFlow, { SelectionMode, Controls, Rect } from "reactflow";
+import ReactFlow, { SelectionMode, Controls, Rect, Viewport, Node } from "reactflow";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -22,6 +22,7 @@ import { addDiff } from "./loomNode"
 import { initialThemePref } from "./utils"
 
 import { on } from "events";
+import { get } from "http";
 
 const selector = (state: RFState) => ({
   loomNodes: state.loomNodes,
@@ -42,16 +43,10 @@ const selector = (state: RFState) => ({
 });
 
 // TODO: somehow manage view state in store
-var myFitView = () => { };
-var myFitBounds = (bounds: Rect, options: { padding: number, duration: number }) => { }
-var myScreenToFlowPosition = (x: number, y: number) => { return { x: 0, y: 0 } }
-var myFlowToScreenPosition = (x: number, y: number) => { return { x: 0, y: 0 } }
+var myFitView = (options?: any) => { };
 
 const onInit = (reactFlowInstance: any) => {
-  myFitView = () => reactFlowInstance.fitView();
-  myFitBounds = (bounds: Rect, options: { padding: number, duration: number }) => reactFlowInstance.fitBounds(bounds, options);
-  myScreenToFlowPosition = (x: number, y: number) => reactFlowInstance.screenToFlowPosition(x, y);
-  myFlowToScreenPosition = (x: number, y: number) => reactFlowInstance.flowToScreenPosition(x, y);
+  myFitView = (options?) => reactFlowInstance.fitView(options);
 };
 
 const nodeTypes = {
@@ -100,13 +95,16 @@ function Flow() {
     );
   }
 
+  function setViewForNodes(n: Node[]) {
+    console.log("setting view for nodes");
+    window.requestAnimationFrame(() => { myFitView({ nodes: n, duration: 500 }); });
+  }
 
   function spawnChildrenForFocusedNode() {
-    const boundingRect = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
-    const boundingRectPx = myFlowToScreenPosition(boundingRect.x, boundingRect.y);
-    console.log("boundingRectPx ", boundingRectPx);
+    //const boundingRect = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
+    const newNodes = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
     window.requestAnimationFrame(() => {
-      myFitBounds(boundingRect, { padding: 0.1, duration: 800 });
+      setViewForNodes(newNodes);
     }
     );
   }
