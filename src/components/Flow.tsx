@@ -188,6 +188,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+e`, () => setEditEnabled(!editEnabled), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+s`, saveEdit, HOTKEY_CONFIG);
+  const editCancelRef = useHotkeys<HTMLTextAreaElement>(`${modifierKey}+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
   return (
     <div className={baseClasses}>
@@ -238,6 +239,7 @@ function Flow() {
             editEnabled={editEnabled}
             setEditEnabled={setEditEnabled}
             saveEdit={saveEdit}
+            editCancelRef={editCancelRef}
           />
         </ResizablePanel>
       </ResizablePanelGroup >

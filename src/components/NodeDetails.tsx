@@ -54,7 +54,9 @@ function readView(
   setFocusedNodeId: (id: string) => void,
   spawnChildren: () => void,
   dmp: any,
-  saveEdit: () => void) {
+  saveEdit: () => void,
+  editCancelRef: React.RefObject<HTMLTextAreaElement>
+) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp, setFocusedNodeId)}</span>
 
   const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
@@ -76,6 +78,7 @@ function readView(
             {previousRead}
             <div className="m-2">
               <Textarea
+                ref={editCancelRef}
                 defaultValue={patchToVersion(loomNode, version, dmp)}
                 id="editNodeText"
                 autoFocus
@@ -168,7 +171,7 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   )
 }
 
-export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled, saveEdit }:
+export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled, saveEdit, editCancelRef }:
   {
     loomNode: LoomNode,
     setVersion: number | null,
@@ -179,6 +182,7 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     editEnabled: boolean,
     setEditEnabled: (enabled: boolean) => void
     saveEdit: () => void
+    editCancelRef: React.RefObject<HTMLTextAreaElement>
   }) {
   return (
     <div className="p-2">
@@ -190,7 +194,7 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
         <TabsContent className="p-2" value="read">
           {readView(
             editEnabled, setEditEnabled, loomNode, setVersion, setFocusedNodeVersion, setFocusedNodeId,
-            spawnChildren, dmp, saveEdit
+            spawnChildren, dmp, saveEdit, editCancelRef
           )}
         </TabsContent>
         <TabsContent className="p-2" value="info">
