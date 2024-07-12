@@ -194,7 +194,7 @@ function Flow() {
   }
 
   function importTree() {
-    triggerUpload(initFromSaveFile, autoLayout);
+    triggerUpload(initFromSaveFile, () => { autoLayout(); setNeedsReveal(true); });
   }
 
   /// Hotkey handling

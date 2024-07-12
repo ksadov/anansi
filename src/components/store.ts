@@ -228,6 +228,13 @@ const useStore = create<RFState>((set, get) => ({
       edges,
       { direction: "TB" }
     );
+    // set nodes and edges to be invisible
+    layoutedNodes.forEach(node => {
+      node.data.invisible = true;
+    });
+    layoutedEdges.forEach(edge => {
+      edge.hidden = true;
+    });
     set({ loomNodes: loomNodes });
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
