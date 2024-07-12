@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import {
   Connection,
   Edge,
-  Viewport,
   EdgeChange,
   Node,
   NodeChange,
@@ -19,19 +18,18 @@ import { dagreLayout, basicLayout } from './layout';
 
 import { LoomNode, NodeGraphData, SavedLoomNode } from "./types";
 import { createLoomNode, fromSavedTree } from "./loomNode"
+import { DEFAULT_NODE_TEXT } from "./constants"
 
 export type RFState = {
   loomNodes: LoomNode[];
   nodes: Node<NodeGraphData>[];
   edges: Edge[];
-  viewPort: Viewport;
   dagreGraph: Dagre.graphlib.Graph;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
-  setViewPort: (viewPort: Viewport) => void;
   spawnChildren: (nodeId: string, version: number) => Node[];
   layoutDagre: () => void;
   focusedNodeId: string;
@@ -41,21 +39,6 @@ export type RFState = {
   initFromSaveFile: (loomNodes: SavedLoomNode[]) => void;
 };
 
-const initialLoomNode: LoomNode = createLoomNode("0", "Node 0", undefined, true);
-
-const initialNodes: Node<NodeGraphData>[] = [
-  {
-    id: "0",
-    type: "custom",
-    data: {
-      label: "Node 0",
-      loomNode: initialLoomNode,
-      focusNode: () => useStore.getState().setFocusedNodeId("0")
-    },
-    position: { x: 0, y: 0 }
-  }
-]
-
 const initialEdges: Edge[] = [];
 
 function getNodeId() {
@@ -64,6 +47,22 @@ function getNodeId() {
 function getEdgeId() {
   return uuid();
 }
+
+const defaultLoomNode: LoomNode = createLoomNode(getNodeId(), DEFAULT_NODE_TEXT, undefined, true);
+
+const defaultNodes: Node<NodeGraphData>[] = [
+  {
+    id: defaultLoomNode.id,
+    type: "custom",
+    data: {
+      label: "Node 0",
+      loomNode: defaultLoomNode,
+      focusNode: () => useStore.getState().setFocusedNodeId("0")
+    },
+    position: { x: 0, y: 0 }
+  }
+]
+
 
 const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 
@@ -102,12 +101,12 @@ function initEdgesFromGraphNodes(nodes: Node<NodeGraphData>[]): Edge[] {
 }
 
 const useStore = create<RFState>((set, get) => ({
-  loomNodes: [initialLoomNode],
-  nodes: initialNodes,
+  loomNodes: [defaultLoomNode],
+  nodes: defaultNodes,
   edges: initialEdges,
   dagreGraph: g,
   viewPort: { x: 0, y: 0, zoom: 1 },
-  focusedNodeId: "0",
+  focusedNodeId: defaultLoomNode.id,
   focusedNodeVersion: 0,
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -129,9 +128,6 @@ const useStore = create<RFState>((set, get) => ({
   },
   setEdges: (edges: Edge[]) => {
     set({ edges });
-  },
-  setViewPort: (viewPort: Viewport) => {
-    set({ viewPort });
   },
   spawnChildren: (nodeId: string, version: number) => {
     let nodes = get().nodes;
@@ -207,7 +203,6 @@ const useStore = create<RFState>((set, get) => ({
     );
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
-    set({ viewPort: { x: 0, y: 0, zoom: 1 } });
   },
   setFocusedNodeId: (nodeId: string, version?: number) => {
     set({ focusedNodeId: nodeId });
