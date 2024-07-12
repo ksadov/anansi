@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 
 // copied from https://github.com/paradigmxyz/flux/blob/main/src/utils/lstore.ts
 
+export function clearLocalStorage() {
+  localStorage.clear();
+  window.location.reload();
+}
+
 export function readLocalStorage<T>(key: string): T | null {
   const storedValue = localStorage.getItem(key);
   return storedValue ? JSON.parse(storedValue) : null;

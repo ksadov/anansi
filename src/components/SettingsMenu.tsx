@@ -9,8 +9,9 @@ import {
 } from "../@/components/ui/dialog"
 import { Button } from "../@/components/ui/button"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
+import { clearLocalStorage } from "./lstore";
 
-function SettingsModalContent() {
+function ResetModalContent() {
   return (
     <DialogContent>
       <DialogHeader>
@@ -21,9 +22,11 @@ function SettingsModalContent() {
       </DialogHeader>
       <DialogFooter>
         <Button variant="outline">Export and reset</Button>
-        <Button className="text-red-500" variant="ghost">Reset without export</Button>
+        <Button className="text-red-500" variant="ghost" onClick={clearLocalStorage}>
+          Reset without export
+        </Button>
       </DialogFooter>
-    </DialogContent>
+    </DialogContent >
   );
 }
 
@@ -40,7 +43,7 @@ export default function SettingsMenu() {
           </DialogTrigger>
         </MenubarItem>
       </MenubarContent>
-      <SettingsModalContent />
+      <ResetModalContent />
     </Dialog>
   );
 }
