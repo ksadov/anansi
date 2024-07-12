@@ -17,7 +17,7 @@ import { v4 as uuid } from 'uuid';
 import { dagreLayout, basicLayout } from './layout';
 
 import { LoomNode, NodeGraphData, SavedLoomNode } from "./types";
-import { createLoomNode, fromSavedTree } from "./loomNode"
+import { createLoomNode, fromSavedTree, getSubTree } from "./loomNode"
 import { DEFAULT_NODE_TEXT } from "./constants"
 
 export type RFState = {
@@ -37,6 +37,7 @@ export type RFState = {
   focusedNodeVersion: number | null;
   setFocusedNodeVersion: (version: number) => void;
   initFromSaveFile: (loomNodes: SavedLoomNode[]) => void;
+  deleteNode: (nodeId: string) => void;
 };
 
 const initialEdges: Edge[] = [];
@@ -238,6 +239,28 @@ const useStore = create<RFState>((set, get) => ({
     set({ edges: layoutedEdges });
     set({ focusedNodeId: loomNodes[0].id });
     set({ focusedNodeVersion: null });
+  },
+  deleteNode: (nodeId: string) => {
+    // remove node and all children from loomNodes
+    let loomNodes = get().loomNodes;
+    let node = loomNodes.find(loomNode => loomNode.id === nodeId);
+    if (node) {
+      if (node.parent == null) {
+        return
+      }
+      let parent = node.parent.loomNode;
+      parent.children = parent.children.filter(child => child.id !== nodeId);
+      let nodes = get().nodes;
+      let edges = get().edges;
+      let subTree = getSubTree(node);
+      let nodeIds = subTree.map(node => node.id);
+      let newLoomNodes = loomNodes.filter(loomNode => !nodeIds.includes(loomNode.id));
+      let newNodes = nodes.filter(node => !nodeIds.includes(node.id));
+      let newEdges = edges.filter(edge => !nodeIds.includes(edge.source) && !nodeIds.includes(edge.target));
+      set({ loomNodes: newLoomNodes });
+      set({ nodes: newNodes });
+      set({ edges: newEdges });
+    }
   }
 }));
 

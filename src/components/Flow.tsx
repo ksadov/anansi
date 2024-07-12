@@ -46,7 +46,8 @@ const selector = (state: RFState) => ({
   setFocusedNodeId: state.setFocusedNodeId,
   focusedNodeVersion: state.focusedNodeVersion,
   setFocusedNodeVersion: state.setFocusedNodeVersion,
-  initFromSaveFile: state.initFromSaveFile
+  initFromSaveFile: state.initFromSaveFile,
+  deleteNode: state.deleteNode,
 });
 
 const nodeTypes = {
@@ -63,7 +64,7 @@ function focusElement(id: string) {
 
 function Flow() {
   const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren, layoutDagre,
-    focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSaveFile } = useStore(
+    focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSaveFile, deleteNode } = useStore(
       useShallow(selector),
     );
 
@@ -217,6 +218,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+f`, () => focusElement("loom-search-input"), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+i`, () => focusElement("info-tab"), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+r`, () => focusElement("read-tab"), HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+d`, () => deleteNode(focusedNodeId), HOTKEY_CONFIG);
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
   //// Saving

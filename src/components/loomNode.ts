@@ -58,6 +58,18 @@ export function constructLineage(loomNode: LoomNode) {
   return lineage.reverse()
 }
 
+export function getSubTree(loomNode: LoomNode) {
+  const subTree = [loomNode]
+  const queue = loomNode.children
+  while (queue.length > 0) {
+    const current = queue.shift()!
+    subTree.push(current)
+    queue.push(...current.children)
+  }
+  return subTree
+}
+
+
 export function nodeToJson(loomNode: LoomNode) {
   const json = {
     id: loomNode.id,
