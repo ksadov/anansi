@@ -10,19 +10,19 @@ import SettingsMenu from "./SettingsMenu";
 import { LoomNode, SavedLoomNode } from "./types"
 
 
-export default function LoomMenu({ theme, setTheme, loomNodes, initFromSaveFile }:
+export default function LoomMenu({ theme, setTheme, importTree, exportCurrentTree }:
   {
     theme: string,
     setTheme: (theme: string) => void,
-    loomNodes: LoomNode[],
-    initFromSaveFile: (loomNodes: SavedLoomNode[]) => void
+    importTree: () => void,
+    exportCurrentTree: () => void,
   }
 ) {
   return (
     <Menubar>
       <MenubarMenu >
-        <FileMenu loomNodes={loomNodes} initFromSaveFile={initFromSaveFile} />
-        <SettingsMenu />
+        <FileMenu importTree={importTree} exportCurrentTree={exportCurrentTree} />
+        <SettingsMenu exportCurrentTree={exportCurrentTree} />
         <div className="size-full flex justify-end">
           <ThemeSwitch theme={theme} setTheme={setTheme} />
         </div>

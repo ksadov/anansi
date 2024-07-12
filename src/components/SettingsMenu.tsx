@@ -11,7 +11,7 @@ import { Button } from "../@/components/ui/button"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
 import { clearLocalStorage } from "./lstore";
 
-function ResetModalContent() {
+function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => void }) {
   return (
     <DialogContent>
       <DialogHeader>
@@ -21,7 +21,9 @@ function ResetModalContent() {
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
-        <Button variant="outline">Export and reset</Button>
+        <Button variant="outline" onClick={() => { exportCurrentTree(); clearLocalStorage(); }}>
+          Export and reset
+        </Button>
         <Button className="text-red-500" variant="ghost" onClick={clearLocalStorage}>
           Reset without export
         </Button>
@@ -30,7 +32,7 @@ function ResetModalContent() {
   );
 }
 
-export default function SettingsMenu() {
+export default function SettingsMenu({ exportCurrentTree }: { exportCurrentTree: () => void }) {
   return (
     <Dialog >
       <MenubarTrigger>
@@ -43,7 +45,7 @@ export default function SettingsMenu() {
           </DialogTrigger>
         </MenubarItem>
       </MenubarContent>
-      <ResetModalContent />
+      <ResetModalContent exportCurrentTree={exportCurrentTree} />
     </Dialog>
   );
 }

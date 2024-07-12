@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-// copied from https://github.com/paradigmxyz/flux/blob/main/src/utils/lstore.ts
+// modified from https://github.com/paradigmxyz/flux/blob/main/src/utils/lstore.ts
 
 export function clearLocalStorage() {
   localStorage.clear();

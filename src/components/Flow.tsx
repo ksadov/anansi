@@ -24,6 +24,7 @@ import { initialThemePref, saveThemePref, getPlatformModifierKey, getPlatformMod
 import { useHotkeys } from "react-hotkeys-hook";
 import { HOTKEY_CONFIG } from "./constants";
 import { navToParent, navToChild, navToSibling } from "./navigate"
+import { dumpToFile, triggerUpload } from "./treeSave"
 
 import { on } from "events";
 import { get } from "http";
@@ -188,6 +189,14 @@ function Flow() {
     }
   }
 
+  function exportCurrentTree() {
+    dumpToFile(loomNodes);
+  }
+
+  function importTree() {
+    triggerUpload(initFromSaveFile);
+  }
+
   /// Hotkey handling
   const modifierKey = getPlatformModifierKey();
   const modifierKeyText = getPlatformModifierKeyText();
@@ -214,10 +223,10 @@ function Flow() {
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={55}>
           <LoomMenu
-            loomNodes={loomNodes}
             theme={theme}
             setTheme={setTheme}
-            initFromSaveFile={initFromSaveFile}
+            importTree={importTree}
+            exportCurrentTree={exportCurrentTree}
           />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow
