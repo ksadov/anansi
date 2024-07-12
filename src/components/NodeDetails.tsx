@@ -10,15 +10,21 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectLabel,
 } from "../@/components/ui/select"
 import NodeLink from "./NodeLink"
 
+function addBreaks(text: string) {
+  const split = text.split('\n')
+  // don't add a break after the last line
+  return split.map((str, index) => {
+    return <span key={index}>{str}{index == split.length - 1 ? null : <br />}</span>
+  })
+}
 function constructReadTree(loomNode: LoomNode, dmp: any, setFocusedNodeId: (id: string) => void) {
   const lineage = constructLineage(loomNode);
   const ancestorLinks = lineage.map((node) =>
     <NodeLink
-      text={patchToVersion(node.loomNode, node.version, dmp)}
+      text={addBreaks(patchToVersion(node.loomNode, node.version, dmp))}
       nodeId={node.loomNode.id}
       version={node.version}
       setFocusedNodeId={setFocusedNodeId}
@@ -52,7 +58,6 @@ function readView(
   loomNode: LoomNode, setVersion: number | null,
   setFocusedNodeVersion: (version: number) => void,
   setFocusedNodeId: (id: string) => void,
-  spawnChildren: () => void,
   dmp: any,
   saveEdit: () => void,
   editCancelRef: React.RefObject<HTMLTextAreaElement>
@@ -114,7 +119,7 @@ function readView(
           </div>
           <div className="rounded-md border p-2">
             {previousRead}
-            <span>{patchToVersion(loomNode, version, dmp)}</span>
+            <span>{addBreaks(patchToVersion(loomNode, version, dmp))}</span>
           </div>
         </div>
       </div >
@@ -202,7 +207,7 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
         <TabsContent className="p-2" value="read">
           {readView(
             editEnabled, setEditEnabled, loomNode, setVersion, setFocusedNodeVersion, setFocusedNodeId,
-            spawnChildren, dmp, saveEdit, editCancelRef
+            dmp, saveEdit, editCancelRef
           )}
           {generateButton}
           {deleteButton}
