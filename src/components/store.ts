@@ -56,7 +56,8 @@ const defaultNodes: Node<NodeGraphData>[] = [
     type: "custom",
     data: {
       loomNode: defaultLoomNode,
-      focusNode: () => useStore.getState().setFocusedNodeId("0")
+      focusNode: () => useStore.getState().setFocusedNodeId("0"),
+      invisible: true
     },
     position: { x: 0, y: 0 }
   }
