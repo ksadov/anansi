@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useShallow } from 'zustand/react/shallow';
 import { diff_match_patch } from "diff-match-patch";
-import ReactFlow, { SelectionMode, Controls, Rect, Viewport, Node } from "reactflow";
+import ReactFlow, { SelectionMode, Controls, ReactFlowInstance, Node } from "reactflow";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -48,14 +48,6 @@ const selector = (state: RFState) => ({
   initFromSaveFile: state.initFromSaveFile
 });
 
-var myFitView = (options?: any) => { };
-var myGetViewport = () => { { return { x: 0, y: 0, zoom: 1 }; } };
-
-const onInit = (reactFlowInstance: any) => {
-  myFitView = (options?) => reactFlowInstance.fitView(options);
-  myGetViewport = () => reactFlowInstance.getViewport();
-};
-
 const nodeTypes = {
   custom: LoomGraphNode
 };
@@ -76,6 +68,7 @@ function Flow() {
 
   const focusedNode: LoomNode = loomNodes.find((node) => node.id === focusedNodeId) ?? loomNodes[0];
   const [needsReveal, setNeedsReveal] = useState(false);
+  const [reactFlow, setReactFlow] = useState<ReactFlowInstance | null>(null);
 
   // Reveal nodes and edges after view for newly-generated nodes has been set
   // otherwise we get a flash of the nodes and edges in their initial positions
@@ -135,8 +128,8 @@ function Flow() {
   }
 
   function setViewForNodes(n: Node[]) {
-    const viewport = myGetViewport();
-    window.requestAnimationFrame(() => { myFitView({ nodes: n, duration: 0, maxZoom: viewport.zoom }); });
+    const viewport = reactFlow?.getViewport();
+    window.requestAnimationFrame(() => { reactFlow?.fitView({ nodes: n, duration: 0, maxZoom: viewport?.zoom }); });
   }
 
   function spawnChildrenForFocusedNode() {
@@ -163,7 +156,7 @@ function Flow() {
 
   let autoLayout = () => {
     layoutDagre(); window.requestAnimationFrame(() => {
-      myFitView();
+      reactFlow?.fitView();
     });
   };
 
@@ -194,7 +187,7 @@ function Flow() {
   }
 
   function importTree() {
-    triggerUpload(initFromSaveFile, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 20); });
+    triggerUpload(initFromSaveFile, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
   }
 
   /// Hotkey handling
@@ -232,7 +225,7 @@ function Flow() {
             <ReactFlow
               nodes={nodes}
               edges={edges}
-              onInit={onInit}
+              onInit={setReactFlow}
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}
