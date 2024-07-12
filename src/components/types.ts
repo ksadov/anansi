@@ -18,7 +18,6 @@ export type LoomNode = {
 }
 
 export type NodeGraphData = {
-  label: string,
   loomNode: LoomNode,
   focusNode: () => void
   invisible?: boolean

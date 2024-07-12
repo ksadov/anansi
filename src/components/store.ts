@@ -55,7 +55,6 @@ const defaultNodes: Node<NodeGraphData>[] = [
     id: defaultLoomNode.id,
     type: "custom",
     data: {
-      label: "Node 0",
       loomNode: defaultLoomNode,
       focusNode: () => useStore.getState().setFocusedNodeId("0")
     },
@@ -75,7 +74,6 @@ function initGraphNodesFromLoomNodes(loomNodes: LoomNode[]): Node<NodeGraphData>
       id: loomNode.id,
       type: "custom",
       data: {
-        label: loomNode.latestText,
         loomNode: loomNode,
         focusNode: () => { useStore.getState().setFocusedNodeId(loomNode.id) }
       },
@@ -154,7 +152,6 @@ const useStore = create<RFState>((set, get) => ({
         id: new_node_id,
         type: "custom",
         data: {
-          label: `Node ${new_node_id}`,
           loomNode: newLoomNode,
           focusNode: () => useStore.getState().setFocusedNodeId(new_node_id)
         },
