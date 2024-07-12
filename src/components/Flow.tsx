@@ -278,6 +278,7 @@ function Flow() {
             setEditEnabled={setEditEnabled}
             saveEdit={saveEdit}
             editCancelRef={editCancelRef}
+            deleteNode={() => deleteNode(focusedNodeId)}
           />
         </ResizablePanel>
       </ResizablePanelGroup >

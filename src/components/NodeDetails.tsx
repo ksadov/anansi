@@ -58,15 +58,6 @@ function readView(
   editCancelRef: React.RefObject<HTMLTextAreaElement>
 ) {
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp, setFocusedNodeId)}</span>
-
-  const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
-
-  const generateButton = <div
-    className="flex p-3 generateDisabled place-content-center"
-  >
-    {genButton}
-  </div >
-
   const version = (setVersion == null) ? loomNode.diffs.length : setVersion;
   const isLatest = version === loomNode.diffs.length;
 
@@ -101,7 +92,6 @@ function readView(
               </div>
             </div>
           </div>
-          {generateButton}
         </div>
       </div>
     )
@@ -127,7 +117,6 @@ function readView(
             <span>{patchToVersion(loomNode, version, dmp)}</span>
           </div>
         </div>
-        {generateButton}
       </div >
     )
   }
@@ -171,7 +160,7 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   )
 }
 
-export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled, saveEdit, editCancelRef }:
+export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled, saveEdit, editCancelRef, deleteNode }:
   {
     loomNode: LoomNode,
     setVersion: number | null,
@@ -183,7 +172,26 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     setEditEnabled: (enabled: boolean) => void
     saveEdit: () => void
     editCancelRef: React.RefObject<HTMLTextAreaElement>
+    deleteNode: (nodeId: string) => void
   }) {
+
+  const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
+
+  const generateButton = <div
+    className="flex justify-center items-center p-1 generateDisabled"
+  >
+    {genButton}
+  </div >
+
+
+  const delButton = editEnabled ? <Button variant="ghost" disabled> Delete </Button> : <Button variant="ghost" onClick={() => deleteNode(loomNode.id)}> Delete </Button>
+
+  const deleteButton = <div
+    className="flex p-1 generateDisabled place-content-center text-red-500"
+  >
+    {delButton}
+  </div >
+
   return (
     <div className="p-2">
       <Tabs defaultValue="read">
@@ -196,9 +204,13 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
             editEnabled, setEditEnabled, loomNode, setVersion, setFocusedNodeVersion, setFocusedNodeId,
             spawnChildren, dmp, saveEdit, editCancelRef
           )}
+          {generateButton}
+          {deleteButton}
         </TabsContent>
         <TabsContent className="p-2" value="info">
           {infoCard(loomNode, setFocusedNodeId)}
+          {generateButton}
+          {deleteButton}
         </TabsContent>
       </Tabs>
     </div>
