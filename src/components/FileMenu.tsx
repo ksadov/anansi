@@ -1,8 +1,6 @@
 
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
 import { Import, ArrowRightFromLine } from "lucide-react"
-import { LoomNode, SavedLoomNode } from "./types"
-import { nodeToJson, fromSaveFile } from "./loomNode";
 
 export default function FileMenu({ importTree, exportCurrentTree }:
   {

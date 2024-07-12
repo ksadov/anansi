@@ -33,3 +33,8 @@ export type SavedLoomNode = {
   parent: { id: string, version: number } | null
   children: string[],
 }
+
+export type TreeSpecV0 = {
+  metadata: { version: number, created: string },
+  loomTree: SavedLoomNode[]
+};

@@ -22,9 +22,10 @@ import { addDiff } from "./loomNode"
 import { initialThemePref, saveThemePref, getPlatformModifierKey, getPlatformModifierKeyText }
   from "./utils"
 import { useHotkeys } from "react-hotkeys-hook";
+import { useDebouncedEffect } from "./debounce";
 import { HOTKEY_CONFIG } from "./constants";
 import { navToParent, navToChild, navToSibling } from "./navigate"
-import { dumpToFile, triggerUpload } from "./treeSave"
+import { loadLocal, dumpToFile, saveLocal, triggerUpload } from "./treeSave"
 
 import { on } from "events";
 import { get } from "http";
@@ -69,6 +70,17 @@ function Flow() {
   const focusedNode: LoomNode = loomNodes.find((node) => node.id === focusedNodeId) ?? loomNodes[0];
   const [needsReveal, setNeedsReveal] = useState(false);
   const [reactFlow, setReactFlow] = useState<ReactFlowInstance | null>(null);
+
+  function initFromLocal(rf: ReactFlowInstance) {
+    loadLocal(initFromSaveFile);
+    setReactFlow(rf);
+    setTimeout(() =>
+      window.requestAnimationFrame(() => {
+        rf.fitView();
+        setNeedsReveal(true);
+      })
+    );
+  }
 
   // Reveal nodes and edges after view for newly-generated nodes has been set
   // otherwise we get a flash of the nodes and edges in their initial positions
@@ -207,6 +219,14 @@ function Flow() {
   useHotkeys(`${modifierKey}+r`, () => focusElement("read-tab"), HOTKEY_CONFIG);
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
+  //// Saving
+
+  const isSaving = useDebouncedEffect(
+    () => saveLocal(loomNodes),
+    1000, // 1 second.
+    [reactFlow, nodes, edges]
+  );
+
   return (
     <div className={baseClasses}>
       <ResizablePanelGroup direction="horizontal">
@@ -225,7 +245,7 @@ function Flow() {
             <ReactFlow
               nodes={nodes}
               edges={edges}
-              onInit={setReactFlow}
+              onInit={initFromLocal}
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}

@@ -85,8 +85,8 @@ function jsonToNode(json: any, parent: { loomNode: LoomNode, version: number } |
   return loomNode
 }
 
-export function fromSaveFile(json: any): LoomNode[] {
-  const nodeList: SavedLoomNode[] = json.loomTree
+export function fromSavedTree(nodeList: SavedLoomNode[]): LoomNode[] {
+  console.log(nodeList)
   // sort nodes by timestamp, oldest first
   const nodeListSorted = nodeList.sort((a, b) => a.timestamp - b.timestamp)
   const createdNodes: LoomNode[] = []

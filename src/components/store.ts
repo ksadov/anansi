@@ -18,7 +18,7 @@ import { v4 as uuid } from 'uuid';
 import { dagreLayout, basicLayout } from './layout';
 
 import { LoomNode, NodeGraphData, SavedLoomNode } from "./types";
-import { createLoomNode, nodeToJson, fromSaveFile } from "./loomNode"
+import { createLoomNode, fromSavedTree } from "./loomNode"
 
 export type RFState = {
   loomNodes: LoomNode[];
@@ -222,7 +222,7 @@ const useStore = create<RFState>((set, get) => ({
     set({ focusedNodeVersion: version });
   },
   initFromSaveFile: (savedNodes: SavedLoomNode[]) => {
-    const loomNodes = fromSaveFile(savedNodes);
+    const loomNodes = fromSavedTree(savedNodes);
     const graphNodes = initGraphNodesFromLoomNodes(loomNodes);
     const edges = initEdgesFromGraphNodes(graphNodes);
     const { nodes: layoutedNodes, edges: layoutedEdges } = dagreLayout(

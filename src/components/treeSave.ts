@@ -1,5 +1,6 @@
-import { nodeToJson, fromSaveFile } from "./loomNode";
-import { LoomNode, SavedLoomNode } from "./types"
+import { nodeToJson } from "./loomNode";
+import { LoomNode, SavedLoomNode, TreeSpecV0 } from "./types"
+import { writeLocalStorage, readLocalStorage } from "./lstore";
 
 function getUploadedJson(file: File): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -24,7 +25,7 @@ export function triggerUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => 
     if (file) {
       try {
         const data = await getUploadedJson(file);
-        initFromSaveFile(data);
+        initFromSaveFile(data.loomTree);
         setTimeout(layoutFn, 10);
       } catch (e) {
         console.error(e);
@@ -34,17 +35,34 @@ export function triggerUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => 
   input.click();
 }
 
-export function dumpToFile(loomNodes: LoomNode[]) {
+export function dumpToJson(loomNodes: LoomNode[]) {
   const timestamp = new Date().toISOString();
   const jsonList = loomNodes.map(nodeToJson);
   const metadata = { version: 0, created: timestamp };
   const data = { metadata: metadata, loomTree: jsonList };
+  return data;
+}
+
+export function dumpToFile(loomNodes: LoomNode[]) {
+  const data = dumpToJson(loomNodes);
   const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `loom-${timestamp}.json`;
+  a.download = `loom-${data.metadata.created}.json`;
   document.body.appendChild(a);
   a.click();
   console.log("dumped to file");
+}
+
+export function saveLocal(loomNodes: LoomNode[]) {
+  const data = dumpToJson(loomNodes);
+  writeLocalStorage("loomTree", data);
+}
+
+export function loadLocal(initFromSaveFile: (loomNodes: SavedLoomNode[]) => void) {
+  const data: TreeSpecV0 | null = readLocalStorage("loomTree");
+  if (data) {
+    initFromSaveFile(data.loomTree);
+  }
 }
