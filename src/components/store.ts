@@ -242,7 +242,7 @@ const useStore = create<RFState>((set, get) => ({
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
     set({ focusedNodeId: loomNodes[0].id });
-    set({ focusedNodeVersion: 0 });
+    set({ focusedNodeVersion: null });
   }
 }));
 
