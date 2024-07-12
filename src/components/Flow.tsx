@@ -161,7 +161,7 @@ function Flow() {
     );
   }
 
-  let onLayoutClick = () => {
+  let autoLayout = () => {
     layoutDagre(); window.requestAnimationFrame(() => {
       myFitView();
     });
@@ -208,7 +208,7 @@ function Flow() {
   useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+e`, () => { focusElement("read-tab"); setEditEnabled(true); focusElement("editNodeText"); }, HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+s`, saveEdit, HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+l`, onLayoutClick, HOTKEY_CONFIG);
+  useHotkeys(`${modifierKey}+l`, autoLayout, HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+f`, () => focusElement("loom-search-input"), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+i`, () => focusElement("info-tab"), HOTKEY_CONFIG);
   useHotkeys(`${modifierKey}+r`, () => focusElement("read-tab"), HOTKEY_CONFIG);
@@ -246,7 +246,7 @@ function Flow() {
               disableKeyboardA11y={true}
             >
               <Controls>
-                <LayoutButton layoutCallback={onLayoutClick} />
+                <LayoutButton layoutCallback={autoLayout} />
               </Controls>
             </ReactFlow>
           </div>
