@@ -2,6 +2,7 @@ import {
   Menubar,
   MenubarMenu,
 } from "../@/components/ui/menubar"
+import { Dialog } from "../@/components/ui/dialog"
 
 import ThemeSwitch from "./ThemeSwitch"
 import FileMenu from "./FileMenu";
@@ -19,7 +20,7 @@ export default function LoomMenu({ theme, setTheme, loomNodes, initFromSaveFile 
 ) {
   return (
     <Menubar>
-      <MenubarMenu>
+      <MenubarMenu >
         <FileMenu loomNodes={loomNodes} initFromSaveFile={initFromSaveFile} />
         <SettingsMenu />
         <div className="size-full flex justify-end">

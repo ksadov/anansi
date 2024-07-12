@@ -1017,6 +1017,11 @@ body {
   border-color: hsl(var(--input));
 }
 
+.border-red-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+
 .bg-accent {
   background-color: hsl(var(--accent));
 }
@@ -1219,6 +1224,10 @@ body {
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
+.text-destructive {
+  color: hsl(var(--destructive));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -1258,6 +1267,10 @@ body {
 
 .outline {
   outline-style: solid;
+}
+
+.outline-red-500 {
+  outline-color: #ef4444;
 }
 
 .ring {
