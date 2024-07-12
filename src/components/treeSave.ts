@@ -16,7 +16,7 @@ function getUploadedJson(file: File): Promise<any> {
   });
 }
 
-export function triggerUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => void) {
+export function triggerUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => void, layoutFn: () => void) {
   const input = document.createElement('input');
   input.type = 'file';
   input.onchange = async (e) => {
@@ -25,6 +25,7 @@ export function triggerUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => 
       try {
         const data = await getUploadedJson(file);
         initFromSaveFile(data);
+        setTimeout(layoutFn, 10);
       } catch (e) {
         console.error(e);
       }
