@@ -108,8 +108,9 @@ const useStore = create<RFState>((set, get) => ({
   focusedNodeId: defaultLoomNode.id,
   focusedNodeVersion: 0,
   onNodesChange: (changes: NodeChange[]) => {
+    const positionChanges = changes.filter((change) => change.type !== "select");
     set({
-      nodes: applyNodeChanges(changes, get().nodes),
+      nodes: applyNodeChanges(positionChanges, get().nodes),
     });
   },
   onEdgesChange: (changes: EdgeChange[]) => {

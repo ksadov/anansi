@@ -256,7 +256,6 @@ function Flow() {
               selectionOnDrag
               selectionMode={SelectionMode.Partial}
               panOnDrag={[1, 2]}
-              disableKeyboardA11y={true}
             >
               <Controls>
                 <LayoutButton layoutCallback={autoLayout} />
