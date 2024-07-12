@@ -14,6 +14,7 @@ import {
   applyEdgeChanges,
 } from 'reactflow';
 import Dagre, { layout } from '@dagrejs/dagre';
+import { v4 as uuid } from 'uuid';
 import { dagreLayout, basicLayout } from './layout';
 
 import { LoomNode, NodeGraphData, SavedLoomNode } from "./types";
@@ -57,10 +58,12 @@ const initialNodes: Node<NodeGraphData>[] = [
 
 const initialEdges: Edge[] = [];
 
-var node_id = 0;
-var edge_id = 0;
-const getNodeId = () => { node_id++; return node_id.toString() };
-const getEdgeId = () => { edge_id++; return edge_id.toString() };
+function getNodeId() {
+  return uuid();
+}
+function getEdgeId() {
+  return uuid();
+}
 
 const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 
