@@ -99,6 +99,7 @@ export function fromSaveFile(json: any): LoomNode[] {
       const parentVersion = node.parent.version;
       const parentNode = createdNodes.find((n) => n.id === parentNodeId);
       createdNodes.push(jsonToNode(node, { loomNode: parentNode!, version: parentVersion }));
+      parentNode!.children.push(createdNodes[createdNodes.length - 1]);
     }
   }
   return createdNodes;
