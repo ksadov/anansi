@@ -18,6 +18,7 @@ import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/c
 import { Input } from "../@/components/ui/input"
 import { Label } from "../@/components/ui/label"
 import { Textarea } from "../@/components/ui/textarea"
+import { toast } from "sonner"
 import { clearLocalStorage } from "./lstore";
 import { ModelSettings } from "./types";
 
@@ -97,7 +98,11 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
       </div>
       <div className="flex justify-end mt-2">
         <div className="p-1">
-          <Button onClick={() => updateModelSettings(setModel)}>Save</Button>
+          <Button
+            onClick={() => { updateModelSettings(setModel); toast.success(`Updated ${modelSettings.name}.`) }}
+          >
+            Save
+          </Button>
         </div>
         <div className="p-1">
           <Button variant="destructive" onClick={() => deleteModelSettings(modelSettings.id)}>Delete</Button>
