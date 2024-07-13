@@ -40,6 +40,7 @@ export type TreeSpecV0 = {
 
 export type ModelSettings = {
   name: string,
+  id: string,
   apiURL: string,
   apiKey: string,
   params: { [key: string]: any }

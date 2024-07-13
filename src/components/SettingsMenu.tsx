@@ -42,37 +42,86 @@ function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => voi
   );
 }
 
-function ModelSettingsDisplay({ modelSettings }: { modelSettings: ModelSettings }) {
+function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSettings, deleteModelSettings }:
+  {
+    modelSettings: ModelSettings, updateModelSettings: (modelSetting: ModelSettings) => void,
+    addModelSettings: (modelSetting: ModelSettings) => void, deleteModelSettings: (modelId: string) => void
+  }) {
+  var setModel = modelSettings;
   return (
     <div className="p-3 border rounded-md">
-      <form>
-        <div className="grid w-full items-center gap-2">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" defaultValue={modelSettings.name} placeholder="mistralai/Mixtral-8x7B-v0.1" />
-          </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">API URL</Label>
-            <Input id="api-url" defaultValue={modelSettings.apiURL} placeholder="https://api.together.xyz/v1/completions" />
-          </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">API Key</Label>
-            <Input id="api-key" defaultValue={modelSettings.apiKey} />
-          </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Parameters</Label>
-            <Textarea id="api-url" defaultValue={JSON.stringify(modelSettings.params)} placeholder="Name of your project" />
-          </div>
+      <div className="grid w-full items-center gap-2">
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            defaultValue={modelSettings.name}
+            placeholder="mistralai/Mixtral-8x7B-v0.1"
+            onChange={(e) => {
+              setModel = { ...setModel, name: e.target.value };
+            }}
+          />
         </div>
-      </form>
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="name">API URL</Label>
+          <Input id="api-url"
+            defaultValue={modelSettings.apiURL}
+            placeholder="https://api.together.xyz/v1/completions"
+            onChange={(e) => {
+              setModel = { ...setModel, apiURL: e.target.value };
+            }}
+          />
+        </div>
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="name">API Key</Label>
+          <Input
+            id="api-key"
+            defaultValue={modelSettings.apiKey}
+            placeholder="your-api-key"
+            onChange={(e) => {
+              setModel = { ...setModel, apiKey: e.target.value };
+            }}
+          />
+        </div>
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="name">Parameters</Label>
+          <Textarea
+            id="api-url"
+            defaultValue={JSON.stringify(modelSettings.params)}
+            placeholder="Name of your project"
+            onChange={(e) => {
+              setModel = { ...setModel, params: JSON.parse(e.target.value) };
+            }}
+          />
+        </div>
+      </div>
+      <div className="flex justify-end mt-2">
+        <div className="p-1">
+          <Button onClick={() => updateModelSettings(setModel)}>Save</Button>
+        </div>
+        <div className="p-1">
+          <Button variant="destructive" onClick={() => deleteModelSettings(modelSettings.id)}>Delete</Button>
+        </div>
+      </div>
     </div>
   );
 }
 
-function ModelModalContent({ modelsSettings }: { modelsSettings: ModelSettings[] }) {
+function ModelModalContent({ modelsSettings, updateModelSettings, addModelSettings, deleteModelSettings }:
+  {
+    modelsSettings: ModelSettings[],
+    updateModelSettings: (modelSetting: ModelSettings) => void,
+    addModelSettings: (modelSetting: ModelSettings) => void,
+    deleteModelSettings: (modelId: string) => void
+  }) {
   const modelSettingsDisplay = modelsSettings.map((modelSetting, index) => (
-    <ModelSettingsDisplay key={index} modelSettings={modelSetting} />
-  ));
+    <ModelSettingsDisplay
+      key={index}
+      modelSettings={modelSetting}
+      updateModelSettings={updateModelSettings}
+      addModelSettings={addModelSettings}
+      deleteModelSettings={deleteModelSettings}
+    />));
   return (
     <TabsContent value="models">
       {modelSettingsDisplay}
@@ -80,7 +129,14 @@ function ModelModalContent({ modelsSettings }: { modelsSettings: ModelSettings[]
   );
 }
 
-function SettingsModal({ exportCurrentTree, modelsSettings }: { exportCurrentTree: () => void, modelsSettings: ModelSettings[] }) {
+function SettingsModal({ exportCurrentTree, modelsSettings, updateModelSettings, addModelSettings, deleteModelSettings }:
+  {
+    exportCurrentTree: () => void,
+    modelsSettings: ModelSettings[],
+    updateModelSettings: (modelSetting: ModelSettings) => void,
+    addModelSettings: (modelSetting: ModelSettings) => void,
+    deleteModelSettings: (modelId: string) => void
+  }) {
   return (
     <DialogContent>
       <Tabs defaultValue="models">
@@ -91,7 +147,9 @@ function SettingsModal({ exportCurrentTree, modelsSettings }: { exportCurrentTre
         <div className="p-2">
           <ResetModalContent exportCurrentTree={exportCurrentTree} />
           <TabsContent value="models">
-            <ModelModalContent modelsSettings={modelsSettings} />
+            <ModelModalContent modelsSettings={modelsSettings} updateModelSettings={updateModelSettings}
+              addModelSettings={addModelSettings} deleteModelSettings={deleteModelSettings}
+            />
           </TabsContent>
         </div>
       </Tabs>
@@ -99,7 +157,14 @@ function SettingsModal({ exportCurrentTree, modelsSettings }: { exportCurrentTre
   );
 }
 
-export default function SettingsMenu({ exportCurrentTree, modelsSettings }: { exportCurrentTree: () => void, modelsSettings: ModelSettings[] }) {
+export default function SettingsMenu({ exportCurrentTree, modelsSettings, updateModelSettings, addModelSettings,
+  deleteModelSettings }:
+  {
+    exportCurrentTree: () => void, modelsSettings: ModelSettings[],
+    updateModelSettings: (modelSetting: ModelSettings) => void,
+    addModelSettings: (modelSetting: ModelSettings) => void,
+    deleteModelSettings: (modelId: string) => void
+  }) {
   return (
     <Dialog >
       <DialogTrigger className="text-sm">
@@ -112,7 +177,13 @@ export default function SettingsMenu({ exportCurrentTree, modelsSettings }: { ex
           </DialogTrigger>
         </MenubarItem>
       </MenubarContent>
-      <SettingsModal exportCurrentTree={exportCurrentTree} modelsSettings={modelsSettings} />
+      <SettingsModal
+        exportCurrentTree={exportCurrentTree}
+        modelsSettings={modelsSettings}
+        updateModelSettings={updateModelSettings}
+        addModelSettings={addModelSettings}
+        deleteModelSettings={deleteModelSettings}
+      />
     </Dialog >
   );
 }

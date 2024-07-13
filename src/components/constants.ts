@@ -10,6 +10,7 @@ export const DEFAULT_NODE_TEXT = "Best practices for looming:\n\n1. Save early, 
 
 export const DEBUG_MODEL: ModelSettings = {
   name: "Debug",
+  id: "debug",
   apiURL: "http://localhost:5000",
   apiKey: "",
   params: {
