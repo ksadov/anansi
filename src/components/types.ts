@@ -45,3 +45,11 @@ export type ModelSettings = {
   apiKey: string,
   params: { [key: string]: any }
 }
+
+export type AppState = {
+  modelsSettings: ModelSettings[],
+  activeModelIndex: number,
+  focusedNodeId: string | null,
+  focusedNodeVersion: number | null,
+  loomTree: TreeSpecV0,
+}

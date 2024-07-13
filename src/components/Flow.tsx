@@ -17,7 +17,7 @@ import LoomGraphNode from "./LoomGraphNode"
 import LayoutButton from "./LayoutButton";
 import NodeDetails from "./NodeDetails";
 
-import { LoomNode } from "./types";
+import { LoomNode, AppState } from "./types";
 import { addDiff } from "./loomNode"
 import { initialThemePref, saveThemePref, getPlatformModifierKey, getPlatformModifierKeyText }
   from "./utils"
@@ -25,7 +25,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useDebouncedEffect } from "./debounce";
 import { HOTKEY_CONFIG } from "./constants";
 import { navToParent, navToChild, navToSibling } from "./navigate"
-import { loadLocal, dumpToFile, saveLocal, triggerUpload } from "./treeSave"
+import { dumpToFile, triggerUpload, dumpToJson } from "./treeSave"
+import { loadAppStateLocal, writeAppStateLocal } from "./lstore";
 
 import { on } from "events";
 import { get } from "http";
@@ -78,7 +79,7 @@ function Flow() {
   const [reactFlow, setReactFlow] = useState<ReactFlowInstance | null>(null);
 
   function initFromLocal(rf: ReactFlowInstance) {
-    loadLocal(initFromSaveFile);
+    loadAppStateLocal(initFromSaveFile);
     setReactFlow(rf);
     setTimeout(() =>
       window.requestAnimationFrame(() => {
@@ -229,7 +230,16 @@ function Flow() {
   //// Saving
 
   const isSaving = useDebouncedEffect(
-    () => saveLocal(loomNodes),
+    () => {
+      const appState: AppState = {
+        modelsSettings: modelsSettings,
+        activeModelIndex: activeModelIndex,
+        focusedNodeId: focusedNodeId,
+        focusedNodeVersion: focusedNodeVersion,
+        loomTree: dumpToJson(loomNodes)
+      };
+      writeAppStateLocal(appState);
+    },
     1000, // 1 second.
     [reactFlow, nodes, edges]
   );

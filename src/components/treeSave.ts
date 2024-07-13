@@ -54,15 +54,3 @@ export function dumpToFile(loomNodes: LoomNode[]) {
   a.click();
   console.log("dumped to file");
 }
-
-export function saveLocal(loomNodes: LoomNode[]) {
-  const data = dumpToJson(loomNodes);
-  writeLocalStorage("loomTree", data);
-}
-
-export function loadLocal(initFromSaveFile: (loomNodes: SavedLoomNode[]) => void) {
-  const data: TreeSpecV0 | null = readLocalStorage("loomTree");
-  if (data) {
-    initFromSaveFile(data.loomTree);
-  }
-}
