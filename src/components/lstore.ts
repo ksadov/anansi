@@ -33,9 +33,9 @@ export function writeAppStateLocal(state: AppState) {
   writeLocalStorage("appState", state);
 }
 
-export function loadAppStateLocal(initFromSaveFile: (loomNodes: SavedLoomNode[]) => void): void {
+export function loadAppStateLocal(initFromSaveFile: (appState: AppState) => void): void {
   const state = readLocalStorage<AppState>("appState");
   if (state) {
-    initFromSaveFile(state.loomTree.loomTree);
+    initFromSaveFile(state);
   }
 }

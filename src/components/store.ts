@@ -16,7 +16,7 @@ import Dagre, { layout } from '@dagrejs/dagre';
 import { v4 as uuid } from 'uuid';
 import { dagreLayout, basicLayout } from './layout';
 
-import { LoomNode, NodeGraphData, SavedLoomNode, ModelSettings } from "./types";
+import { LoomNode, NodeGraphData, SavedLoomNode, ModelSettings, AppState } from "./types";
 import { createLoomNode, fromSavedTree, getSubTree } from "./loomNode"
 import { DEFAULT_NODE_TEXT, DEBUG_MODEL } from "./constants"
 
@@ -36,7 +36,8 @@ export type RFState = {
   setFocusedNodeId: (nodeId: string) => void;
   focusedNodeVersion: number | null;
   setFocusedNodeVersion: (version: number) => void;
-  initFromSaveFile: (loomNodes: SavedLoomNode[]) => void;
+  initFromSavedTree: (savedLoomNodes: SavedLoomNode[]) => void;
+  initFromSavedAppState: (appState: AppState) => void;
   deleteNode: (nodeId: string) => void;
   modelsSettings: ModelSettings[];
   setModelsSettings: (modelsSettings: ModelSettings[]) => void;
@@ -223,8 +224,8 @@ const useStore = create<RFState>((set, get) => ({
   setFocusedNodeVersion: (version: number) => {
     set({ focusedNodeVersion: version });
   },
-  initFromSaveFile: (savedNodes: SavedLoomNode[]) => {
-    const loomNodes = fromSavedTree(savedNodes);
+  initFromSavedTree: (savedLoomNodes: SavedLoomNode[]) => {
+    const loomNodes = fromSavedTree(savedLoomNodes);
     const graphNodes = initGraphNodesFromLoomNodes(loomNodes);
     const edges = initEdgesFromGraphNodes(graphNodes);
     const { nodes: layoutedNodes, edges: layoutedEdges } = dagreLayout(
@@ -244,7 +245,18 @@ const useStore = create<RFState>((set, get) => ({
     set({ nodes: layoutedNodes });
     set({ edges: layoutedEdges });
     set({ focusedNodeId: loomNodes[0].id });
-    set({ focusedNodeVersion: null });
+    set({ focusedNodeVersion: loomNodes[0].diffs.length });
+  },
+  initFromSavedAppState: (appState: AppState) => {
+    get().initFromSavedTree(appState.loomTree.loomTree);
+    const modelsSettings = appState.modelsSettings;
+    const activeModelIndex = appState.activeModelIndex;
+    const focusedNodeVersion = appState.focusedNodeVersion;
+    const focusedNodeId = appState.focusedNodeId;
+    set({ modelsSettings });
+    set({ activeModelIndex });
+    set({ focusedNodeId });
+    set({ focusedNodeVersion });
   },
   deleteNode: (nodeId: string) => {
     // remove node and all children from loomNodes

@@ -49,7 +49,7 @@ export type ModelSettings = {
 export type AppState = {
   modelsSettings: ModelSettings[],
   activeModelIndex: number,
-  focusedNodeId: string | null,
+  focusedNodeId: string,
   focusedNodeVersion: number | null,
   loomTree: TreeSpecV0,
 }

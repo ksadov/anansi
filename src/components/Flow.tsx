@@ -47,7 +47,8 @@ const selector = (state: RFState) => ({
   setFocusedNodeId: state.setFocusedNodeId,
   focusedNodeVersion: state.focusedNodeVersion,
   setFocusedNodeVersion: state.setFocusedNodeVersion,
-  initFromSaveFile: state.initFromSaveFile,
+  initFromSavedTree: state.initFromSavedTree,
+  initFromSaveAppState: state.initFromSavedAppState,
   deleteNode: state.deleteNode,
   modelsSettings: state.modelsSettings,
   setModelsSettings: state.setModelsSettings,
@@ -69,8 +70,9 @@ function focusElement(id: string) {
 
 function Flow() {
   const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren,
-    layoutDagre, focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSaveFile,
-    deleteNode, modelsSettings, setModelsSettings, activeModelIndex, setActiveModelIndex } = useStore(
+    layoutDagre, focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSavedTree,
+    initFromSaveAppState, deleteNode, modelsSettings, setModelsSettings, activeModelIndex,
+    setActiveModelIndex } = useStore(
       useShallow(selector),
     );
 
@@ -79,7 +81,7 @@ function Flow() {
   const [reactFlow, setReactFlow] = useState<ReactFlowInstance | null>(null);
 
   function initFromLocal(rf: ReactFlowInstance) {
-    loadAppStateLocal(initFromSaveFile);
+    loadAppStateLocal(initFromSaveAppState);
     setReactFlow(rf);
     setTimeout(() =>
       window.requestAnimationFrame(() => {
@@ -206,7 +208,7 @@ function Flow() {
   }
 
   function importTree() {
-    triggerUpload(initFromSaveFile, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
+    triggerUpload(initFromSavedTree, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
   }
 
   /// Hotkey handling
