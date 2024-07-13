@@ -50,8 +50,8 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
   }) {
   var setModel = modelSettings;
   return (
-    <div className="p-3 border rounded-md">
-      <div className="grid w-full items-center gap-2">
+    <div className="p-2">
+      <div className="p-3 border rounded-md grid w-full items-center gap-2">
         <div className="flex flex-col space-y-1.5">
           <Label htmlFor="name">Name</Label>
           <Input
@@ -95,17 +95,17 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
             }}
           />
         </div>
-      </div>
-      <div className="flex justify-end mt-2">
-        <div className="p-1">
-          <Button
-            onClick={() => { updateModelSettings(setModel); toast.success(`Updated ${modelSettings.name}.`) }}
-          >
-            Save
-          </Button>
-        </div>
-        <div className="p-1">
-          <Button variant="destructive" onClick={() => deleteModelSettings(modelSettings.id)}>Delete</Button>
+        <div className="flex justify-end mt-2">
+          <div className="p-1">
+            <Button
+              onClick={() => { updateModelSettings(setModel); toast.success(`Updated ${setModel.name}.`) }}
+            >
+              Save
+            </Button>
+          </div>
+          <div className="p-1">
+            <Button variant="destructive" onClick={() => deleteModelSettings(modelSettings.id)}>Delete</Button>
+          </div>
         </div>
       </div>
     </div>
