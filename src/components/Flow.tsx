@@ -49,7 +49,9 @@ const selector = (state: RFState) => ({
   initFromSaveFile: state.initFromSaveFile,
   deleteNode: state.deleteNode,
   modelsSettings: state.modelsSettings,
-  setModelsSettings: state.setModelsSettings
+  setModelsSettings: state.setModelsSettings,
+  setActiveModelIndex: state.setActiveModelIndex,
+  activeModelIndex: state.activeModelIndex
 });
 
 const nodeTypes = {
@@ -67,7 +69,7 @@ function focusElement(id: string) {
 function Flow() {
   const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren,
     layoutDagre, focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSaveFile,
-    deleteNode, modelsSettings, setModelsSettings } = useStore(
+    deleteNode, modelsSettings, setModelsSettings, activeModelIndex, setActiveModelIndex } = useStore(
       useShallow(selector),
     );
 
@@ -247,6 +249,8 @@ function Flow() {
             exportCurrentTree={exportCurrentTree}
             modelsSettings={modelsSettings}
             setModelsSettings={setModelsSettings}
+            setActiveModelIndex={setActiveModelIndex}
+            activeModelIndex={activeModelIndex}
           />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow
