@@ -10,17 +10,14 @@ import SettingsMenu from "./SettingsMenu";
 import { ModelSettings } from "./types"
 
 
-export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, updateModelSettings,
-  addModelSettings, deleteModelSettings }:
+export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings }:
   {
     theme: string,
     modelsSettings: ModelSettings[],
     setTheme: (theme: string) => void,
     importTree: () => void,
     exportCurrentTree: () => void,
-    updateModelSettings: (modelSetting: ModelSettings) => void,
-    addModelSettings: (modelSetting: ModelSettings) => void,
-    deleteModelSettings: (modelId: string) => void
+    setModelsSettings: (modelsSettings: ModelSettings[]) => void
   }
 ) {
   return (
@@ -30,9 +27,7 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
         <SettingsMenu
           exportCurrentTree={exportCurrentTree}
           modelsSettings={modelsSettings}
-          updateModelSettings={updateModelSettings}
-          addModelSettings={addModelSettings}
-          deleteModelSettings={deleteModelSettings}
+          setModelsSettings={setModelsSettings}
         />
         <div className="size-full flex justify-end">
           <ThemeSwitch theme={theme} setTheme={setTheme} />

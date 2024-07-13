@@ -39,9 +39,7 @@ export type RFState = {
   initFromSaveFile: (loomNodes: SavedLoomNode[]) => void;
   deleteNode: (nodeId: string) => void;
   modelsSettings: ModelSettings[];
-  updateModelSettings: (modelSetting: ModelSettings) => void;
-  addModelSettings: (modelSetting: ModelSettings) => void;
-  deleteModelSettings: (modelId: string) => void;
+  setModelsSettings: (modelsSettings: ModelSettings[]) => void;
 };
 
 const initialEdges: Edge[] = [];
@@ -270,27 +268,6 @@ const useStore = create<RFState>((set, get) => ({
   },
   setModelsSettings: (modelsSettings: ModelSettings[]) => {
     set({ modelsSettings });
-  },
-  updateModelSettings: (modelSetting: ModelSettings) => {
-    let modelsSettings = get().modelsSettings;
-    let index = modelsSettings.findIndex(setting => setting.id === modelSetting.id);
-    if (index !== -1) {
-      modelsSettings[index] = modelSetting;
-      set({ modelsSettings });
-    }
-  },
-  addModelSettings: (modelSetting: ModelSettings) => {
-    let modelsSettings = get().modelsSettings;
-    modelsSettings.push(modelSetting);
-    set({ modelsSettings });
-  },
-  deleteModelSettings: (modelId: string) => {
-    let modelsSettings = get().modelsSettings;
-    let index = modelsSettings.findIndex(setting => setting.id === modelId);
-    if (index !== -1) {
-      modelsSettings.splice(index, 1);
-      set({ modelsSettings });
-    }
   }
 }));
 

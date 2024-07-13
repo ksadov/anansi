@@ -129,16 +129,27 @@ function ModelModalContent({ modelsSettings, updateModelSettings, addModelSettin
   );
 }
 
-function SettingsModal({ exportCurrentTree, modelsSettings, updateModelSettings, addModelSettings, deleteModelSettings }:
+function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings }:
   {
     exportCurrentTree: () => void,
     modelsSettings: ModelSettings[],
-    updateModelSettings: (modelSetting: ModelSettings) => void,
-    addModelSettings: (modelSetting: ModelSettings) => void,
-    deleteModelSettings: (modelId: string) => void
+    setModelsSettings: (modelsSettings: ModelSettings[]) => void
   }) {
+  const updateModelSettings = (updatedModel: ModelSettings) => {
+    setModelsSettings(modelsSettings.map(model => model.id === updatedModel.id ? updatedModel : model)
+    );
+  };
+
+  const addModelSettings = (newModel: ModelSettings) => {
+    setModelsSettings([...modelsSettings, newModel]);
+  };
+
+  const deleteModelSettings = (modelId: string) => {
+    setModelsSettings(modelsSettings.filter(model => model.id !== modelId)
+    );
+  };
   return (
-    <DialogContent>
+    <DialogContent className="max-h-[90vh] overflow-auto">
       <Tabs defaultValue="models">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="models">Models</TabsTrigger>
@@ -147,9 +158,21 @@ function SettingsModal({ exportCurrentTree, modelsSettings, updateModelSettings,
         <div className="p-2">
           <ResetModalContent exportCurrentTree={exportCurrentTree} />
           <TabsContent value="models">
-            <ModelModalContent modelsSettings={modelsSettings} updateModelSettings={updateModelSettings}
-              addModelSettings={addModelSettings} deleteModelSettings={deleteModelSettings}
+            <ModelModalContent
+              modelsSettings={modelsSettings}
+              updateModelSettings={updateModelSettings}
+              addModelSettings={addModelSettings}
+              deleteModelSettings={deleteModelSettings}
             />
+            <div>
+              <Button onClick={() => addModelSettings({
+                id: Math.random().toString(36).substring(2),
+                name: "New Model",
+                apiURL: "https://api.together.xyz/v1/completions",
+                apiKey: "your-api-key",
+                params: {}
+              })}>Add Model</Button>
+            </div>
           </TabsContent>
         </div>
       </Tabs>
@@ -157,13 +180,10 @@ function SettingsModal({ exportCurrentTree, modelsSettings, updateModelSettings,
   );
 }
 
-export default function SettingsMenu({ exportCurrentTree, modelsSettings, updateModelSettings, addModelSettings,
-  deleteModelSettings }:
+export default function SettingsMenu({ exportCurrentTree, modelsSettings, setModelsSettings }:
   {
     exportCurrentTree: () => void, modelsSettings: ModelSettings[],
-    updateModelSettings: (modelSetting: ModelSettings) => void,
-    addModelSettings: (modelSetting: ModelSettings) => void,
-    deleteModelSettings: (modelId: string) => void
+    setModelsSettings: (modelsSettings: ModelSettings[]) => void,
   }) {
   return (
     <Dialog >
@@ -180,9 +200,7 @@ export default function SettingsMenu({ exportCurrentTree, modelsSettings, update
       <SettingsModal
         exportCurrentTree={exportCurrentTree}
         modelsSettings={modelsSettings}
-        updateModelSettings={updateModelSettings}
-        addModelSettings={addModelSettings}
-        deleteModelSettings={deleteModelSettings}
+        setModelsSettings={setModelsSettings}
       />
     </Dialog >
   );
