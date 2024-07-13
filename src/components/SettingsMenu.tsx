@@ -7,20 +7,26 @@ import {
   DialogTrigger,
   DialogFooter
 } from "../@/components/ui/dialog"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../@/components/ui/tabs"
 import { Button } from "../@/components/ui/button"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
 import { clearLocalStorage } from "./lstore";
 
 function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => void }) {
   return (
-    <DialogContent>
-      <DialogHeader>
+    <TabsContent value="reset">
+      <DialogHeader className="p-2">
         <DialogTitle>Are you absolutely sure?</DialogTitle>
         <DialogDescription>
           This will clear all your data and reset the app to its initial state. Maybe you want to export your current tree data locally first?
         </DialogDescription>
       </DialogHeader>
-      <DialogFooter>
+      <DialogFooter className="p-2">
         <Button variant="outline" onClick={() => { exportCurrentTree(); clearLocalStorage(); }}>
           Export and reset
         </Button>
@@ -28,6 +34,25 @@ function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => voi
           Reset without export
         </Button>
       </DialogFooter>
+    </TabsContent >
+  );
+}
+
+function SettingsModal({ exportCurrentTree }: { exportCurrentTree: () => void }) {
+  return (
+    <DialogContent>
+      <Tabs defaultValue="models">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="models">Models</TabsTrigger>
+          <TabsTrigger value="reset">Reset</TabsTrigger>
+        </TabsList>
+        <div className="p-2">
+          <ResetModalContent exportCurrentTree={exportCurrentTree} />
+          <TabsContent value="models">
+            <div>TODO</div>
+          </TabsContent>
+        </div>
+      </Tabs>
     </DialogContent >
   );
 }
@@ -35,9 +60,9 @@ function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => voi
 export default function SettingsMenu({ exportCurrentTree }: { exportCurrentTree: () => void }) {
   return (
     <Dialog >
-      <MenubarTrigger>
+      <DialogTrigger className="text-sm">
         Settings
-      </MenubarTrigger>
+      </DialogTrigger>
       <MenubarContent>
         <MenubarItem className="text-red-500">
           <DialogTrigger>
@@ -45,7 +70,7 @@ export default function SettingsMenu({ exportCurrentTree }: { exportCurrentTree:
           </DialogTrigger>
         </MenubarItem>
       </MenubarContent>
-      <ResetModalContent exportCurrentTree={exportCurrentTree} />
-    </Dialog>
+      <SettingsModal exportCurrentTree={exportCurrentTree} />
+    </Dialog >
   );
 }
