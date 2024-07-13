@@ -15,6 +15,9 @@ import {
 } from "../@/components/ui/tabs"
 import { Button } from "../@/components/ui/button"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
+import { Input } from "../@/components/ui/input"
+import { Label } from "../@/components/ui/label"
+import { Textarea } from "../@/components/ui/textarea"
 import { clearLocalStorage } from "./lstore";
 import { ModelSettings } from "./types";
 
@@ -44,17 +47,21 @@ function ModelSettingsDisplay({ modelSettings }: { modelSettings: ModelSettings 
     <div className="p-3 border rounded-md">
       <form>
         <div className="grid w-full items-center gap-2">
-          <div>
-            Name: {modelSettings.name}
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" defaultValue={modelSettings.name} placeholder="mistralai/Mixtral-8x7B-v0.1" />
           </div>
-          <div>
-            API URL: {modelSettings.apiURL}
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">API URL</Label>
+            <Input id="api-url" defaultValue={modelSettings.apiURL} placeholder="https://api.together.xyz/v1/completions" />
           </div>
-          <div>
-            API Key: {modelSettings.apiKey}
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">API Key</Label>
+            <Input id="api-key" defaultValue={modelSettings.apiKey} />
           </div>
-          <div>
-            Parameters: {JSON.stringify(modelSettings.params)}
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name">Parameters</Label>
+            <Textarea id="api-url" defaultValue={JSON.stringify(modelSettings.params)} placeholder="Name of your project" />
           </div>
         </div>
       </form>
