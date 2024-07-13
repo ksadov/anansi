@@ -40,6 +40,8 @@ export type RFState = {
   deleteNode: (nodeId: string) => void;
   modelsSettings: ModelSettings[];
   setModelsSettings: (modelsSettings: ModelSettings[]) => void;
+  activeModelIndex: number;
+  setActiveModelIndex: (index: number) => void;
 };
 
 const initialEdges: Edge[] = [];
@@ -111,6 +113,7 @@ const useStore = create<RFState>((set, get) => ({
   focusedNodeId: defaultLoomNode.id,
   focusedNodeVersion: 0,
   modelsSettings: [DEBUG_MODEL],
+  activeModelIndex: 0,
   onNodesChange: (changes: NodeChange[]) => {
     const filteredChanges = changes.filter((change) => change.type !== "select");
     set({
@@ -268,6 +271,9 @@ const useStore = create<RFState>((set, get) => ({
   },
   setModelsSettings: (modelsSettings: ModelSettings[]) => {
     set({ modelsSettings });
+  },
+  setActiveModelIndex: (index: number) => {
+    set({ activeModelIndex: index });
   }
 }));
 

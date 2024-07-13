@@ -2,11 +2,11 @@ import {
   Menubar,
   MenubarMenu,
 } from "../@/components/ui/menubar"
-import { Dialog } from "../@/components/ui/dialog"
 
 import ThemeSwitch from "./ThemeSwitch"
 import FileMenu from "./FileMenu";
 import SettingsMenu from "./SettingsMenu";
+import ModelSelect from "./ModelSelect";
 import { ModelSettings } from "./types"
 
 
@@ -30,6 +30,7 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
           setModelsSettings={setModelsSettings}
         />
         <div className="size-full flex justify-end">
+          <ModelSelect modelsSettings={modelsSettings} activeModelIndex={0} setActiveModelIndex={() => { }} />
           <ThemeSwitch theme={theme} setTheme={setTheme} />
         </div>
       </MenubarMenu>
