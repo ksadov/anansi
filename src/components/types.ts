@@ -37,3 +37,10 @@ export type TreeSpecV0 = {
   metadata: { version: number, created: string },
   loomTree: SavedLoomNode[]
 };
+
+export type ModelSettings = {
+  name: string,
+  apiURL: string,
+  apiKey: string,
+  params: { [key: string]: any }
+}

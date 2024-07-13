@@ -16,6 +16,7 @@ import {
 import { Button } from "../@/components/ui/button"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
 import { clearLocalStorage } from "./lstore";
+import { ModelSettings } from "./types";
 
 function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => void }) {
   return (
@@ -38,7 +39,41 @@ function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => voi
   );
 }
 
-function SettingsModal({ exportCurrentTree }: { exportCurrentTree: () => void }) {
+function ModelSettingsDisplay({ modelSettings }: { modelSettings: ModelSettings }) {
+  return (
+    <div className="p-3 border rounded-md">
+      <form>
+        <div className="grid w-full items-center gap-2">
+          <div>
+            Name: {modelSettings.name}
+          </div>
+          <div>
+            API URL: {modelSettings.apiURL}
+          </div>
+          <div>
+            API Key: {modelSettings.apiKey}
+          </div>
+          <div>
+            Parameters: {JSON.stringify(modelSettings.params)}
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function ModelModalContent({ modelsSettings }: { modelsSettings: ModelSettings[] }) {
+  const modelSettingsDisplay = modelsSettings.map((modelSetting, index) => (
+    <ModelSettingsDisplay key={index} modelSettings={modelSetting} />
+  ));
+  return (
+    <TabsContent value="models">
+      {modelSettingsDisplay}
+    </TabsContent>
+  );
+}
+
+function SettingsModal({ exportCurrentTree, modelsSettings }: { exportCurrentTree: () => void, modelsSettings: ModelSettings[] }) {
   return (
     <DialogContent>
       <Tabs defaultValue="models">
@@ -49,7 +84,7 @@ function SettingsModal({ exportCurrentTree }: { exportCurrentTree: () => void })
         <div className="p-2">
           <ResetModalContent exportCurrentTree={exportCurrentTree} />
           <TabsContent value="models">
-            <div>TODO</div>
+            <ModelModalContent modelsSettings={modelsSettings} />
           </TabsContent>
         </div>
       </Tabs>
@@ -57,7 +92,7 @@ function SettingsModal({ exportCurrentTree }: { exportCurrentTree: () => void })
   );
 }
 
-export default function SettingsMenu({ exportCurrentTree }: { exportCurrentTree: () => void }) {
+export default function SettingsMenu({ exportCurrentTree, modelsSettings }: { exportCurrentTree: () => void, modelsSettings: ModelSettings[] }) {
   return (
     <Dialog >
       <DialogTrigger className="text-sm">
@@ -70,7 +105,7 @@ export default function SettingsMenu({ exportCurrentTree }: { exportCurrentTree:
           </DialogTrigger>
         </MenubarItem>
       </MenubarContent>
-      <SettingsModal exportCurrentTree={exportCurrentTree} />
+      <SettingsModal exportCurrentTree={exportCurrentTree} modelsSettings={modelsSettings} />
     </Dialog >
   );
 }
