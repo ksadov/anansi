@@ -297,6 +297,7 @@ function Flow() {
             newTree={newTree}
             exportSettings={exportSettings}
             importSettings={importSettings}
+            isGenerating={isGenerating}
           />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow

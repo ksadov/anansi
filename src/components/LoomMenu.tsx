@@ -2,6 +2,7 @@ import {
   Menubar,
   MenubarMenu,
 } from "../@/components/ui/menubar"
+import Loader from "../@/components/ui/loadingspinner"
 
 import ThemeSwitch from "./ThemeSwitch"
 import FileMenu from "./FileMenu";
@@ -11,8 +12,7 @@ import { ModelSettings } from "./types"
 
 
 export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings,
-  activeModelIndex, setActiveModelIndex, newTree, exportSettings, importSettings }:
-  {
+  activeModelIndex, setActiveModelIndex, newTree, exportSettings, importSettings, isGenerating }: {
     theme: string,
     modelsSettings: ModelSettings[],
     setTheme: (theme: string) => void,
@@ -23,9 +23,11 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
     setActiveModelIndex: (index: number) => void
     newTree: () => void
     exportSettings: () => void,
-    importSettings: () => void
+    importSettings: () => void,
+    isGenerating: boolean
   }
 ) {
+  const loadSpinner = isGenerating ? <Loader className="w-8" /> : null
   return (
     <Menubar>
       <MenubarMenu >
@@ -42,7 +44,13 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
           importSettings={importSettings}
         />
         <div className="size-full flex justify-end">
-          <ModelSelect modelsSettings={modelsSettings} activeModelIndex={activeModelIndex} setActiveModelIndex={setActiveModelIndex} />
+          {loadSpinner}
+          <ModelSelect
+            modelsSettings={modelsSettings}
+            activeModelIndex={activeModelIndex}
+            setActiveModelIndex={setActiveModelIndex}
+            isGenerating={isGenerating}
+          />
           <ThemeSwitch theme={theme} setTheme={setTheme} />
         </div>
       </MenubarMenu>
