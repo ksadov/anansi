@@ -154,8 +154,8 @@ function Flow() {
     window.requestAnimationFrame(() => { reactFlow?.fitView({ nodes: n, duration: 0, maxZoom: viewport?.zoom }); });
   }
 
-  function spawnChildrenForFocusedNode() {
-    const generation = debugGenerate(focusedNode, modelsSettings[activeModelIndex], dmp);
+  async function spawnChildrenForFocusedNode() {
+    const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
     console.log(generation);
     const newNodes = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
     window.requestAnimationFrame(() => {

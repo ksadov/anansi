@@ -1,5 +1,6 @@
 import { patchToVersion } from './loomNode';
-import { LoomNode, ModelSettings, Generation } from './types';
+import { LoomNode, ModelSettings, Generation, Logit } from './types';
+
 export async function callModel(apiURL: string, modelName: string, apiKey: string | null, prompt: string, genParams: any) {
   return fetch(apiURL, {
     method: 'POST',
@@ -31,18 +32,37 @@ export async function debugGenerate(loomNode: LoomNode, modelSettings: ModelSett
   return [dummyGeneration];
 }
 
+function constructLogits(tokens: string[], tokenLogprobs: number[], topLogprobs: { string: number }): Logit[][] {
+  const responseLogprobs: Logit[] = tokens.map((token: string, i: number) => {
+    return {
+      token: token,
+      logprob: tokenLogprobs[i]
+    }
+  });
+  const logitList: Logit[] = Object.entries(topLogprobs).map(([token, logprob]: [string, number]) => {
+    return {
+      token: token,
+      logprob: logprob
+    }
+  });
+  const allLogits = logitList.map((logit: Logit) => {
+    return [logit, ...responseLogprobs];
+  }
+  );
+  return allLogits;
+}
+
 export async function generate(loomNode: LoomNode, modelSettings: ModelSettings, dmp: any): Promise<Generation[]> {
   const prompt = patchToVersion(loomNode, loomNode.diffs.length, dmp);
   const response = await callModel(modelSettings.apiURL, modelSettings.name, modelSettings.apiKey, prompt,
     modelSettings.params);
+  console.log("RESPONSE", response)
   return response.choices.map((choice: any) => {
     return {
       text: choice.text,
       timestamp: response.created,
       model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
-      logits: choice.logprobs.map((logprob: number, index: number) => {
-        return { token: choice.tokens[index], logprob: logprob }
-      }),
+      logits: constructLogits(choice.logprobs.tokens, choice.logprobs.token_logprobs, choice.logprobs.top_logprobs),
       prompt: prompt,
       finishReason: response.finish_reason,
       rawResponse: JSON.stringify(response)
