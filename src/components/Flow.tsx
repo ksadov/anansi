@@ -25,7 +25,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useDebouncedEffect } from "./debounce";
 import { HOTKEY_CONFIG } from "./constants";
 import { navToParent, navToChild, navToSibling } from "./navigate"
-import { dumpToFile, triggerUpload, dumpToJson } from "./treeSave"
+import { dumpToFile, triggerTreeUpload, dumpToJson } from "./treeSave"
 import { loadAppStateLocal, writeAppStateLocal } from "./lstore";
 import { debugGenerate, generate } from "./callModel"
 
@@ -213,7 +213,7 @@ function Flow() {
   }
 
   function importTree() {
-    triggerUpload(initFromSavedTree, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
+    triggerTreeUpload(initFromSavedTree, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
   }
 
   function newTree() {

@@ -1,6 +1,5 @@
 import { nodeToJson } from "./loomNode";
 import { LoomNode, SavedLoomNode, TreeSpecV0 } from "./types"
-import { writeLocalStorage, readLocalStorage } from "./lstore";
 
 function getUploadedJson(file: File): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -17,7 +16,7 @@ function getUploadedJson(file: File): Promise<any> {
   });
 }
 
-export function triggerUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => void, layoutFn: () => void) {
+export function triggerUpload(dataHandler: (data: any) => void) {
   const input = document.createElement('input');
   input.type = 'file';
   input.onchange = async (e) => {
@@ -25,14 +24,21 @@ export function triggerUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => 
     if (file) {
       try {
         const data = await getUploadedJson(file);
-        initFromSaveFile(data.loomTree);
-        setTimeout(layoutFn, 10);
+        dataHandler(data);
       } catch (e) {
         console.error(e);
       }
     }
   }
   input.click();
+}
+
+export function triggerTreeUpload(initFromSaveFile: (loomNodes: SavedLoomNode[]) => void, layoutFn: () => void) {
+  const dataHandler = (data: TreeSpecV0) => {
+    initFromSaveFile(data.loomTree);
+    setTimeout(layoutFn, 50);
+  }
+  triggerUpload(dataHandler);
 }
 
 export function dumpToJson(loomNodes: LoomNode[]) {
