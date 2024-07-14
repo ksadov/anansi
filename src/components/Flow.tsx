@@ -27,6 +27,7 @@ import { HOTKEY_CONFIG } from "./constants";
 import { navToParent, navToChild, navToSibling } from "./navigate"
 import { dumpToFile, triggerUpload, dumpToJson } from "./treeSave"
 import { loadAppStateLocal, writeAppStateLocal } from "./lstore";
+import { debugGenerate, generate } from "./callModel"
 
 import { on } from "events";
 import { get } from "http";
@@ -154,6 +155,8 @@ function Flow() {
   }
 
   function spawnChildrenForFocusedNode() {
+    const generation = debugGenerate(focusedNode, modelsSettings[activeModelIndex], dmp);
+    console.log(generation);
     const newNodes = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
     window.requestAnimationFrame(() => {
       setViewForNodes(newNodes);

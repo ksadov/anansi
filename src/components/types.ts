@@ -53,3 +53,18 @@ export type AppState = {
   focusedNodeVersion: number | null,
   loomTree: TreeSpecV0,
 }
+
+export type Logit = {
+  token: string,
+  logprob: number
+}
+
+export type Generation = {
+  text: string,
+  timestamp: number,
+  model: { name: string, apiURL: string, params: { [key: string]: any } }
+  logits: Logit[][]
+  finishReason: string
+  rawResponse: string
+  prompt: string
+}
