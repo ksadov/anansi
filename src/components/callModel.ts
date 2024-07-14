@@ -1,3 +1,4 @@
+import { toast } from "sonner"
 import { patchToVersion } from './loomNode';
 import { LoomNode, ModelSettings, Generation, Logit } from './types';
 
@@ -56,7 +57,11 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
   const prompt = patchToVersion(loomNode, loomNode.diffs.length, dmp);
   const response = await callModel(modelSettings.apiURL, modelSettings.name, modelSettings.apiKey, prompt,
     modelSettings.params);
-  console.log("RESPONSE", response)
+  if (response.error) {
+    const failMessage = `Model ${modelSettings.name} generation failed with code ${response.error.code}: ${response.error.message}`;
+    toast.error(failMessage);
+    return [];
+  }
   return response.choices.map((choice: any) => {
     return {
       text: choice.text,
