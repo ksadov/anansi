@@ -25,7 +25,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useDebouncedEffect } from "./debounce";
 import { HOTKEY_CONFIG } from "./constants";
 import { navToParent, navToChild, navToSibling } from "./navigate"
-import { dumpTreeToFile, triggerTreeUpload, dumpToJson } from "./treeSave"
+import { dumpTreeToFile, dumpSettingsToFile, triggerTreeUpload, triggerSettingsUpload, dumpTreeToJson } from "./importExport"
 import { loadAppStateLocal, writeAppStateLocal } from "./lstore";
 import { debugGenerate, generate } from "./callModel"
 
@@ -247,7 +247,7 @@ function Flow() {
         activeModelIndex: activeModelIndex,
         focusedNodeId: focusedNodeId,
         focusedNodeVersion: focusedNodeVersion,
-        loomTree: dumpToJson(loomNodes)
+        loomTree: dumpTreeToJson(loomNodes)
       };
       writeAppStateLocal(appState);
     },

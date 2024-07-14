@@ -1,5 +1,5 @@
 import { nodeToJson } from "./loomNode";
-import { LoomNode, SavedLoomNode, TreeSpecV0 } from "./types"
+import { LoomNode, SavedLoomNode, TreeSpecV0, ModelSettings } from "./types"
 
 function getUploadedJson(file: File): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -41,7 +41,15 @@ export function triggerTreeUpload(initFromSaveFile: (loomNodes: SavedLoomNode[])
   triggerUpload(dataHandler);
 }
 
-export function dumpToJson(loomNodes: LoomNode[]) {
+export function triggerSettingsUpload(initSettings: (settings: ModelSettings) => void) {
+  const dataHandler = (data: ModelSettings) => {
+    initSettings(data);
+  }
+  triggerUpload(dataHandler);
+}
+
+
+export function dumpTreeToJson(loomNodes: LoomNode[]) {
   const timestamp = new Date().toISOString();
   const jsonList = loomNodes.map(nodeToJson);
   const metadata = { version: 0, created: timestamp };
@@ -49,8 +57,7 @@ export function dumpToJson(loomNodes: LoomNode[]) {
   return data;
 }
 
-export function dumpToFile(loomNodes: LoomNode[], prefix: string) {
-  const data = dumpToJson(loomNodes);
+export function dumpToFile(data: any, prefix: string) {
   const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -61,5 +68,10 @@ export function dumpToFile(loomNodes: LoomNode[], prefix: string) {
 }
 
 export function dumpTreeToFile(loomNodes: LoomNode[]) {
-  dumpToFile(loomNodes, "loom-tree");
+  const data = dumpTreeToJson(loomNodes);
+  dumpToFile(data, "loom-tree");
+}
+
+export function dumpSettingsToFile(settings: ModelSettings) {
+  dumpToFile(JSON.stringify(settings), "loom-settings");
 }
