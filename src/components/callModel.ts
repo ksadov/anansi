@@ -33,17 +33,20 @@ export async function debugGenerate(loomNode: LoomNode, modelSettings: ModelSett
   return [dummyGeneration];
 }
 
-function constructLogits(tokens: string[], tokenLogprobs: number[], topLogprobs: { string: number }): Logit[][] {
+function constructLogits(tokens: string[], tokenLogprobs: number[], topLogprobs: { logprob: number }[]): Logit[][] {
   const responseLogprobs: Logit[] = tokens.map((token: string, i: number) => {
     return {
       token: token,
       logprob: tokenLogprobs[i]
     }
   });
-  const logitList: Logit[] = Object.entries(topLogprobs).map(([token, logprob]: [string, number]) => {
+  if (topLogprobs == null || topLogprobs.length == 0) {
+    return [responseLogprobs];
+  }
+  const logitList = topLogprobs.map((topLogprob: { logprob: number }) => {
     return {
-      token: token,
-      logprob: logprob
+      token: "top",
+      logprob: topLogprob.logprob
     }
   });
   const allLogits = logitList.map((logit: Logit) => {
@@ -57,17 +60,22 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
   const prompt = patchToVersion(loomNode, loomNode.diffs.length, dmp);
   const response = await callModel(modelSettings.apiURL, modelSettings.name, modelSettings.apiKey, prompt,
     modelSettings.params);
+  console.log("RESPONSE", response)
   if (response.error) {
     const failMessage = `Model ${modelSettings.name} generation failed with code ${response.error.code}: ${response.error.message}`;
     toast.error(failMessage);
     return [];
   }
   return response.choices.map((choice: any) => {
+    var logits: Logit[][] = []
+    if (choice.logprobs) {
+      logits = constructLogits(choice.logprobs.tokens, choice.logprobs.token_logprobs, choice.logprobs.top_logprobs)
+    }
     return {
       text: choice.text,
       timestamp: response.created,
       model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
-      logits: constructLogits(choice.logprobs.tokens, choice.logprobs.token_logprobs, choice.logprobs.top_logprobs),
+      logits: logits,
       prompt: prompt,
       finishReason: response.finish_reason,
       rawResponse: JSON.stringify(response)
