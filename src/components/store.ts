@@ -43,6 +43,7 @@ export type RFState = {
   setModelsSettings: (modelsSettings: ModelSettings[]) => void;
   activeModelIndex: number;
   setActiveModelIndex: (index: number) => void;
+  createNewTreeSession: () => void;
 };
 
 const initialEdges: Edge[] = [];
@@ -288,6 +289,13 @@ const useStore = create<RFState>((set, get) => ({
   },
   setActiveModelIndex: (index: number) => {
     set({ activeModelIndex: index });
+  },
+  createNewTreeSession: () => {
+    set({ loomNodes: [defaultLoomNode] });
+    set({ nodes: defaultNodes });
+    set({ edges: initialEdges });
+    set({ focusedNodeId: defaultLoomNode.id });
+    set({ focusedNodeVersion: 0 });
   }
 }));
 

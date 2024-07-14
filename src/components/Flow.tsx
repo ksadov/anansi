@@ -54,7 +54,8 @@ const selector = (state: RFState) => ({
   modelsSettings: state.modelsSettings,
   setModelsSettings: state.setModelsSettings,
   setActiveModelIndex: state.setActiveModelIndex,
-  activeModelIndex: state.activeModelIndex
+  activeModelIndex: state.activeModelIndex,
+  createNewTreeSession: state.createNewTreeSession
 });
 
 const nodeTypes = {
@@ -73,7 +74,7 @@ function Flow() {
   const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren,
     layoutDagre, focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSavedTree,
     initFromSaveAppState, deleteNode, modelsSettings, setModelsSettings, activeModelIndex,
-    setActiveModelIndex } = useStore(
+    setActiveModelIndex, createNewTreeSession } = useStore(
       useShallow(selector),
     );
 
@@ -157,7 +158,7 @@ function Flow() {
   async function spawnChildrenForFocusedNode() {
     const parentNode = focusedNode;
     const parentVersion = focusedNodeVersion ?? parentNode.diffs.length;
-    const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
+    const generation = await debugGenerate(focusedNode, modelsSettings[activeModelIndex], dmp);
     const newNodes = spawnChildren(parentNode.id, parentVersion, generation);
     window.requestAnimationFrame(() => {
       setViewForNodes(newNodes);
@@ -215,6 +216,12 @@ function Flow() {
     triggerUpload(initFromSavedTree, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
   }
 
+  function newTree() {
+    createNewTreeSession();
+    setTimeout(autoLayout, 10);
+    setTimeout(() => setNeedsReveal(true), 50);
+  }
+
   /// Hotkey handling
   const modifierKey = getPlatformModifierKey();
   const modifierKeyText = getPlatformModifierKeyText();
@@ -265,6 +272,7 @@ function Flow() {
             setModelsSettings={setModelsSettings}
             setActiveModelIndex={setActiveModelIndex}
             activeModelIndex={activeModelIndex}
+            newTree={newTree}
           />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow

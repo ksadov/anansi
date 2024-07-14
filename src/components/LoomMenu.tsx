@@ -11,7 +11,7 @@ import { ModelSettings } from "./types"
 
 
 export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings,
-  activeModelIndex, setActiveModelIndex }:
+  activeModelIndex, setActiveModelIndex, newTree }:
   {
     theme: string,
     modelsSettings: ModelSettings[],
@@ -21,12 +21,17 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
     setModelsSettings: (modelsSettings: ModelSettings[]) => void,
     activeModelIndex: number,
     setActiveModelIndex: (index: number) => void
+    newTree: () => void
   }
 ) {
   return (
     <Menubar>
       <MenubarMenu >
-        <FileMenu importTree={importTree} exportCurrentTree={exportCurrentTree} />
+        <FileMenu
+          importTree={importTree}
+          exportCurrentTree={exportCurrentTree}
+          newTree={newTree}
+        />
         <SettingsMenu
           exportCurrentTree={exportCurrentTree}
           modelsSettings={modelsSettings}
