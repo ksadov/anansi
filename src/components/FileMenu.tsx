@@ -1,6 +1,17 @@
 
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTrigger,
+  DialogFooter,
+  DialogTitle
+} from "../@/components/ui/dialog"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
 import { Import, ArrowRightFromLine, FilePlus } from "lucide-react"
+import BackupRequestModal from "./BackupRequestModal";
 
 export default function FileMenu({ importTree, exportCurrentTree, newTree }:
   {
@@ -8,22 +19,34 @@ export default function FileMenu({ importTree, exportCurrentTree, newTree }:
     exportCurrentTree: () => void
     newTree: () => void
   }) {
+  const [destructiveOpen, setDestructiveOpen] = useState(false);
   return (
-    <MenubarMenu>
-      <MenubarTrigger>
-        File
-      </MenubarTrigger>
-      <MenubarContent>
-        <MenubarItem onClick={exportCurrentTree}>
-          <span className="p-1"><ArrowRightFromLine size={16} /></span> Export to savefile
-        </MenubarItem>
-        <MenubarItem onClick={importTree}>
-          <span className="p-1"><Import size={16} /></span>  Import from savefile
-        </MenubarItem>
-        <MenubarItem onClick={newTree}>
-          <span className="p-1"><FilePlus size={16} /></span> New tree
-        </MenubarItem>
-      </MenubarContent>
-    </MenubarMenu >
+    <Dialog open={destructiveOpen} onOpenChange={setDestructiveOpen}>
+      <MenubarMenu>
+        <MenubarTrigger>
+          File
+        </MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem onClick={exportCurrentTree}>
+            <span className="p-1"><ArrowRightFromLine size={16} /></span> Export to savefile
+          </MenubarItem>
+          <MenubarItem onClick={importTree}>
+            <span className="p-1"><Import size={16} /></span>  Import from savefile
+          </MenubarItem>
+          <DialogTrigger className="w-full">
+            <MenubarItem>
+              <span className="p-1"><FilePlus size={16} /></span> New tree
+            </MenubarItem>
+          </DialogTrigger>
+        </MenubarContent>
+      </MenubarMenu >
+      <DialogContent>
+        <BackupRequestModal
+          destructiveDesc="delete the current tree"
+          backupFn={exportCurrentTree}
+          destructiveFn={() => { newTree(); setDestructiveOpen(false); }}
+        />
+      </DialogContent>
+    </Dialog>
   );
 }

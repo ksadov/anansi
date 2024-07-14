@@ -1,6 +1,4 @@
 import {
-  Dialog,
-  DialogContent,
   DialogDescription,
   DialogHeader,
   DialogFooter,
@@ -24,10 +22,10 @@ export default function ResetModalContent({ destructiveDesc, backupFn, destructi
       </DialogHeader>
       <DialogFooter className="p-2">
         <Button variant="outline" onClick={() => { backupFn(); destructiveFn(); }}>
-          Export and reset
+          Export and continue
         </Button>
         <Button className="text-red-500" variant="ghost" onClick={destructiveFn}>
-          Reset without export
+          Continue without export
         </Button>
       </DialogFooter>
     </>
