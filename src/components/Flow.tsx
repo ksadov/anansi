@@ -233,8 +233,6 @@ function Flow() {
   useHotkeys(`${modifierKey}+d`, () => deleteNode(focusedNodeId), HOTKEY_CONFIG);
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
-  //// Saving
-
   const isSaving = useDebouncedEffect(
     () => {
       const appState: AppState = {
@@ -247,7 +245,7 @@ function Flow() {
       writeAppStateLocal(appState);
     },
     1000, // 1 second.
-    [reactFlow, nodes, edges]
+    [nodes, edges, modelsSettings, activeModelIndex, focusedNodeId, focusedNodeVersion]
   );
 
   return (
