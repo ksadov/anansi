@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Import, ArrowRightFromLine } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -145,11 +146,13 @@ function ModelModalContent({ modelsSettings, updateModelSettings, addModelSettin
   );
 }
 
-function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings }:
+function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings, exportSettings, importSettings }:
   {
     exportCurrentTree: () => void,
     modelsSettings: ModelSettings[],
     setModelsSettings: (modelsSettings: ModelSettings[]) => void
+    exportSettings: () => void,
+    importSettings: () => void
   }) {
   const updateModelSettings = (updatedModel: ModelSettings) => {
     setModelsSettings(modelsSettings.map(model => model.id === updatedModel.id ? updatedModel : model)
@@ -189,7 +192,7 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings }:
               addModelSettings={addModelSettings}
               deleteModelSettings={deleteModelSettings}
             />
-            <div>
+            <div className="p-2 flex gap-2">
               <Button onClick={() => addModelSettings({
                 id: Math.random().toString(36).substring(2),
                 name: "New Model",
@@ -197,18 +200,27 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings }:
                 apiKey: "your-api-key",
                 params: {}
               })}>Add Model</Button>
+              <Button variant="outline" onClick={exportSettings}>
+                <span className="p-1"><ArrowRightFromLine size={16} /></span>Export Settings
+              </Button>
+              <Button variant="outline" onClick={importSettings}>
+                <span className="p-1"><Import size={16} /></span>Import Settings
+              </Button>
             </div>
           </TabsContent>
         </div>
-      </Tabs>
+      </Tabs >
     </DialogContent >
   );
 }
 
-export default function SettingsMenu({ exportCurrentTree, modelsSettings, setModelsSettings }:
+export default function SettingsMenu({ exportCurrentTree, modelsSettings, setModelsSettings, exportSettings, importSettings }:
   {
-    exportCurrentTree: () => void, modelsSettings: ModelSettings[],
+    exportCurrentTree: () => void,
+    modelsSettings: ModelSettings[],
     setModelsSettings: (modelsSettings: ModelSettings[]) => void,
+    exportSettings: () => void,
+    importSettings: () => void
   }) {
   return (
     <Dialog >
@@ -226,6 +238,8 @@ export default function SettingsMenu({ exportCurrentTree, modelsSettings, setMod
         exportCurrentTree={exportCurrentTree}
         modelsSettings={modelsSettings}
         setModelsSettings={setModelsSettings}
+        exportSettings={exportSettings}
+        importSettings={importSettings}
       />
     </Dialog >
   );

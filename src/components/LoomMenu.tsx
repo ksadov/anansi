@@ -11,7 +11,7 @@ import { ModelSettings } from "./types"
 
 
 export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings,
-  activeModelIndex, setActiveModelIndex, newTree }:
+  activeModelIndex, setActiveModelIndex, newTree, exportSettings, importSettings }:
   {
     theme: string,
     modelsSettings: ModelSettings[],
@@ -22,6 +22,8 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
     activeModelIndex: number,
     setActiveModelIndex: (index: number) => void
     newTree: () => void
+    exportSettings: () => void,
+    importSettings: () => void
   }
 ) {
   return (
@@ -36,6 +38,8 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
           exportCurrentTree={exportCurrentTree}
           modelsSettings={modelsSettings}
           setModelsSettings={setModelsSettings}
+          exportSettings={exportSettings}
+          importSettings={importSettings}
         />
         <div className="size-full flex justify-end">
           <ModelSelect modelsSettings={modelsSettings} activeModelIndex={activeModelIndex} setActiveModelIndex={setActiveModelIndex} />

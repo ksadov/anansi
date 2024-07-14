@@ -158,7 +158,7 @@ function Flow() {
   async function spawnChildrenForFocusedNode() {
     const parentNode = focusedNode;
     const parentVersion = focusedNodeVersion ?? parentNode.diffs.length;
-    const generation = await debugGenerate(focusedNode, modelsSettings[activeModelIndex], dmp);
+    const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
     const newNodes = spawnChildren(parentNode.id, parentVersion, generation);
     window.requestAnimationFrame(() => {
       setViewForNodes(newNodes);
@@ -214,6 +214,14 @@ function Flow() {
 
   function importTree() {
     triggerTreeUpload(initFromSavedTree, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
+  }
+
+  function exportSettings() {
+    dumpSettingsToFile(modelsSettings);
+  }
+
+  function importSettings() {
+    triggerSettingsUpload(setModelsSettings);
   }
 
   function newTree() {
@@ -273,6 +281,8 @@ function Flow() {
             setActiveModelIndex={setActiveModelIndex}
             activeModelIndex={activeModelIndex}
             newTree={newTree}
+            exportSettings={exportSettings}
+            importSettings={importSettings}
           />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow

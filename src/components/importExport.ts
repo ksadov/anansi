@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { nodeToJson } from "./loomNode";
 import { LoomNode, SavedLoomNode, TreeSpecV0, ModelSettings } from "./types"
 
@@ -25,7 +26,9 @@ export function triggerUpload(dataHandler: (data: any) => void) {
       try {
         const data = await getUploadedJson(file);
         dataHandler(data);
+        toast.success('Import successful');
       } catch (e) {
+        toast.error('Failed to read file');
         console.error(e);
       }
     }
@@ -41,9 +44,9 @@ export function triggerTreeUpload(initFromSaveFile: (loomNodes: SavedLoomNode[])
   triggerUpload(dataHandler);
 }
 
-export function triggerSettingsUpload(initSettings: (settings: ModelSettings) => void) {
-  const dataHandler = (data: ModelSettings) => {
-    initSettings(data);
+export function triggerSettingsUpload(initSettings: (settings: ModelSettings[]) => void) {
+  const dataHandler = (data: any) => {
+    initSettings(data.settings);
   }
   triggerUpload(dataHandler);
 }
@@ -57,21 +60,22 @@ export function dumpTreeToJson(loomNodes: LoomNode[]) {
   return data;
 }
 
-export function dumpToFile(data: any, prefix: string) {
+export function dumpToFile(data: any, filename: string) {
   const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${prefix}-${data.metadata.created}.json`;
+  a.download = `${filename}.json`;
   document.body.appendChild(a);
   a.click();
 }
 
 export function dumpTreeToFile(loomNodes: LoomNode[]) {
   const data = dumpTreeToJson(loomNodes);
-  dumpToFile(data, "loom-tree");
+  dumpToFile(data, `loom-tree-${new Date().toISOString()}`);
 }
 
-export function dumpSettingsToFile(settings: ModelSettings) {
-  dumpToFile(JSON.stringify(settings), "loom-settings");
+export function dumpSettingsToFile(settings: ModelSettings[]) {
+  const settingsDict = { settings: settings, created: new Date().toISOString() }
+  dumpToFile(settingsDict, `loom-settings-${new Date().toISOString()}`);
 }

@@ -18,7 +18,7 @@ import { dagreLayout, basicLayout } from './layout';
 
 import { LoomNode, NodeGraphData, SavedLoomNode, ModelSettings, AppState, Generation } from "./types";
 import { createLoomNode, fromSavedTree, getSubTree } from "./loomNode"
-import { DEFAULT_NODE_TEXT, DEBUG_MODEL } from "./constants"
+import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS } from "./constants"
 
 export type RFState = {
   loomNodes: LoomNode[];
@@ -114,7 +114,7 @@ const useStore = create<RFState>((set, get) => ({
   viewPort: { x: 0, y: 0, zoom: 1 },
   focusedNodeId: defaultLoomNode.id,
   focusedNodeVersion: 0,
-  modelsSettings: [DEBUG_MODEL],
+  modelsSettings: DEFAULT_INIT_MODELS,
   activeModelIndex: 0,
   onNodesChange: (changes: NodeChange[]) => {
     const filteredChanges = changes.filter((change) => change.type !== "select");
