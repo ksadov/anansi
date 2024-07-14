@@ -95,7 +95,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
           <Label htmlFor="name">Parameters</Label>
           <Textarea
             id="api-url"
-            defaultValue={JSON.stringify(modelSettings.params)}
+            defaultValue={JSON.stringify(modelSettings.params, null, 2)}
             placeholder="Name of your project"
             onChange={(e) => {
               setModel = { ...setModel, params: JSONTryParse(e.target.value) };
