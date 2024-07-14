@@ -1,6 +1,6 @@
 
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
-import { Import, ArrowRightFromLine } from "lucide-react"
+import { Import, ArrowRightFromLine, FilePlus } from "lucide-react"
 
 export default function FileMenu({ importTree, exportCurrentTree }:
   {
@@ -18,6 +18,9 @@ export default function FileMenu({ importTree, exportCurrentTree }:
         </MenubarItem>
         <MenubarItem onClick={importTree}>
           <span className="p-1"><Import size={16} /></span>  Import from savefile
+        </MenubarItem>
+        <MenubarItem>
+          <span className="p-1"><FilePlus size={16} /></span> New tree
         </MenubarItem>
       </MenubarContent>
     </MenubarMenu >
