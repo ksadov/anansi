@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useEffect } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
 import { constructLineage, patchToVersion } from "./loomNode"
@@ -204,6 +204,14 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     {delButton}
   </div >
 
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'auto' });
+    }
+  });
+
   return (
     <div className="p-2">
       <Tabs defaultValue="read">
@@ -218,6 +226,7 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
           )}
           {generateButton}
           {deleteButton}
+          <div ref={bottomRef}></div>
         </TabsContent>
         <TabsContent className="p-2" value="info">
           {infoCard(loomNode, setFocusedNodeId)}

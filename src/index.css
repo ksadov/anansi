@@ -745,6 +745,14 @@ body {
   margin-top: 0.5rem;
 }
 
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
 .flex {
   display: flex;
 }
@@ -880,6 +888,14 @@ body {
 
 .max-h-\[100-vh\] {
   max-height: 100-vh;
+}
+
+.max-h-\[80vh\] {
+  max-height: 80vh;
+}
+
+.max-h-\[50vh\] {
+  max-height: 50vh;
 }
 
 .min-h-\[80px\] {
