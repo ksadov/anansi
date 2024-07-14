@@ -45,6 +45,7 @@ export type ModelSettings = {
   id: string,
   apiURL: string,
   apiKey: string,
+  maxLength: number,
   params: { [key: string]: any }
 }
 

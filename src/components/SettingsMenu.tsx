@@ -100,6 +100,19 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
           />
         </div>
         <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="name">Max input characters</Label>
+          <Input
+            type="number"
+            id="api-key"
+            defaultValue={modelSettings.maxLength.toString()}
+            placeholder={"2048"}
+            onChange={(e) => {
+              setIsEditing(true);
+              setModel = { ...setModel, maxLength: parseInt(e.target.value) };
+            }}
+          />
+        </div>
+        <div className="flex flex-col space-y-1.5">
           <Label htmlFor="name">Parameters</Label>
           <Textarea
             id="api-url"
@@ -198,6 +211,7 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings, e
                 name: "New Model",
                 apiURL: "https://api.together.xyz/v1/completions",
                 apiKey: "your-api-key",
+                maxLength: 2048,
                 params: {}
               })}>Add Model</Button>
               <Button variant="outline" onClick={exportSettings}>
