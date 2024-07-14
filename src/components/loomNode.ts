@@ -83,6 +83,7 @@ export function nodeToJson(loomNode: LoomNode) {
     children: loomNode.children.map((child) => child.id),
     generation: loomNode.generation
   }
+  console.log("JSON GENERATION", json.generation)
   return json
 }
 
@@ -95,7 +96,8 @@ function jsonToNode(json: any, parent: { loomNode: LoomNode, version: number } |
     diffs: json.diffs,
     parent: parent,
     children: [],
-    inFocus: false
+    inFocus: false,
+    generation: json.generation
   }
   return loomNode
 }
