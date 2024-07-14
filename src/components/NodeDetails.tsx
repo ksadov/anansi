@@ -146,7 +146,7 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   if (loomNode.children.length > 0) {
     const children = loomNode.children.map((child) => {
       const childIdText = child.id
-      return <li className="ml-4"><NodeLink
+      return <li key={child.id + "-li"} className="ml-4"><NodeLink
         text={childIdText}
         nodeId={child.id}
         setFocusedNodeId={setFocusedNodeId}
