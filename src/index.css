@@ -1965,6 +1965,10 @@ body,
     top: auto;
   }
 
+  .sm\:block {
+    display: block;
+  }
+
   .sm\:flex-row {
     flex-direction: row;
   }

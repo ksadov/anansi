@@ -4,9 +4,9 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
-  DialogFooter
+  DialogFooter,
+  DialogTitle
 } from "../@/components/ui/dialog"
 import {
   Tabs,
@@ -59,7 +59,6 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
   var setModel = modelSettings;
   const [isEditing, setIsEditing] = useState(false);
   var saveDisabled = !isEditing;
-  console.log("IS EDITING", isEditing, saveDisabled)
   var saveButton = <Button
     onClick={() => {
       updateModelSettings(setModel); toast.success(`Updated ${setModel.name}.`)
@@ -180,7 +179,10 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings }:
     );
   };
   return (
-    <DialogContent className="max-h-[90vh] overflow-auto">
+    <DialogContent className="max-h-[90vh] overflow-auto" aria-describedby="Update app settings">
+      <DialogTitle>
+        Settings
+      </DialogTitle>
       <Tabs defaultValue="models">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="models">Models</TabsTrigger>
