@@ -22,27 +22,7 @@ import { Textarea } from "../@/components/ui/textarea"
 import { toast } from "sonner"
 import { clearLocalStorage } from "./lstore";
 import { ModelSettings } from "./types";
-
-function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => void }) {
-  return (
-    <TabsContent value="reset">
-      <DialogHeader className="p-2">
-        <DialogTitle>Are you absolutely sure?</DialogTitle>
-        <DialogDescription>
-          This will clear all your data and reset the app to its initial state. Maybe you want to export your current tree data locally first?
-        </DialogDescription>
-      </DialogHeader>
-      <DialogFooter className="p-2">
-        <Button variant="outline" onClick={() => { exportCurrentTree(); clearLocalStorage(); }}>
-          Export and reset
-        </Button>
-        <Button className="text-red-500" variant="ghost" onClick={clearLocalStorage}>
-          Reset without export
-        </Button>
-      </DialogFooter>
-    </TabsContent >
-  );
-}
+import BackupRequestModal from "./BackupRequestModal";
 
 function AllowTransitoryBadJSON(jsonString: string) {
   try {
@@ -195,7 +175,7 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings }:
           <TabsTrigger value="reset">Reset</TabsTrigger>
         </TabsList>
         <div className="p-2">
-          <ResetModalContent exportCurrentTree={exportCurrentTree} />
+          <BackupRequestModal backupFn={exportCurrentTree} destructiveFn={clearLocalStorage} />
           <TabsContent value="models">
             <ModelModalContent
               modelsSettings={modelsSettings}
