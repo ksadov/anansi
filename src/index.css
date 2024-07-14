@@ -829,6 +829,14 @@ body {
   height: 1.5rem;
 }
 
+.h-\[100-vh\] {
+  height: 100-vh;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -859,6 +867,10 @@ body {
 
 .max-h-2 {
   max-height: 0.5rem;
+}
+
+.max-h-\[100-vh\] {
+  max-height: 100-vh;
 }
 
 .min-h-\[80px\] {

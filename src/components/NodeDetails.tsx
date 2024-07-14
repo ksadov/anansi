@@ -204,7 +204,7 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
           <TabsTrigger id="read-tab" value="read">Read</TabsTrigger>
           <TabsTrigger id="info-tab" value="info">Info</TabsTrigger>
         </TabsList>
-        <TabsContent className="p-2" value="read">
+        <TabsContent className="p-2 h-full max-h-[90vh] overflow-scroll" value="read">
           {readView(
             editEnabled, setEditEnabled, loomNode, setVersion, setFocusedNodeVersion, setFocusedNodeId,
             dmp, saveEdit, editCancelRef
