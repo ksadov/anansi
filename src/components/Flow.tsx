@@ -155,9 +155,10 @@ function Flow() {
   }
 
   async function spawnChildrenForFocusedNode() {
+    const parentNode = focusedNode;
+    const parentVersion = focusedNodeVersion ?? parentNode.diffs.length;
     const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
-    console.log(generation);
-    const newNodes = spawnChildren(focusedNodeId, (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion);
+    const newNodes = spawnChildren(parentNode.id, parentVersion, generation);
     window.requestAnimationFrame(() => {
       setViewForNodes(newNodes);
       setTimeout(() => {

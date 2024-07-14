@@ -1,9 +1,10 @@
-import { LoomNode, SavedLoomNode } from "./types"
+import { LoomNode, SavedLoomNode, Generation } from "./types"
 
 export function createLoomNode(
   id: string,
   text: string,
-  parent?: { loomNode: LoomNode, version: number } | undefined,
+  parent: { loomNode: LoomNode, version: number } | undefined,
+  generation: Generation | undefined,
   inFocus: boolean = false,
 ): LoomNode {
   return {
@@ -14,7 +15,8 @@ export function createLoomNode(
     diffs: [],
     parent,
     children: [],
-    inFocus
+    inFocus: inFocus,
+    generation
   }
 }
 
@@ -79,6 +81,7 @@ export function nodeToJson(loomNode: LoomNode) {
     diffs: loomNode.diffs,
     parent: loomNode.parent ? { id: loomNode.parent.loomNode.id, version: loomNode.parent.version } : null,
     children: loomNode.children.map((child) => child.id),
+    generation: loomNode.generation
   }
   return json
 }

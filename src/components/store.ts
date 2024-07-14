@@ -16,7 +16,7 @@ import Dagre, { layout } from '@dagrejs/dagre';
 import { v4 as uuid } from 'uuid';
 import { dagreLayout, basicLayout } from './layout';
 
-import { LoomNode, NodeGraphData, SavedLoomNode, ModelSettings, AppState } from "./types";
+import { LoomNode, NodeGraphData, SavedLoomNode, ModelSettings, AppState, Generation } from "./types";
 import { createLoomNode, fromSavedTree, getSubTree } from "./loomNode"
 import { DEFAULT_NODE_TEXT, DEBUG_MODEL } from "./constants"
 
@@ -30,7 +30,7 @@ export type RFState = {
   onConnect: OnConnect;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
-  spawnChildren: (nodeId: string, version: number) => Node[];
+  spawnChildren: (nodeId: string, version: number, generations: Generation[]) => Node[];
   layoutDagre: () => void;
   focusedNodeId: string;
   setFocusedNodeId: (nodeId: string) => void;
@@ -54,7 +54,7 @@ function getEdgeId() {
   return uuid();
 }
 
-const defaultLoomNode: LoomNode = createLoomNode(getNodeId(), DEFAULT_NODE_TEXT, undefined, true);
+const defaultLoomNode: LoomNode = createLoomNode(getNodeId(), DEFAULT_NODE_TEXT, undefined, undefined, true);
 
 const defaultNodes: Node<NodeGraphData>[] = [
   {
@@ -138,20 +138,22 @@ const useStore = create<RFState>((set, get) => ({
   setEdges: (edges: Edge[]) => {
     set({ edges });
   },
-  spawnChildren: (nodeId: string, version: number) => {
+  spawnChildren: (nodeId: string, version: number, generations: Generation[]) => {
     let nodes = get().nodes;
     let edges = get().edges;
     let newLoomNodes: LoomNode[] = [];
     let new_nodes: Node[] = [];
     let new_edges: Edge[] = [];
-    for (let i = 0; i < new_child_nodes; i++) {
+    let parentNode = get().loomNodes.find(loomNode => loomNode.id === nodeId);
+    let parentDict = parentNode ? { loomNode: parentNode, version: version } : undefined;
+    for (let i = 0; i < generations.length; i++) {
       let new_node_id = getNodeId();
-      let parentNode = get().loomNodes.find(loomNode => loomNode.id === nodeId);
       let parentDict = parentNode ? { loomNode: parentNode, version: version } : undefined;
-      let newLoomNode = createLoomNode(
+      let newLoomNode: LoomNode = createLoomNode(
         new_node_id,
-        `This is custom node ${new_node_id}`,
-        parentDict
+        generations[i].text,
+        parentDict,
+        generations[i],
       )
       // update parent node
       let parent_node = get().loomNodes.find(loomNode => loomNode.id === nodeId);

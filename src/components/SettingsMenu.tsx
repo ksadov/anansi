@@ -42,6 +42,13 @@ function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => voi
     </TabsContent >
   );
 }
+function JSONTryParse(jsonString: string) {
+  try {
+    return JSON.parse(jsonString);
+  } catch (e) {
+    return {};
+  }
+}
 
 function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSettings, deleteModelSettings }:
   {
@@ -91,7 +98,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
             defaultValue={JSON.stringify(modelSettings.params)}
             placeholder="Name of your project"
             onChange={(e) => {
-              setModel = { ...setModel, params: JSON.parse(e.target.value) };
+              setModel = { ...setModel, params: JSONTryParse(e.target.value) };
             }}
           />
         </div>
