@@ -25,7 +25,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useDebouncedEffect } from "./debounce";
 import { HOTKEY_CONFIG } from "./constants";
 import { navToParent, navToChild, navToSibling } from "./navigate"
-import { dumpToFile, triggerTreeUpload, dumpToJson } from "./treeSave"
+import { dumpTreeToFile, triggerTreeUpload, dumpToJson } from "./treeSave"
 import { loadAppStateLocal, writeAppStateLocal } from "./lstore";
 import { debugGenerate, generate } from "./callModel"
 
@@ -209,7 +209,7 @@ function Flow() {
   }
 
   function exportCurrentTree() {
-    dumpToFile(loomNodes);
+    dumpTreeToFile(loomNodes);
   }
 
   function importTree() {

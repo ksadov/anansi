@@ -49,14 +49,17 @@ export function dumpToJson(loomNodes: LoomNode[]) {
   return data;
 }
 
-export function dumpToFile(loomNodes: LoomNode[]) {
+export function dumpToFile(loomNodes: LoomNode[], prefix: string) {
   const data = dumpToJson(loomNodes);
   const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `loom-${data.metadata.created}.json`;
+  a.download = `${prefix}-${data.metadata.created}.json`;
   document.body.appendChild(a);
   a.click();
-  console.log("dumped to file");
+}
+
+export function dumpTreeToFile(loomNodes: LoomNode[]) {
+  dumpToFile(loomNodes, "loom-tree");
 }
