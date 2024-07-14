@@ -175,7 +175,13 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings }:
           <TabsTrigger value="reset">Reset</TabsTrigger>
         </TabsList>
         <div className="p-2">
-          <BackupRequestModal backupFn={exportCurrentTree} destructiveFn={clearLocalStorage} />
+          <TabsContent value="reset">
+            <BackupRequestModal
+              destructiveDesc="clear all your data and reset the app to its initial state"
+              backupFn={exportCurrentTree}
+              destructiveFn={clearLocalStorage}
+            />
+          </TabsContent >
           <TabsContent value="models">
             <ModelModalContent
               modelsSettings={modelsSettings}
