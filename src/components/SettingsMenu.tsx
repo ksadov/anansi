@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +15,7 @@ import {
   TabsTrigger,
 } from "../@/components/ui/tabs"
 import { Button } from "../@/components/ui/button"
-import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
+import { MenubarContent, MenubarItem } from "../@/components/ui/menubar"
 import { Input } from "../@/components/ui/input"
 import { Label } from "../@/components/ui/label"
 import { Textarea } from "../@/components/ui/textarea"
@@ -56,6 +57,24 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
     addModelSettings: (modelSetting: ModelSettings) => void, deleteModelSettings: (modelId: string) => void
   }) {
   var setModel = modelSettings;
+  const [isEditing, setIsEditing] = useState(false);
+  var saveDisabled = !isEditing;
+  console.log("IS EDITING", isEditing, saveDisabled)
+  var saveButton = <Button
+    onClick={() => {
+      updateModelSettings(setModel); toast.success(`Updated ${setModel.name}.`)
+      setIsEditing(false);
+    }}
+  >
+    Save
+  </Button>
+  if (saveDisabled) {
+    saveButton = <Button
+      disabled
+    >
+      Save
+    </Button>
+  }
   return (
     <div className="p-2">
       <div className="p-3 border rounded-md grid w-full items-center gap-2">
@@ -66,6 +85,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
             defaultValue={modelSettings.name}
             placeholder="mistralai/Mixtral-8x7B-v0.1"
             onChange={(e) => {
+              setIsEditing(true);
               setModel = { ...setModel, name: e.target.value };
             }}
           />
@@ -76,6 +96,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
             defaultValue={modelSettings.apiURL}
             placeholder="https://api.together.xyz/v1/completions"
             onChange={(e) => {
+              setIsEditing(true);
               setModel = { ...setModel, apiURL: e.target.value };
             }}
           />
@@ -87,6 +108,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
             defaultValue={modelSettings.apiKey}
             placeholder="your-api-key"
             onChange={(e) => {
+              setIsEditing(true);
               setModel = { ...setModel, apiKey: e.target.value };
             }}
           />
@@ -98,17 +120,14 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
             defaultValue={JSON.stringify(modelSettings.params, null, 2)}
             placeholder="Name of your project"
             onChange={(e) => {
+              setIsEditing(true);
               setModel = { ...setModel, params: JSONTryParse(e.target.value) };
             }}
           />
         </div>
         <div className="flex justify-end mt-2">
           <div className="p-1">
-            <Button
-              onClick={() => { updateModelSettings(setModel); toast.success(`Updated ${setModel.name}.`) }}
-            >
-              Save
-            </Button>
+            {saveButton}
           </div>
           <div className="p-1">
             <Button variant="destructive" onClick={() => deleteModelSettings(modelSettings.id)}>Delete</Button>
