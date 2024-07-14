@@ -7,6 +7,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "../@/components/ui/resizable"
+import { toast } from "sonner";
 import LoomList from "./LoomList";
 import LoomMenu from "./LoomMenu";
 
@@ -155,18 +156,26 @@ function Flow() {
     window.requestAnimationFrame(() => { reactFlow?.fitView({ nodes: n, duration: 0, maxZoom: viewport?.zoom }); });
   }
 
+  const [editEnabled, setEditEnabled] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false);
+  const allowGenerate = !isGenerating && !editEnabled && activeModelIndex != null;
+
   async function spawnChildrenForFocusedNode() {
-    const parentNode = focusedNode;
-    const parentVersion = focusedNodeVersion ?? parentNode.diffs.length;
-    const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
-    const newNodes = spawnChildren(parentNode.id, parentVersion, generation);
-    window.requestAnimationFrame(() => {
-      setViewForNodes(newNodes);
-      setTimeout(() => {
-        setNeedsReveal(true);
-      }, 20);
+    if (allowGenerate) {
+      const parentNode = focusedNode;
+      const parentVersion = focusedNodeVersion ?? parentNode.diffs.length;
+      setIsGenerating(true);
+      const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
+      setIsGenerating(false);
+      const newNodes = spawnChildren(parentNode.id, parentVersion, generation);
+      window.requestAnimationFrame(() => {
+        setViewForNodes(newNodes);
+        setTimeout(() => {
+          setNeedsReveal(true);
+        }, 20);
+      }
+      );
     }
-    );
   }
 
   function setFocusedNodeWithViewport(nodeId: string) {
@@ -195,8 +204,6 @@ function Flow() {
   const baseClasses = "h-full w-full";
 
   const [dmp] = useState(new diff_match_patch())
-
-  const [editEnabled, setEditEnabled] = useState(false)
 
   function saveEdit() {
     const version = (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion;
@@ -248,16 +255,23 @@ function Flow() {
   useHotkeys(`${modifierKey}+d`, () => deleteNode(focusedNodeId), HOTKEY_CONFIG);
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
+  const [canSave, setCanSave] = useState(true);
   const isSaving = useDebouncedEffect(
     () => {
-      const appState: AppState = {
-        modelsSettings: modelsSettings,
-        activeModelIndex: activeModelIndex,
-        focusedNodeId: focusedNodeId,
-        focusedNodeVersion: focusedNodeVersion,
-        loomTree: dumpTreeToJson(loomNodes)
-      };
-      writeAppStateLocal(appState);
+      if (canSave) {
+        const appState: AppState = {
+          modelsSettings: modelsSettings,
+          activeModelIndex: activeModelIndex,
+          focusedNodeId: focusedNodeId,
+          focusedNodeVersion: focusedNodeVersion,
+          loomTree: dumpTreeToJson(loomNodes)
+        };
+        const error = writeAppStateLocal(appState);
+        if (error) {
+          toast.error("Suspending local saving due to error: " + error);
+          setCanSave(false);
+        }
+      }
     },
     1000, // 1 second.
     [nodes, edges, modelsSettings, activeModelIndex, focusedNodeId, focusedNodeVersion]
@@ -320,6 +334,7 @@ function Flow() {
             saveEdit={saveEdit}
             editCancelRef={editCancelRef}
             deleteNode={() => deleteNode(focusedNodeId)}
+            isGenerating={isGenerating}
           />
         </ResizablePanel>
       </ResizablePanelGroup >

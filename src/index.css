@@ -712,6 +712,11 @@ body {
   margin-bottom: 0.25rem;
 }
 
+.my-28 {
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -837,6 +842,10 @@ body {
   height: 24rem;
 }
 
+.h-16 {
+  height: 4rem;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -949,6 +958,10 @@ body {
   width: 180px;
 }
 
+.w-8 {
+  width: 2rem;
+}
+
 .min-w-\[12rem\] {
   min-width: 12rem;
 }
@@ -1008,6 +1021,16 @@ body {
   --tw-scale-x: 1;
   --tw-scale-y: 1;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 .cursor-default {
@@ -1363,6 +1386,10 @@ body {
 
 .text-foreground\/50 {
   color: hsl(var(--foreground) / 0.5);
+}
+
+.text-primary\/60 {
+  color: hsl(var(--primary) / 0.6);
 }
 
 .underline {

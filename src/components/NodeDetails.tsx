@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../@/components/ui/select"
+import Loader from "../@/components/ui/loadingspinner"
 import NodeLink from "./NodeLink"
 
 function addBreaks(text: string) {
@@ -165,7 +166,8 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   )
 }
 
-export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp, editEnabled, setEditEnabled, saveEdit, editCancelRef, deleteNode }:
+export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersion, spawnChildren, setFocusedNodeId, dmp,
+  editEnabled, setEditEnabled, saveEdit, editCancelRef, deleteNode, isGenerating }:
   {
     loomNode: LoomNode,
     setVersion: number | null,
@@ -178,9 +180,14 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     saveEdit: () => void
     editCancelRef: React.RefObject<HTMLTextAreaElement>
     deleteNode: (nodeId: string) => void
+    isGenerating: boolean
   }) {
 
-  const genButton = editEnabled ? <Button disabled> Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
+  const disableGen = isGenerating || editEnabled
+
+  const loadSpinner = isGenerating ? <Loader className="w-16" /> : null
+
+  const genButton = disableGen ? <Button disabled>{loadSpinner}Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
 
   const generateButton = <div
     className="flex justify-center items-center p-1 generateDisabled"

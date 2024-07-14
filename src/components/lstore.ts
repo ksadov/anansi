@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AppState, SavedLoomNode } from "./types";
+import { AppState } from "./types";
 
 // modified from https://github.com/paradigmxyz/flux/blob/main/src/utils/lstore.ts
 
@@ -30,7 +30,13 @@ export function useLocalStorage<T>(
 }
 
 export function writeAppStateLocal(state: AppState) {
-  writeLocalStorage("appState", state);
+  try {
+    writeLocalStorage("appState", state);
+    return null;
+  }
+  catch (error) {
+    return error;
+  }
 }
 
 export function loadAppStateLocal(initFromSaveFile: (appState: AppState) => void): void {
