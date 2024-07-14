@@ -20,7 +20,9 @@ export async function callModel(apiURL: string, modelName: string, apiKey: strin
 }
 
 export async function debugGenerate(loomNode: LoomNode, modelSettings: ModelSettings, dmp: any): Promise<Generation[]> {
-  const prompt = patchToVersion(loomNode, loomNode.diffs.length, dmp);
+  const patchedText = patchToVersion(loomNode, loomNode.diffs.length, dmp);
+  const sliceStartIndex = Math.max(0, patchedText.length - modelSettings.maxLength);
+  const prompt = patchedText.slice(sliceStartIndex);
   const dummyGeneration = {
     text: "Debug generation " + Math.random().toString(36).substring(7),
     timestamp: Date.now(),
@@ -57,7 +59,9 @@ function constructLogits(tokens: string[], tokenLogprobs: number[], topLogprobs:
 }
 
 export async function generate(loomNode: LoomNode, modelSettings: ModelSettings, dmp: any): Promise<Generation[]> {
-  const prompt = patchToVersion(loomNode, loomNode.diffs.length, dmp);
+  const patchedText = patchToVersion(loomNode, loomNode.diffs.length, dmp);
+  const sliceStartIndex = Math.max(0, patchedText.length - modelSettings.maxLength);
+  const prompt = patchedText.slice(sliceStartIndex);
   const response = await callModel(modelSettings.apiURL, modelSettings.name, modelSettings.apiKey, prompt,
     modelSettings.params);
   console.log("RESPONSE", response)
