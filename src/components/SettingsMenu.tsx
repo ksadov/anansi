@@ -43,11 +43,12 @@ function ResetModalContent({ exportCurrentTree }: { exportCurrentTree: () => voi
     </TabsContent >
   );
 }
-function JSONTryParse(jsonString: string) {
+
+function AllowTransitoryBadJSON(jsonString: string) {
   try {
     return JSON.parse(jsonString);
   } catch (e) {
-    return {};
+    return null;
   }
 }
 
@@ -61,8 +62,13 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
   var saveDisabled = !isEditing;
   var saveButton = <Button
     onClick={() => {
-      updateModelSettings(setModel); toast.success(`Updated ${setModel.name}.`)
-      setIsEditing(false);
+      if (setModel.params == null) {
+        toast(`Invalid JSON for parameters of ${setModel.name}.`);
+      }
+      else {
+        updateModelSettings(setModel); toast.success(`Updated ${setModel.name}.`)
+        setIsEditing(false);
+      }
     }}
   >
     Save
@@ -120,7 +126,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSett
             placeholder="Name of your project"
             onChange={(e) => {
               setIsEditing(true);
-              setModel = { ...setModel, params: JSONTryParse(e.target.value) };
+              setModel = { ...setModel, params: AllowTransitoryBadJSON(e.target.value) };
             }}
           />
         </div>
