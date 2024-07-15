@@ -854,6 +854,14 @@ body {
   height: 4rem;
 }
 
+.h-\[50vh\] {
+  height: 50vh;
+}
+
+.h-\[75vh\] {
+  height: 75vh;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -896,6 +904,26 @@ body {
 
 .max-h-\[50vh\] {
   max-height: 50vh;
+}
+
+.max-h-\[70vh\] {
+  max-height: 70vh;
+}
+
+.max-h-\[40vh\] {
+  max-height: 40vh;
+}
+
+.max-h-\[75vh\] {
+  max-height: 75vh;
+}
+
+.max-h-\[60vh\] {
+  max-height: 60vh;
+}
+
+.max-h-\[65vh\] {
+  max-height: 65vh;
 }
 
 .min-h-\[80px\] {

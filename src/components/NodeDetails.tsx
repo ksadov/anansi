@@ -53,7 +53,7 @@ function VersionSelectContent(loomNode: LoomNode) {
   )
 }
 
-function readView(
+function ReadView(
   editEnabled: boolean,
   setEditEnabled: (enabled: boolean) => void,
   loomNode: LoomNode, setVersion: number | null,
@@ -67,35 +67,44 @@ function readView(
   const version = (setVersion == null) ? loomNode.diffs.length : setVersion;
   const isLatest = version === loomNode.diffs.length;
 
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'auto' });
+    }
+  });
+
   if (editEnabled) {
     return (
       <div className="">
         <div className="">
-          <div className="rounded-md border p-2">
+          <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
             {previousRead}
-            <div className="m-2">
-              <Textarea
-                ref={editCancelRef}
-                defaultValue={patchToVersion(loomNode, version, dmp)}
-                id="editNodeText"
-                autoFocus
-                onChange={() => {
-                }}
-              />
-              <div className="flex justify-end space-x-1 pt-2">
-                <Button
-                  size="sm"
-                  onClick={saveEdit}
-                >Save</Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={
-                    () => {
-                      setEditEnabled(false);
-                    }
-                  }>Cancel</Button>
-              </div>
+            <div ref={bottomRef}></div>
+          </div>
+          <div className="m-2">
+            <Textarea
+              ref={editCancelRef}
+              defaultValue={patchToVersion(loomNode, version, dmp)}
+              id="editNodeText"
+              autoFocus
+              onChange={() => {
+              }}
+            />
+            <div className="flex justify-end space-x-1 pt-2">
+              <Button
+                size="sm"
+                onClick={saveEdit}
+              >Save</Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={
+                  () => {
+                    setEditEnabled(false);
+                  }
+                }>Cancel</Button>
             </div>
           </div>
         </div>
@@ -118,8 +127,9 @@ function readView(
               {VersionSelectContent(loomNode)}
             </Select>
           </div>
-          <div className="rounded-md border p-2">
+          <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
             {previousRead}
+            <div ref={bottomRef}></div>
             <span>{addBreaks(patchToVersion(loomNode, version, dmp))}</span>
           </div>
         </div>
@@ -204,14 +214,6 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     {delButton}
   </div >
 
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'auto' });
-    }
-  });
-
   return (
     <div className="p-2">
       <Tabs defaultValue="read">
@@ -219,14 +221,13 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
           <TabsTrigger id="read-tab" value="read">Read</TabsTrigger>
           <TabsTrigger id="info-tab" value="info">Info</TabsTrigger>
         </TabsList>
-        <TabsContent className="p-2 h-full max-h-[90vh] overflow-scroll" value="read">
-          {readView(
+        <TabsContent className="p-2" value="read">
+          {ReadView(
             editEnabled, setEditEnabled, loomNode, setVersion, setFocusedNodeVersion, setFocusedNodeId,
             dmp, saveEdit, editCancelRef
           )}
           {generateButton}
           {deleteButton}
-          <div ref={bottomRef}></div>
         </TabsContent>
         <TabsContent className="p-2" value="info">
           {infoCard(loomNode, setFocusedNodeId)}
