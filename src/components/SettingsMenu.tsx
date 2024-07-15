@@ -80,39 +80,38 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
           />
         </div>
         <div className="flex flex-col space-y-1.5">
-          <Label htmlFor="name">API URL</Label>
+          <Label htmlFor="apiUrl">API URL</Label>
           <Input id="api-url"
             defaultValue={modelSettings.apiURL}
             placeholder="https://api.together.xyz/v1/completions"
-            onChange={(e) => handleChange('name', e.target.value)}
+            onChange={(e) => handleChange('apiUrl', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
-          <Label htmlFor="name">API Key</Label>
+          <Label htmlFor="apiKey">API Key</Label>
           <Input
             id="api-key"
             defaultValue={modelSettings.apiKey}
             placeholder="your-api-key"
-            onChange={(e) => handleChange('name', e.target.value)}
+            onChange={(e) => handleChange('apiKey', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
-          <Label htmlFor="name">Max input characters</Label>
+          <Label htmlFor="maxLength">Max input characters</Label>
           <Input
             type="number"
-            id="api-key"
+            id="maxLength"
             defaultValue={modelSettings.maxLength.toString()}
             placeholder={"2048"}
-            onChange={(e) => handleChange('name', e.target.value)}
+            onChange={(e) => handleChange('maxLength', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
           <Label htmlFor="name">Parameters</Label>
           <Textarea
-            id="api-url"
+            id="parameters"
             defaultValue={JSON.stringify(modelSettings.params, null, 2)}
-            placeholder="Name of your project"
-            onChange={(e) => handleChange('name', e.target.value)}
+            onChange={(e) => handleChange('parameters', e.target.value)}
           />
         </div>
         <div className="flex justify-end mt-2">
