@@ -4,12 +4,12 @@ import {
 } from "@/components/ui/menubar"
 import Loader from "@/components/ui/loadingspinner"
 
-import ThemeSwitch from "./ThemeSwitch"
-import FileMenu from "./FileMenu";
-import SettingsMenu from "./SettingsMenu";
-import ModelSelect from "./ModelSelect";
-import HotkeyMenu from "./HotkeyMenu"
-import { ModelSettings } from "./types"
+import ThemeSwitch from "components/menu/ThemeSwitch"
+import FileMenu from "components/menu/FileMenu";
+import SettingsMenu from "components/menu/SettingsMenu";
+import ModelSelect from "components/menu/ModelSelect";
+import HotkeyMenu from "components/menu/HotkeyMenu"
+import { ModelSettings } from "components/types"
 
 
 export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings,

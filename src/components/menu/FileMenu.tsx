@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar"
 import { Import, ArrowRightFromLine, FilePlus } from "lucide-react"
-import BackupRequestModal from "./BackupRequestModal";
+import BackupRequestModal from "components/BackupRequestModal";
 
 export default function FileMenu({ importTree, exportCurrentTree, newTree }:
   {

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/resizable"
 import { toast } from "sonner";
 import LoomList from "./LoomList";
-import LoomMenu from "./LoomMenu";
+import Menubar from "components/menu/Menubar";
 
 import "reactflow/dist/style.css";
 
@@ -303,7 +303,7 @@ function Flow() {
         </ResizablePanel >
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={55}>
-          <LoomMenu
+          <Menubar
             theme={theme}
             setTheme={setTheme}
             importTree={importTree}

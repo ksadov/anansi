@@ -7,7 +7,7 @@ import {
   SelectGroup,
   SelectLabel
 } from "@/components/ui/select"
-import { ModelSettings } from "./types"
+import { ModelSettings } from "components/types"
 
 export default function ModelSelect({ modelsSettings, activeModelIndex, setActiveModelIndex, isGenerating }: {
   modelsSettings: ModelSettings[],
