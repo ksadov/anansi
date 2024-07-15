@@ -49,7 +49,7 @@ export default function ModelSelect({ modelsSettings, activeModelIndex, setActiv
     return (
       <div>
         <Select
-          defaultValue={activeModelIndex.toString()}
+          value={activeModelIndex.toString()}
           onValueChange={(value) => setActiveModelIndex(parseInt(value))}
         >
           {innerSelect}
