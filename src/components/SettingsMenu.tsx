@@ -27,7 +27,8 @@ import BackupRequestModal from "./BackupRequestModal";
 
 function AllowTransitoryBadJSON(jsonString: string) {
   try {
-    return JSON.parse(jsonString);
+    const parsed = JSON.parse(jsonString);
+    return parsed;
   } catch (e) {
     return null;
   }
@@ -80,11 +81,11 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
           />
         </div>
         <div className="flex flex-col space-y-1.5">
-          <Label htmlFor="apiUrl">API URL</Label>
+          <Label htmlFor="apiURL">API URL</Label>
           <Input id="api-url"
             defaultValue={modelSettings.apiURL}
             placeholder="https://api.together.xyz/v1/completions"
-            onChange={(e) => handleChange('apiUrl', e.target.value)}
+            onChange={(e) => handleChange('apiURL', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
@@ -107,11 +108,11 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
           />
         </div>
         <div className="flex flex-col space-y-1.5">
-          <Label htmlFor="name">Parameters</Label>
+          <Label htmlFor="parameters">Parameters</Label>
           <Textarea
-            id="parameters"
+            id="params"
             defaultValue={JSON.stringify(modelSettings.params, null, 2)}
-            onChange={(e) => handleChange('parameters', e.target.value)}
+            onChange={(e) => handleChange('params', AllowTransitoryBadJSON(e.target.value))}
           />
         </div>
         <div className="flex justify-end mt-2">
