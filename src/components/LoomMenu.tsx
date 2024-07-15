@@ -8,6 +8,7 @@ import ThemeSwitch from "./ThemeSwitch"
 import FileMenu from "./FileMenu";
 import SettingsMenu from "./SettingsMenu";
 import ModelSelect from "./ModelSelect";
+import HotkeyMenu from "./HotkeyMenu"
 import { ModelSettings } from "./types"
 
 
@@ -36,13 +37,18 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
           exportCurrentTree={exportCurrentTree}
           newTree={newTree}
         />
-        <SettingsMenu
-          exportCurrentTree={exportCurrentTree}
-          modelsSettings={modelsSettings}
-          setModelsSettings={setModelsSettings}
-          exportSettings={exportSettings}
-          importSettings={importSettings}
-        />
+        <div className="p-2">
+          <SettingsMenu
+            exportCurrentTree={exportCurrentTree}
+            modelsSettings={modelsSettings}
+            setModelsSettings={setModelsSettings}
+            exportSettings={exportSettings}
+            importSettings={importSettings}
+          />
+        </div>
+        <div className="p-2">
+          <HotkeyMenu />
+        </div>
         <div className="size-full flex justify-end">
           {loadSpinner}
           <ModelSelect
