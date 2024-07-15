@@ -255,12 +255,15 @@ function Flow() {
   hotkeys.push(useHotkeyWithDesc("left", "Navigate to previous sibling of focused node", () => navToSibling(focusedNode, setFocusedNodeId, 'prev')));
   hotkeys.push(useHotkeyWithDesc("right", "Navigate to next sibling of focused node", () => navToSibling(focusedNode, setFocusedNodeId, 'next')));
   hotkeys.push(useHotkeyWithDesc("e", "Edit focused node", () => { focusElement("read-tab"); setEditEnabled(true); focusElement("editNodeText"); }));
-  hotkeys.push(useHotkeyWithDesc("s", "Save edit", saveEdit));
+  hotkeys.push(useHotkeyWithDesc("s", "Save focused node edit", saveEdit));
   hotkeys.push(useHotkeyWithDesc("l", "Auto-layout", autoLayout));
   hotkeys.push(useHotkeyWithDesc("f", "Focus search bar", () => focusElement("loom-search-input")));
   hotkeys.push(useHotkeyWithDesc("i", "Focus info tab", () => focusElement("info-tab")));
   hotkeys.push(useHotkeyWithDesc("r", "Focus read tab", () => focusElement("read-tab")));
   hotkeys.push(useHotkeyWithDesc("d", "Delete focused node", () => deleteNode(focusedNodeId)));
+  hotkeys.push(useHotkeyWithDesc("0", "Reset zoom", () => reactFlow?.fitView()));
+  hotkeys.push(useHotkeyWithDesc("s+shift", "export tree to file", exportCurrentTree));
+  hotkeys.push(useHotkeyWithDesc("o+shift", "import tree from file", importTree));
 
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
