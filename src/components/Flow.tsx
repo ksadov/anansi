@@ -16,7 +16,7 @@ import "reactflow/dist/style.css";
 import useStore, { RFState } from './store';
 import LoomGraphNode from "./LoomGraphNode"
 import LayoutButton from "./LayoutButton";
-import NodeDetails from "./NodeDetails";
+import NodeDetails from "components/details/NodeDetails";
 
 import { LoomNode, AppState } from "./types";
 import { addDiff } from "./loomNode"
