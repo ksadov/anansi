@@ -69,7 +69,7 @@ function ReadView(
   const version = (setVersion == null) ? loomNode.diffs.length : setVersion;
   const isLatest = version === loomNode.diffs.length;
 
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (bottomRef.current) {
@@ -83,7 +83,7 @@ function ReadView(
         <div className="">
           <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
             {previousRead}
-            <div ref={bottomRef}></div>
+            <span ref={bottomRef}></span>
           </div>
           <div className="m-2">
             <Textarea
@@ -131,7 +131,7 @@ function ReadView(
           </div>
           <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
             {previousRead}
-            <div ref={bottomRef}></div>
+            <span ref={bottomRef}></span>
             <span>{addBreaks(patchToVersion(loomNode, version, dmp))}</span>
           </div>
         </div>
