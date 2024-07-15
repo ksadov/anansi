@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Import, ArrowRightFromLine } from "lucide-react"
 import {
   Dialog,
@@ -38,29 +38,35 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
     modelSettings: ModelSettings, updateModelSettings: (modelSetting: ModelSettings) => void,
     deleteModelSettings: (modelId: string) => void
   }) {
-  var setModel = modelSettings;
+  const [localModel, setLocalModel] = useState(modelSettings);
   const [isEditing, setIsEditing] = useState(false);
-  var saveDisabled = !isEditing;
-  var saveButton = <Button
-    onClick={() => {
-      if (setModel.params == null) {
-        toast(`Invalid JSON for parameters of ${setModel.name}.`);
-      }
-      else {
-        updateModelSettings(setModel); toast.success(`Updated ${setModel.name}.`)
-        setIsEditing(false);
-      }
-    }}
-  >
-    Save
-  </Button>
-  if (saveDisabled) {
-    saveButton = <Button
-      disabled
+
+  useEffect(() => {
+    setLocalModel(modelSettings);
+  }, [modelSettings]);
+
+  const handleChange = (field: string, value: any) => {
+    setIsEditing(true);
+    setLocalModel(prev => ({ ...prev, [field]: value }));
+  };
+
+  const saveButton = (
+    <Button
+      onClick={() => {
+        if (localModel.params == null) {
+          toast(`Invalid JSON for parameters of ${localModel.name}.`);
+        } else {
+          updateModelSettings(localModel);
+          toast.success(`Updated ${localModel.name}.`);
+          setIsEditing(false);
+        }
+      }}
+      disabled={!isEditing}
     >
       Save
     </Button>
-  }
+  );
+
   return (
     <div className="p-2">
       <div className="p-3 border rounded-md grid w-full items-center gap-2">
@@ -70,10 +76,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
             id="name"
             defaultValue={modelSettings.name}
             placeholder="mistralai/Mixtral-8x7B-v0.1"
-            onChange={(e) => {
-              setIsEditing(true);
-              setModel = { ...setModel, name: e.target.value };
-            }}
+            onChange={(e) => handleChange('name', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
@@ -81,10 +84,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
           <Input id="api-url"
             defaultValue={modelSettings.apiURL}
             placeholder="https://api.together.xyz/v1/completions"
-            onChange={(e) => {
-              setIsEditing(true);
-              setModel = { ...setModel, apiURL: e.target.value };
-            }}
+            onChange={(e) => handleChange('name', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
@@ -93,10 +93,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
             id="api-key"
             defaultValue={modelSettings.apiKey}
             placeholder="your-api-key"
-            onChange={(e) => {
-              setIsEditing(true);
-              setModel = { ...setModel, apiKey: e.target.value };
-            }}
+            onChange={(e) => handleChange('name', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
@@ -106,10 +103,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
             id="api-key"
             defaultValue={modelSettings.maxLength.toString()}
             placeholder={"2048"}
-            onChange={(e) => {
-              setIsEditing(true);
-              setModel = { ...setModel, maxLength: parseInt(e.target.value) };
-            }}
+            onChange={(e) => handleChange('name', e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-1.5">
@@ -118,10 +112,7 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
             id="api-url"
             defaultValue={JSON.stringify(modelSettings.params, null, 2)}
             placeholder="Name of your project"
-            onChange={(e) => {
-              setIsEditing(true);
-              setModel = { ...setModel, params: AllowTransitoryBadJSON(e.target.value) };
-            }}
+            onChange={(e) => handleChange('name', e.target.value)}
           />
         </div>
         <div className="flex justify-end mt-2">
@@ -129,7 +120,9 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
             {saveButton}
           </div>
           <div className="p-1">
-            <Button variant="destructive" onClick={() => deleteModelSettings(modelSettings.id)}>Delete</Button>
+            <Button variant="destructive" onClick={() => deleteModelSettings(localModel.id)}>
+              Delete
+            </Button>
           </div>
         </div>
       </div>
@@ -137,16 +130,15 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
   );
 }
 
-function ModelModalContent({ modelsSettings, updateModelSettings, addModelSettings, deleteModelSettings }:
+function ModelModalContent({ modelsSettings, updateModelSettings, deleteModelSettings }:
   {
     modelsSettings: ModelSettings[],
     updateModelSettings: (modelSetting: ModelSettings) => void,
-    addModelSettings: (modelSetting: ModelSettings) => void,
     deleteModelSettings: (modelId: string) => void
   }) {
   const modelSettingsDisplay = modelsSettings.map((modelSetting, index) => (
     <ModelSettingsDisplay
-      key={index}
+      key={modelSetting.id}
       modelSettings={modelSetting}
       updateModelSettings={updateModelSettings}
       deleteModelSettings={deleteModelSettings}
@@ -201,7 +193,6 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings, e
             <ModelModalContent
               modelsSettings={modelsSettings}
               updateModelSettings={updateModelSettings}
-              addModelSettings={addModelSettings}
               deleteModelSettings={deleteModelSettings}
             />
             <div className="p-2 flex gap-2">
