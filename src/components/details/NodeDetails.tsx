@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Loader from "@/components/ui/loadingspinner"
-import NodeLink from "components/NodeLink"
+import NodeLink from "components/common/NodeLink"
 
 function addBreaks(text: string) {
   const split = text.split('\n')

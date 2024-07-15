@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { clearLocalStorage } from "components/lstore";
 import { ModelSettings } from "components/types";
-import BackupRequestModal from "components/BackupRequestModal";
+import BackupRequestModal from "components/common/BackupRequestModal";
 
 function AllowTransitoryBadJSON(jsonString: string) {
   try {
