@@ -23,7 +23,7 @@ function addBreaks(text: string) {
     return <span key={index}>{str}{index == split.length - 1 ? null : <br />}</span>
   })
 }
-function constructReadTree(loomNode: LoomNode, dmp: any, setFocusedNodeId: (id: string) => void) {
+function constructReadTree(loomNode: LoomNode, dmp: any, setFocusedNodeId: (id: string, version?: number) => void) {
   const lineage = constructLineage(loomNode);
   const ancestorLinks = lineage.map((node) =>
     <NodeLink
@@ -65,7 +65,8 @@ function ReadView(
   saveEdit: () => void,
   editCancelRef: React.RefObject<HTMLTextAreaElement>
 ) {
-  const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp, setFocusedNodeId)}</span>
+  const setFocusedNode = (id: string, version?: number) => { setFocusedNodeId(id); setFocusedNodeVersion(version ?? 0) }
+  const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp, setFocusedNode)}</span>
   const version = (setVersion == null) ? loomNode.diffs.length : setVersion;
   const isLatest = version === loomNode.diffs.length;
 
