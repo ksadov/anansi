@@ -3,8 +3,8 @@ import {
   DialogHeader,
   DialogFooter,
   DialogTitle
-} from "../@/components/ui/dialog"
-import { Button } from "../@/components/ui/button"
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 export default function ResetModalContent({ destructiveDesc, backupFn, destructiveFn }:
   {

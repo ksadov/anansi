@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronRight, ChevronDown } from "lucide-react"
 import { LoomNode } from './types';
-import { SearchInput } from "../@/components/ui/input"
+import { SearchInput } from "@/components/ui/input"
 import NodeLink from "./NodeLink"
 // TODO: Maybe we should be managing state via our Zustand store?
 

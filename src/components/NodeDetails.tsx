@@ -1,19 +1,19 @@
 import { useRef, useEffect } from "react"
 import { ChevronsUpDown } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LoomNode } from "./types"
 import { constructLineage, patchToVersion } from "./loomNode"
-import { Button } from "../@/components/ui/button"
-import { Textarea } from "../@/components/ui/textarea"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../@/components/ui/collapsible"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../@/components/ui/select"
-import Loader from "../@/components/ui/loadingspinner"
+} from "@/components/ui/select"
+import Loader from "@/components/ui/loadingspinner"
 import NodeLink from "./NodeLink"
 
 function addBreaks(text: string) {

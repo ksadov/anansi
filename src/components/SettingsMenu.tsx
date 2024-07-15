@@ -3,23 +3,20 @@ import { Import, ArrowRightFromLine } from "lucide-react"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTrigger,
-  DialogFooter,
   DialogTitle
-} from "../@/components/ui/dialog"
+} from "@/components/ui/dialog"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../@/components/ui/tabs"
-import { Button } from "../@/components/ui/button"
-import { MenubarContent, MenubarItem } from "../@/components/ui/menubar"
-import { Input } from "../@/components/ui/input"
-import { Label } from "../@/components/ui/label"
-import { Textarea } from "../@/components/ui/textarea"
+} from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { MenubarContent, MenubarItem } from "@/components/ui/menubar"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { clearLocalStorage } from "./lstore";
 import { ModelSettings } from "./types";

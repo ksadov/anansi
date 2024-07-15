@@ -1,8 +1,8 @@
 import {
   Menubar,
   MenubarMenu,
-} from "../@/components/ui/menubar"
-import Loader from "../@/components/ui/loadingspinner"
+} from "@/components/ui/menubar"
+import Loader from "@/components/ui/loadingspinner"
 
 import ThemeSwitch from "./ThemeSwitch"
 import FileMenu from "./FileMenu";

@@ -1,4 +1,3 @@
-import React from "react";
 import { NodeProps, Handle, Position } from 'reactflow';
 import { NodeGraphData } from "./types"
 import { textPreview } from "./utils"

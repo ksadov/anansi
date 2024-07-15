@@ -12,7 +12,7 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
 } from 'reactflow';
-import Dagre, { layout } from '@dagrejs/dagre';
+import Dagre from '@dagrejs/dagre';
 import { v4 as uuid } from 'uuid';
 import { dagreLayout, basicLayout } from './layout';
 

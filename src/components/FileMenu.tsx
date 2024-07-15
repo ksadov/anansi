@@ -1,15 +1,11 @@
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTrigger,
-  DialogFooter,
-  DialogTitle
-} from "../@/components/ui/dialog"
-import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
+} from "@/components/ui/dialog"
+import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar"
 import { Import, ArrowRightFromLine, FilePlus } from "lucide-react"
 import BackupRequestModal from "./BackupRequestModal";
 

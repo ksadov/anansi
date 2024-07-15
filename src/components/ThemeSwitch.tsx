@@ -2,7 +2,7 @@
 
 import { Moon, Sun } from "lucide-react"
 
-import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "../@/components/ui/menubar"
+import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar"
 
 function themeIcon(theme: string) {
   if (theme === "dark") {

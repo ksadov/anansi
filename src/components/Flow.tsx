@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useShallow } from 'zustand/react/shallow';
 import { diff_match_patch } from "diff-match-patch";
 import ReactFlow, { SelectionMode, Controls, ReactFlowInstance, Node } from "reactflow";
@@ -6,7 +6,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "../@/components/ui/resizable"
+} from "@/components/ui/resizable"
 import { toast } from "sonner";
 import LoomList from "./LoomList";
 import LoomMenu from "./LoomMenu";
@@ -29,10 +29,6 @@ import { navToParent, navToChild, navToSibling } from "./navigate"
 import { dumpTreeToFile, dumpSettingsToFile, triggerTreeUpload, triggerSettingsUpload, dumpTreeToJson } from "./importExport"
 import { loadAppStateLocal, writeAppStateLocal } from "./lstore";
 import { debugGenerate, generate } from "./callModel"
-
-import { on } from "events";
-import { get } from "http";
-import { click } from "@testing-library/user-event/dist/click";
 
 const selector = (state: RFState) => ({
   loomNodes: state.loomNodes,

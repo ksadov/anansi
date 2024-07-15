@@ -2,18 +2,10 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTrigger,
-  DialogFooter,
   DialogTitle
-} from "../@/components/ui/dialog"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../@/components/ui/tabs"
-import { MenubarContent, MenubarItem } from "../@/components/ui/menubar"
+} from "@/components/ui/dialog"
+import { MenubarContent, MenubarItem } from "@/components/ui/menubar"
 
 function HotkeyLine({ keyName, description }: { keyName: string, description: string }) {
   return (
