@@ -14,12 +14,11 @@ import {
 } from 'reactflow';
 import Dagre from '@dagrejs/dagre';
 import { v4 as uuid } from 'uuid';
-import { dagreLayout, basicLayout } from './layout';
-
+import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS } from "utils/ui/constants";
+import { dagreLayout, basicLayout } from 'utils/ui/layout';
 import { NodeGraphData, AppState } from "utils/ui/types";
-import { LoomNode, SavedLoomNode, ModelSettings, Generation } from "utils/logic/types"
-import { createLoomNode, fromSavedTree, getSubTree } from "../logic/loomNode"
-import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS } from "./constants"
+import { LoomNode, SavedLoomNode, ModelSettings, Generation } from "utils/logic/types";
+import { createLoomNode, fromSavedTree, getSubTree } from "utils/logic/loomNode";
 
 export type RFState = {
   loomNodes: LoomNode[];
@@ -182,7 +181,9 @@ const useStore = create<RFState>((set, get) => ({
     const parent_node = nodes.find(node => node.id === nodeId);
     const parent_x = parent_node ? parent_node.position.x ?? 0 : 0;
     const parent_y = parent_node ? parent_node.position.y ?? 0 : 0;
-    const existing_children = (nodes.filter(node => edges.some(edge => edge.source === nodeId && edge.target === node.id))).length;
+    const existing_children = (nodes.filter(node => edges.some(
+      edge => edge.source === nodeId && edge.target === node.id)
+    )).length;
     const formattedNew = basicLayout(
       new_nodes,
       existing_children,

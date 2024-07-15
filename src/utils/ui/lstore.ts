@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AppState } from "./types";
+import { AppState } from "utils/ui/types";
 
 // modified from https://github.com/paradigmxyz/flux/blob/main/src/utils/lstore.ts
 

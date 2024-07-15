@@ -3,7 +3,6 @@ import {
   MenubarMenu,
 } from "@/components/ui/menubar"
 import Loader from "@/components/ui/loadingspinner"
-
 import ThemeSwitch from "components/menu/ThemeSwitch"
 import FileMenu from "components/menu/FileMenu";
 import SettingsMenu from "components/menu/SettingsMenu";

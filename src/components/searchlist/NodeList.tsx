@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Accordion, { AccordionItem, AccordionProps } from './SearchAccordion';
+import Accordion, { AccordionItem, AccordionProps } from 'components/searchlist/SearchAccordion';
 import { LoomNode } from 'utils/logic/types';
 
 function loomNodeToAccordionItem(loomNode: LoomNode): AccordionItem {
@@ -16,9 +16,8 @@ function accordionLoom(root_node: LoomNode, setFocusedNodeId: (id: string) => vo
   };
 }
 
-
-export default function LoomList({ root_node, setFocusedNodeId }: { root_node: LoomNode, setFocusedNodeId: (id: string) => void }) {
-  const [searchTerm] = useState('');
+export default function LoomList({ root_node, setFocusedNodeId }:
+  { root_node: LoomNode, setFocusedNodeId: (id: string) => void }) {
   return (
     <div>
       <Accordion {...accordionLoom(root_node, setFocusedNodeId)} />

@@ -1,8 +1,6 @@
 import { useRef, useEffect } from "react"
 import { ChevronsUpDown } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { LoomNode } from "utils/logic/types"
-import { constructLineage, patchToVersion } from "utils/logic/loomNode"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
@@ -15,6 +13,8 @@ import {
 } from "@/components/ui/select"
 import Loader from "@/components/ui/loadingspinner"
 import NodeLink from "components/common/NodeLink"
+import { LoomNode } from "utils/logic/types"
+import { constructLineage, patchToVersion } from "utils/logic/loomNode"
 
 function addBreaks(text: string) {
   const split = text.split('\n')
@@ -187,9 +187,13 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   }
   const modelLine = loomNode.generation?.model ? <p>{infoLabel("model")} {loomNode.generation.model.name}</p> : null
   const apiURLLine = loomNode.generation?.model ? <p>{infoLabel("API")} {loomNode.generation.model.apiURL}</p> : null
-  const finishReasonLine = loomNode.generation?.finishReason ? <p>{infoLabel("finish reason")} {loomNode.generation.finishReason}</p> : null
+  const finishReasonLine = loomNode.generation?.finishReason ? <p>
+    {infoLabel("finish reason")} {loomNode.generation.finishReason}
+  </p> : null
   const promptLine = loomNode.generation?.model ? collapsibleInfo("prompt", loomNode.generation.prompt) : null
-  const rawResponseLine = loomNode.generation?.rawResponse ? collapsibleInfo("raw response", JSON.stringify(JSON.parse(loomNode.generation.rawResponse), null, 2)) : null
+  const rawResponseLine = loomNode.generation?.rawResponse ? collapsibleInfo(
+    "raw response", JSON.stringify(JSON.parse(loomNode.generation.rawResponse), null, 2)
+  ) : null
   return (
     <div className="p-2 border rounded-md overflow-scroll max-h-[65vh]">
       <p>{infoLabel("id")} {loomNode.id}</p>
@@ -226,7 +230,9 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
 
   const loadSpinner = isGenerating ? <Loader className="w-16" /> : null
 
-  const genButton = disableGen ? <Button disabled>{loadSpinner}Generate </Button> : <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
+  const genButton = disableGen ?
+    <Button disabled>{loadSpinner}Generate </Button> :
+    <Button size="lg" onClick={() => spawnChildren()}> Generate </Button>
 
   const generateButton = <div
     className="flex justify-center items-center p-1 generateDisabled"
@@ -235,7 +241,9 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
   </div >
 
 
-  const delButton = editEnabled ? <Button variant="ghost" disabled> Delete </Button> : <Button variant="ghost" onClick={() => deleteNode(loomNode.id)}> Delete </Button>
+  const delButton = editEnabled ?
+    <Button variant="ghost" disabled> Delete </Button> :
+    <Button variant="ghost" onClick={() => deleteNode(loomNode.id)}> Delete </Button>
 
   const deleteButton = <div
     className="flex p-1 generateDisabled place-content-center text-red-500"

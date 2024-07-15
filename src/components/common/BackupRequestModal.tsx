@@ -1,10 +1,10 @@
+import { Button } from "@/components/ui/button"
 import {
   DialogDescription,
   DialogHeader,
   DialogFooter,
   DialogTitle
 } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 
 export default function ResetModalContent({ destructiveDesc, backupFn, destructiveFn }:
   {

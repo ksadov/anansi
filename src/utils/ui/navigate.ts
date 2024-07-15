@@ -18,7 +18,8 @@ export function navToChild(focusedNode: LoomNode, setFocusedNodeId: (id: string)
   }
 }
 
-export function navToSibling(focusedNode: LoomNode, setFocusedNodeId: (id: string) => void, direction: 'next' | 'prev') {
+export function navToSibling(focusedNode: LoomNode,
+  setFocusedNodeId: (id: string) => void, direction: 'next' | 'prev') {
   const siblings = focusedNode.parent?.loomNode.children;
   if (siblings == undefined) {
     return;

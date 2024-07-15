@@ -15,7 +15,10 @@ export function dagreLayout(g: Dagre.graphlib.Graph, nodes: Node[], edges: Edge[
   g.setGraph({ rankdir: options.direction });
 
   edges.forEach((edge) => g.setEdge(edge.source, edge.target));
-  nodes.forEach((node) => g.setNode(node.id, { width: node.width ?? defaultLoomNodeWidth, height: node.height ?? defaultLoomNodeHeight }));
+  nodes.forEach((node) => g.setNode(node.id, {
+    width: node.width ?? defaultLoomNodeWidth,
+    height: node.height ?? defaultLoomNodeHeight
+  }));
 
   Dagre.layout(g);
 
@@ -37,12 +40,14 @@ export function basicLayout(nodes: Node[], existing_children: number, parent_x: 
   const num_nodes = nodes.length;
   const pad_between_nodes = 50;
   return nodes.map((node, index) => {
-    let x_pos = parent_x - (num_nodes * defaultLoomNodeWidth / 2) + (index + existing_children) * defaultLoomNodeWidth + (index + existing_children) * pad_between_nodes;
+    let x_pos = (parent_x - (num_nodes * defaultLoomNodeWidth / 2) +
+      (index + existing_children) * defaultLoomNodeWidth + (index + existing_children) * pad_between_nodes);
+    // Add OVERLAP_RANDOMNESS_MAX of randomness to the y position so that nodes don't overlap.
     return {
       ...node,
       position: {
         x: x_pos,
-        y: y + Math.random() * OVERLAP_RANDOMNESS_MAX // Add OVERLAP_RANDOMNESS_MAX of randomness to the y position so that nodes don't overlap.
+        y: y + Math.random() * OVERLAP_RANDOMNESS_MAX
       }
     }
   });
