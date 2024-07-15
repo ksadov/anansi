@@ -1,6 +1,9 @@
 import { NodeProps, Handle, Position } from 'reactflow';
 import { NodeGraphData } from "utils/ui/types"
-import { textPreview } from "utils/ui/utils"
+
+function textPreview(text: string): string {
+  return text.length > 16 ? text.slice(0, 16) + "..." : text;
+}
 
 function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
   const borderHighlight = data.loomNode.inFocus ? "ring" : "";
