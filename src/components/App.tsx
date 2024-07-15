@@ -65,9 +65,9 @@ const nodeTypes = {
 };
 
 function focusElement(id: string) {
-  const searchBar = document.getElementById(id);
-  if (searchBar) {
-    searchBar.focus();
+  const element = document.getElementById(id);
+  if (element) {
+    element.focus();
   }
 }
 
