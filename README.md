@@ -22,6 +22,6 @@ TODO
 - compress state stored to localStorage
 
 ## Acknowledgements 
-https://github.com/socketteer/loom: inspiration for GUI and features
-https://github.com/paradigmxyz/flux: inspiration for interactive graph view and localStorage autosave
-https://github.com/JD-P/minihf: inspiration for [diff-match-patch](https://github.com/google/diff-match-patch)-based version control for tree nodes
+* https://github.com/socketteer/loom: inspiration for GUI and features
+* https://github.com/paradigmxyz/flux: inspiration for interactive graph view and localStorage autosave
+* https://github.com/JD-P/minihf: inspiration for [diff-match-patch](https://github.com/google/diff-match-patch)-based version control for tree nodes
