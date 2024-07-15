@@ -259,12 +259,17 @@ function App() {
   const hotkeys = [];
   hotkeys.push(useHotkeyWithDesc("g", "Generate children for focused node", spawnChildrenForFocusedNode));
   hotkeys.push(useHotkeyWithDesc("d", "Delete focused node", () => deleteNode(focusedNodeId)));
-  hotkeys.push(useHotkeyWithDesc("e", "Edit focused node", () => { focusElement("read-tab"); setEditEnabled(true); focusElement("editNodeText"); }));
+  hotkeys.push(useHotkeyWithDesc("e", "Edit focused node",
+    () => { focusElement("read-tab"); setEditEnabled(true); focusElement("editNodeText"); }));
   hotkeys.push(useHotkeyWithDesc("s", "Save focused node edit", saveEdit));
-  hotkeys.push(useHotkeyWithDesc("up", "Navigate to parent of focused node", () => navToParent(focusedNode, setFocusedNodeId)));
-  hotkeys.push(useHotkeyWithDesc("down", "Navigate to child of focused node", () => navToChild(focusedNode, setFocusedNodeId)));
-  hotkeys.push(useHotkeyWithDesc("left", "Navigate to previous sibling of focused node", () => navToSibling(focusedNode, setFocusedNodeId, 'prev')));
-  hotkeys.push(useHotkeyWithDesc("right", "Navigate to next sibling of focused node", () => navToSibling(focusedNode, setFocusedNodeId, 'next')));
+  hotkeys.push(useHotkeyWithDesc("up", "Navigate to parent of focused node",
+    () => navToParent(focusedNode, setFocusedNodeId)));
+  hotkeys.push(useHotkeyWithDesc("down", "Navigate to child of focused node",
+    () => navToChild(focusedNode, setFocusedNodeId)));
+  hotkeys.push(useHotkeyWithDesc("left", "Navigate to previous sibling of focused node",
+    () => navToSibling(focusedNode, setFocusedNodeId, 'prev')));
+  hotkeys.push(useHotkeyWithDesc("right", "Navigate to next sibling of focused node",
+    () => navToSibling(focusedNode, setFocusedNodeId, 'next')));
   hotkeys.push(useHotkeyWithDesc("s+shift", "export tree to file", exportCurrentTree));
   hotkeys.push(useHotkeyWithDesc("o+shift", "import tree from file", importTree));
   hotkeys.push(useHotkeyWithDesc("l", "Auto-layout", autoLayout));
