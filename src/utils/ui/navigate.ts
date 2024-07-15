@@ -1,4 +1,4 @@
-import { LoomNode } from './types';
+import { LoomNode } from 'utils/logic/types';
 
 export function navToParent(focusedNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   if (focusedNode.parent == undefined) {

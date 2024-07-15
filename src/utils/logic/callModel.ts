@@ -1,6 +1,6 @@
 import { toast } from "sonner"
-import { patchToVersion } from './loomNode';
-import { LoomNode, ModelSettings, Generation, Logprob } from './types';
+import { patchToVersion } from 'utils/logic/loomNode';
+import { LoomNode, ModelSettings, Generation, Logprob } from 'utils/logic/types';
 
 export async function callModel(apiURL: string, modelName: string, apiKey: string | null, prompt: string, genParams: any) {
   return fetch(apiURL, {

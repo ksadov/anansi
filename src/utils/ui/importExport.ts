@@ -1,6 +1,6 @@
 import { toast } from "sonner";
-import { nodeToJson } from "./loomNode";
-import { LoomNode, SavedLoomNode, TreeSpecV0, ModelSettings } from "./types"
+import { nodeToJson } from "utils/logic/loomNode";
+import { LoomNode, SavedLoomNode, TreeSpecV0, ModelSettings } from "utils/logic/types"
 
 function getUploadedJson(file: File): Promise<any> {
   return new Promise((resolve, reject) => {

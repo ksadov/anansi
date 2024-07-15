@@ -9,7 +9,7 @@ import FileMenu from "components/menu/FileMenu";
 import SettingsMenu from "components/menu/SettingsMenu";
 import ModelSelect from "components/menu/ModelSelect";
 import HotkeyMenu from "components/menu/HotkeyMenu"
-import { ModelSettings } from "components/types"
+import { ModelSettings } from "utils/logic/types"
 
 
 export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings,

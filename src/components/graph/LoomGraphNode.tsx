@@ -1,6 +1,6 @@
 import { NodeProps, Handle, Position } from 'reactflow';
-import { NodeGraphData } from "components/types"
-import { textPreview } from "components/utils"
+import { NodeGraphData } from "utils/ui/types"
+import { textPreview } from "utils/ui/utils"
 
 function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
   const borderHighlight = data.loomNode.inFocus ? "ring" : "";

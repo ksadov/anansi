@@ -18,12 +18,6 @@ export type LoomNode = {
   generation?: Generation
 }
 
-export type NodeGraphData = {
-  loomNode: LoomNode,
-  focusNode: () => void
-  invisible?: boolean
-};
-
 export type SavedLoomNode = {
   id: string,
   timestamp: number,
@@ -47,14 +41,6 @@ export type ModelSettings = {
   apiKey: string,
   maxLength: number,
   params: { [key: string]: any }
-}
-
-export type AppState = {
-  modelsSettings: ModelSettings[],
-  activeModelIndex: number,
-  focusedNodeId: string,
-  focusedNodeVersion: number | null,
-  loomTree: TreeSpecV0,
 }
 
 export type Logprob = {

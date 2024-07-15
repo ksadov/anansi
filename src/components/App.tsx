@@ -13,22 +13,23 @@ import Menubar from "components/menu/Menubar";
 
 import "reactflow/dist/style.css";
 
-import useStore, { RFState } from './store';
+import useStore, { RFState } from '../utils/ui/store';
 import LoomGraphNode from "components/graph/LoomGraphNode"
 import LayoutButton from "components/graph/LayoutButton";
 import NodeDetails from "components/details/NodeDetails";
 
-import { LoomNode, AppState } from "./types";
-import { addDiff } from "./loomNode"
+import { AppState } from "utils/ui/types";
+import { LoomNode } from "utils/logic/types";
+import { addDiff } from "utils/logic/loomNode";
 import { initialThemePref, saveThemePref, getPlatformModifierKey, getPlatformModifierKeyText }
-  from "./utils"
+  from "utils/ui/utils"
 import { useHotkeys } from "react-hotkeys-hook";
-import { useDebouncedEffect } from "./debounce";
-import { HOTKEY_CONFIG } from "./constants";
-import { navToParent, navToChild, navToSibling } from "./navigate"
-import { dumpTreeToFile, dumpSettingsToFile, triggerTreeUpload, triggerSettingsUpload, dumpTreeToJson } from "./importExport"
-import { loadAppStateLocal, writeAppStateLocal } from "./lstore";
-import { debugGenerate, generate } from "./callModel"
+import { useDebouncedEffect } from "../utils/ui/debounce";
+import { HOTKEY_CONFIG } from "utils/ui/constants";
+import { navToParent, navToChild, navToSibling } from "utils/ui/navigate"
+import { dumpTreeToFile, dumpSettingsToFile, triggerTreeUpload, triggerSettingsUpload, dumpTreeToJson } from "utils/ui/importExport"
+import { loadAppStateLocal, writeAppStateLocal } from "utils/ui/lstore";
+import { debugGenerate, generate } from "utils/logic/callModel"
 
 const selector = (state: RFState) => ({
   loomNodes: state.loomNodes,

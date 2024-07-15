@@ -1,5 +1,5 @@
 import { Options } from "react-hotkeys-hook";
-import { ModelSettings } from "./types";
+import { ModelSettings } from "utils/logic/types";
 
 export const HOTKEY_CONFIG: Options = {
   preventDefault: true,

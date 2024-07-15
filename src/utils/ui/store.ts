@@ -16,8 +16,9 @@ import Dagre from '@dagrejs/dagre';
 import { v4 as uuid } from 'uuid';
 import { dagreLayout, basicLayout } from './layout';
 
-import { LoomNode, NodeGraphData, SavedLoomNode, ModelSettings, AppState, Generation } from "./types";
-import { createLoomNode, fromSavedTree, getSubTree } from "./loomNode"
+import { NodeGraphData, AppState } from "utils/ui/types";
+import { LoomNode, SavedLoomNode, ModelSettings, Generation } from "utils/logic/types"
+import { createLoomNode, fromSavedTree, getSubTree } from "../logic/loomNode"
 import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS } from "./constants"
 
 export type RFState = {

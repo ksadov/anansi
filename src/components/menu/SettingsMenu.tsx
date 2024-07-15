@@ -18,8 +18,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
-import { clearLocalStorage } from "components/lstore";
-import { ModelSettings } from "components/types";
+import { clearLocalStorage } from "utils/ui/lstore";
+import { ModelSettings } from "utils/logic/types";
 import BackupRequestModal from "components/common/BackupRequestModal";
 
 function AllowTransitoryBadJSON(jsonString: string) {

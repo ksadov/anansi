@@ -1,4 +1,4 @@
-import { LoomNode, SavedLoomNode, Generation } from "./types"
+import { LoomNode, SavedLoomNode, Generation } from "utils/logic/types"
 
 export function createLoomNode(
   id: string,
