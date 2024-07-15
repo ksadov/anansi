@@ -216,7 +216,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
                 <li
                   key={item.loomNode.id}
                   onClick={() => setSelectedItemId(item.loomNode.id)}
-                  className={"cursor-pointer text-blue-500 text-decoration-line: underline"}
+                  className={"cursor-pointer text-blue-500 text-decoration-line: underline inline-block whitespace-nowrap"}
                 >
                   {item.loomNode.latestText}
                 </li>
