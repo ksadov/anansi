@@ -28,7 +28,7 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
     hotkeys: { key: string, description: string }[]
   }
 ) {
-  const loadSpinner = isGenerating ? <Loader className="w-8" /> : null
+  const loadSpinner = isGenerating ? <Loader className="w-8" /> : null;
   return (
     <Menubar>
       <MenubarMenu >

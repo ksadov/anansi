@@ -8,5 +8,5 @@ export default function LayoutButton(layoutCallback: { layoutCallback: () => voi
     >
       <ImTree />
     </ControlButton>
-  )
+  );
 }

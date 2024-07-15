@@ -1,20 +1,20 @@
-import { useRef, useEffect } from "react"
-import { ChevronsUpDown } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { useRef, useEffect } from "react";
+import { ChevronsUpDown } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import Loader from "@/components/ui/loadingspinner"
-import NodeLink from "components/common/NodeLink"
-import { LoomNode } from "utils/logic/types"
-import { constructLineage, patchToVersion } from "utils/logic/loomNode"
+} from "@/components/ui/select";
+import Loader from "@/components/ui/loadingspinner";
+import NodeLink from "components/common/NodeLink";
+import { LoomNode } from "utils/logic/types";
+import { constructLineage, patchToVersion } from "utils/logic/loomNode";
 
 function addBreaks(text: string) {
   const split = text.split('\n')
@@ -23,6 +23,7 @@ function addBreaks(text: string) {
     return <span key={index}>{str}{index == split.length - 1 ? null : <br />}</span>
   })
 }
+
 function constructReadTree(loomNode: LoomNode, dmp: any, setFocusedNodeId: (id: string, version?: number) => void) {
   const lineage = constructLineage(loomNode);
   const ancestorLinks = lineage.map((node) =>
@@ -33,20 +34,19 @@ function constructReadTree(loomNode: LoomNode, dmp: any, setFocusedNodeId: (id: 
       setFocusedNodeId={setFocusedNodeId}
       key={node.loomNode.id + node.version}
     />
-  )
+  );
   return (
     <span>
       {ancestorLinks}
     </span>
-  )
-
+  );
 }
 
 function VersionSelectContent(loomNode: LoomNode) {
   const options = [];
   for (let i = -1; i < loomNode.diffs.length; i++) {
     const valueString = (i + 1).toString();
-    options.push(<SelectItem key={valueString} value={valueString}>{"v" + valueString}</SelectItem>)
+    options.push(<SelectItem key={valueString} value={valueString}>{"v" + valueString}</SelectItem>);
   }
   return (
     <SelectContent>
@@ -65,7 +65,7 @@ function ReadView(
   saveEdit: () => void,
   editCancelRef: React.RefObject<HTMLTextAreaElement>
 ) {
-  const setFocusedNode = (id: string, version?: number) => { setFocusedNodeId(id); setFocusedNodeVersion(version ?? 0) }
+  const setFocusedNode = (id: string, version?: number) => { setFocusedNodeId(id); setFocusedNodeVersion(version ?? 0) };
   const previousRead = <span className="opacity-65">{constructReadTree(loomNode, dmp, setFocusedNode)}</span>
   const version = (setVersion == null) ? loomNode.diffs.length : setVersion;
   const isLatest = version === loomNode.diffs.length;
@@ -112,7 +112,7 @@ function ReadView(
           </div>
         </div>
       </div>
-    )
+    );
   }
   else {
     return (
@@ -137,12 +137,12 @@ function ReadView(
           </div>
         </div>
       </div >
-    )
+    );
   }
 }
 
 function infoLabel(text: string) {
-  return <span className="font-semibold">{text}:</span>
+  return <span className="font-semibold">{text}:</span>;
 }
 
 function collapsibleInfo(label: string, content: string) {
@@ -157,7 +157,7 @@ function collapsibleInfo(label: string, content: string) {
         </div>
       </CollapsibleContent>
     </Collapsible>
-  )
+  );
 }
 
 function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
@@ -172,10 +172,10 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
       setFocusedNodeId={setFocusedNodeId}
     /></p>
   }
-  var childrenList = null
+  var childrenList = null;
   if (loomNode.children.length > 0) {
     const children = loomNode.children.map((child) => {
-      const childIdText = child.id
+      const childIdText = child.id;
       return <li key={child.id + "-li"} className="ml-4"><NodeLink
         text={childIdText}
         nodeId={child.id}
@@ -226,9 +226,9 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     isGenerating: boolean
   }) {
 
-  const disableGen = isGenerating || editEnabled
+  const disableGen = isGenerating || editEnabled;
 
-  const loadSpinner = isGenerating ? <Loader className="w-16" /> : null
+  const loadSpinner = isGenerating ? <Loader className="w-16" /> : null;
 
   const genButton = disableGen ?
     <Button disabled>{loadSpinner}Generate </Button> :
