@@ -146,7 +146,7 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   if (loomNode.parent != null) {
     const parent = loomNode.parent.loomNode;
     const parentIdText = parent.id + " (v" + loomNode.parent.version + ")";
-    parentLine = <p>{infoLabel("parent")}<NodeLink
+    parentLine = <p>{infoLabel("parent")} <NodeLink
       text={parentIdText}
       nodeId={parent.id}
       version={loomNode.parent.version}
@@ -166,12 +166,19 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
     });
     childrenList = <ul className="list-disc list-inside">{infoLabel("children")} {children}</ul >
   }
+  const modelLine = loomNode.generation?.model ? <p>{infoLabel("model")} {loomNode.generation.model.name}</p> : null
+  const apiURLLine = loomNode.generation?.model ? <p>{infoLabel("API")} {loomNode.generation.model.apiURL}</p> : null
+  const finishReasonLine = loomNode.generation?.finishReason ? <p>{infoLabel("finishReason")} {loomNode.generation.finishReason}</p> : null
+
   return (
     <div className="p-2 border rounded-md">
       <p>{infoLabel("id")} {loomNode.id}</p>
       <p>{infoLabel("timestamp")} {new Date(loomNode.timestamp).toUTCString()}</p>
       {parentLine}
       {childrenList}
+      {modelLine}
+      {apiURLLine}
+      {finishReasonLine}
     </div>
   )
 }
