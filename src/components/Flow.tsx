@@ -32,6 +32,7 @@ import { debugGenerate, generate } from "./callModel"
 
 import { on } from "events";
 import { get } from "http";
+import { click } from "@testing-library/user-event/dist/click";
 
 const selector = (state: RFState) => ({
   loomNodes: state.loomNodes,
@@ -67,6 +68,13 @@ function focusElement(id: string) {
   const searchBar = document.getElementById(id);
   if (searchBar) {
     searchBar.focus();
+  }
+}
+
+function clickElement(id: string) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.click();
   }
 }
 
@@ -265,6 +273,7 @@ function Flow() {
   hotkeys.push(useHotkeyWithDesc("s+shift", "export tree to file", exportCurrentTree));
   hotkeys.push(useHotkeyWithDesc("o+shift", "import tree from file", importTree));
   hotkeys.push(useHotkeyWithDesc("k", "new tree", newTree));
+  hotkeys.push(useHotkeyWithDesc("return", "show hotkeys", () => clickElement("hotkey-menu-trigger")));
 
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 

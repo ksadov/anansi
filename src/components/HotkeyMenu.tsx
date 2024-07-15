@@ -33,7 +33,7 @@ export default function HotkeyMenu({ hotkeys }: { hotkeys: { key: string, descri
   ));
   return (
     <Dialog >
-      <DialogTrigger className="text-sm">
+      <DialogTrigger id="hotkey-menu-trigger" className="text-sm">
         Hotkeys
       </DialogTrigger>
       <MenubarContent>

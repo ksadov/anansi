@@ -228,7 +228,7 @@ export default function SettingsMenu({ exportCurrentTree, modelsSettings, setMod
   }) {
   return (
     <Dialog >
-      <DialogTrigger className="text-sm">
+      <DialogTrigger id="settings-menu-trigger" className="text-sm">
         Settings
       </DialogTrigger>
       <MenubarContent>
