@@ -13,7 +13,7 @@ import { ModelSettings } from "./types"
 
 
 export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings,
-  activeModelIndex, setActiveModelIndex, newTree, exportSettings, importSettings, isGenerating }: {
+  activeModelIndex, setActiveModelIndex, newTree, exportSettings, importSettings, isGenerating, hotkeys }: {
     theme: string,
     modelsSettings: ModelSettings[],
     setTheme: (theme: string) => void,
@@ -25,7 +25,8 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
     newTree: () => void
     exportSettings: () => void,
     importSettings: () => void,
-    isGenerating: boolean
+    isGenerating: boolean,
+    hotkeys: { key: string, description: string }[]
   }
 ) {
   const loadSpinner = isGenerating ? <Loader className="w-8" /> : null
@@ -47,7 +48,7 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
           />
         </div>
         <div className="p-2">
-          <HotkeyMenu />
+          <HotkeyMenu hotkeys={hotkeys} />
         </div>
         <div className="size-full flex justify-end">
           {loadSpinner}

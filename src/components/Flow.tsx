@@ -241,18 +241,27 @@ function Flow() {
   const modifierKey = getPlatformModifierKey();
   const modifierKeyText = getPlatformModifierKeyText();
 
-  useHotkeys(`${modifierKey}+g`, spawnChildrenForFocusedNode, HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+up`, () => navToParent(focusedNode, setFocusedNodeId), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+down`, () => navToChild(focusedNode, setFocusedNodeId), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+left`, () => navToSibling(focusedNode, setFocusedNodeId, 'prev'), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+right`, () => navToSibling(focusedNode, setFocusedNodeId, 'next'), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+e`, () => { focusElement("read-tab"); setEditEnabled(true); focusElement("editNodeText"); }, HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+s`, saveEdit, HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+l`, autoLayout, HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+f`, () => focusElement("loom-search-input"), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+i`, () => focusElement("info-tab"), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+r`, () => focusElement("read-tab"), HOTKEY_CONFIG);
-  useHotkeys(`${modifierKey}+d`, () => deleteNode(focusedNodeId), HOTKEY_CONFIG);
+  function useHotkeyWithDesc(key: string, description: string, callback: () => void) {
+    const hotkey = `${modifierKey}+${key}`;
+    const hotkeyText = `${modifierKeyText}+${key}`;
+    useHotkeys(hotkey, callback, HOTKEY_CONFIG);
+    return { key: hotkeyText, description: description };
+  }
+
+  const hotkeys = [];
+  hotkeys.push(useHotkeyWithDesc("g", "Generate children for focused node", spawnChildrenForFocusedNode));
+  hotkeys.push(useHotkeyWithDesc("up", "Navigate to parent of focused node", () => navToParent(focusedNode, setFocusedNodeId)));
+  hotkeys.push(useHotkeyWithDesc("down", "Navigate to child of focused node", () => navToChild(focusedNode, setFocusedNodeId)));
+  hotkeys.push(useHotkeyWithDesc("left", "Navigate to previous sibling of focused node", () => navToSibling(focusedNode, setFocusedNodeId, 'prev')));
+  hotkeys.push(useHotkeyWithDesc("right", "Navigate to next sibling of focused node", () => navToSibling(focusedNode, setFocusedNodeId, 'next')));
+  hotkeys.push(useHotkeyWithDesc("e", "Edit focused node", () => { focusElement("read-tab"); setEditEnabled(true); focusElement("editNodeText"); }));
+  hotkeys.push(useHotkeyWithDesc("s", "Save edit", saveEdit));
+  hotkeys.push(useHotkeyWithDesc("l", "Auto-layout", autoLayout));
+  hotkeys.push(useHotkeyWithDesc("f", "Focus search bar", () => focusElement("loom-search-input")));
+  hotkeys.push(useHotkeyWithDesc("i", "Focus info tab", () => focusElement("info-tab")));
+  hotkeys.push(useHotkeyWithDesc("r", "Focus read tab", () => focusElement("read-tab")));
+  hotkeys.push(useHotkeyWithDesc("d", "Delete focused node", () => deleteNode(focusedNodeId)));
+
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
   const [canSave, setCanSave] = useState(true);
@@ -298,6 +307,7 @@ function Flow() {
             exportSettings={exportSettings}
             importSettings={importSettings}
             isGenerating={isGenerating}
+            hotkeys={hotkeys}
           />
           <div className="h-[calc(100vh-40px)]">
             <ReactFlow
