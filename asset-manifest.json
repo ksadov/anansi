@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/anansi/static/css/main.228c05cf.css",
+    "main.js": "/anansi/static/js/main.2492af74.js",
+    "index.html": "/anansi/index.html",
+    "main.228c05cf.css.map": "/anansi/static/css/main.228c05cf.css.map",
+    "main.2492af74.js.map": "/anansi/static/js/main.2492af74.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.228c05cf.css",
+    "static/js/main.2492af74.js"
+  ]
+}
