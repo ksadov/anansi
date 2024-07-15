@@ -1,6 +1,6 @@
 import { toast } from "sonner"
 import { patchToVersion } from './loomNode';
-import { LoomNode, ModelSettings, Generation, Logit } from './types';
+import { LoomNode, ModelSettings, Generation, Logprob } from './types';
 
 export async function callModel(apiURL: string, modelName: string, apiKey: string | null, prompt: string, genParams: any) {
   return fetch(apiURL, {
@@ -27,35 +27,13 @@ export async function debugGenerate(loomNode: LoomNode, modelSettings: ModelSett
     text: "Debug generation " + Math.random().toString(36).substring(7),
     timestamp: Date.now(),
     model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
-    logits: [],
+    textLogprobs: [],
+    topLogprobs: [],
     prompt: prompt,
     finishReason: "debug",
     rawResponse: "debug"
   }
   return [dummyGeneration];
-}
-
-function constructLogits(tokens: string[], tokenLogprobs: number[], topLogprobs: { logprob: number }[]): Logit[][] {
-  const responseLogprobs: Logit[] = tokens.map((token: string, i: number) => {
-    return {
-      token: token,
-      logprob: tokenLogprobs[i]
-    }
-  });
-  if (topLogprobs == null || topLogprobs.length == 0) {
-    return [responseLogprobs];
-  }
-  const logitList = topLogprobs.map((topLogprob: { logprob: number }) => {
-    return {
-      token: "top",
-      logprob: topLogprob.logprob
-    }
-  });
-  const allLogits = logitList.map((logit: Logit) => {
-    return [logit, ...responseLogprobs];
-  }
-  );
-  return allLogits;
 }
 
 export async function generate(loomNode: LoomNode, modelSettings: ModelSettings, dmp: any): Promise<Generation[]> {
@@ -71,15 +49,16 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
     return [];
   }
   return response.choices.map((choice: any) => {
-    var logits: Logit[][] = []
-    if (choice.logprobs) {
-      logits = constructLogits(choice.logprobs.tokens, choice.logprobs.token_logprobs, choice.logprobs.top_logprobs)
-    }
+    const topLogprobs: Logprob[][] = choice.logprobs ? choice.logprobs.top_logprobs : [];
+    const textLogprobs: Logprob[] = choice.logprobs ? choice.logprobs.tokens.map((token: string, i: number) => {
+      return { token: token, logprob: choice.logprobs.token_logprobs[i] }
+    }) : [];
     return {
       text: choice.text,
       timestamp: response.created,
       model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
-      logits: logits,
+      textLogprobs: textLogprobs,
+      topLogprobs: topLogprobs,
       prompt: prompt,
       finishReason: response.finish_reason,
       rawResponse: JSON.stringify(response)

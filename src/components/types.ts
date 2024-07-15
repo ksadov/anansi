@@ -57,7 +57,7 @@ export type AppState = {
   loomTree: TreeSpecV0,
 }
 
-export type Logit = {
+export type Logprob = {
   token: string,
   logprob: number
 }
@@ -66,7 +66,8 @@ export type Generation = {
   text: string,
   timestamp: number,
   model: { name: string, apiURL: string, params: { [key: string]: any } }
-  logits: Logit[][]
+  textLogprobs: Logprob[],
+  topLogprobs: Logprob[][],
   finishReason: string
   rawResponse: string
   prompt: string
