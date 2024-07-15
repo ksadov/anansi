@@ -33,10 +33,10 @@ function AllowTransitoryBadJSON(jsonString: string) {
   }
 }
 
-function ModelSettingsDisplay({ modelSettings, updateModelSettings, addModelSettings, deleteModelSettings }:
+function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelSettings }:
   {
     modelSettings: ModelSettings, updateModelSettings: (modelSetting: ModelSettings) => void,
-    addModelSettings: (modelSetting: ModelSettings) => void, deleteModelSettings: (modelId: string) => void
+    deleteModelSettings: (modelId: string) => void
   }) {
   var setModel = modelSettings;
   const [isEditing, setIsEditing] = useState(false);
@@ -149,7 +149,6 @@ function ModelModalContent({ modelsSettings, updateModelSettings, addModelSettin
       key={index}
       modelSettings={modelSetting}
       updateModelSettings={updateModelSettings}
-      addModelSettings={addModelSettings}
       deleteModelSettings={deleteModelSettings}
     />));
   return (
