@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronRight, ChevronDown } from "lucide-react"
-import { LoomNode } from './types';
+import { LoomNode } from 'components/types';
 import { SearchInput } from "@/components/ui/input"
-import NodeLink from "./NodeLink"
+import NodeLink from "components/NodeLink"
 // TODO: Maybe we should be managing state via our Zustand store?
 
 export interface AccordionItem {

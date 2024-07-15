@@ -8,7 +8,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { toast } from "sonner";
-import LoomList from "./LoomList";
+import NodeList from "components/searchlist/NodeList";
 import Menubar from "components/menu/Menubar";
 
 import "reactflow/dist/style.css";
@@ -299,7 +299,7 @@ function Flow() {
     <div className={baseClasses}>
       <ResizablePanelGroup direction="horizontal">
         < ResizablePanel defaultSize={15} >
-          <LoomList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeWithViewport} />
+          <NodeList root_node={loomNodes[0]} setFocusedNodeId={setFocusedNodeWithViewport} />
         </ResizablePanel >
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={55}>

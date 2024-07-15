@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Accordion, { AccordionItem, AccordionProps } from './Accordion';
-import { LoomNode } from './types';
+import Accordion, { AccordionItem, AccordionProps } from './SearchAccordion';
+import { LoomNode } from 'components/types';
 
 function loomNodeToAccordionItem(loomNode: LoomNode): AccordionItem {
   return {
