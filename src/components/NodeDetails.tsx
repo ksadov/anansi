@@ -1,9 +1,11 @@
 import { useRef, useEffect } from "react"
+import { ChevronsUpDown } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../@/components/ui/tabs"
 import { LoomNode } from "./types"
 import { constructLineage, patchToVersion } from "./loomNode"
 import { Button } from "../@/components/ui/button"
 import { Textarea } from "../@/components/ui/textarea"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../@/components/ui/collapsible"
 import {
   Select,
   SelectContent,
@@ -141,6 +143,22 @@ function ReadView(
 function infoLabel(text: string) {
   return <span className="font-semibold">{text}:</span>
 }
+
+function collapsibleInfo(label: string, content: string) {
+  return (
+    <Collapsible>
+      <CollapsibleTrigger className="flex items-center cursor-pointer">
+        <span className="font-semibold">{label}</span><ChevronsUpDown className="size-4" />
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="p-2 border rounded-md font-mono">
+          {addBreaks(content)}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  )
+}
+
 function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   var parentLine = null
   if (loomNode.parent != null) {
@@ -168,10 +186,11 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
   }
   const modelLine = loomNode.generation?.model ? <p>{infoLabel("model")} {loomNode.generation.model.name}</p> : null
   const apiURLLine = loomNode.generation?.model ? <p>{infoLabel("API")} {loomNode.generation.model.apiURL}</p> : null
-  const finishReasonLine = loomNode.generation?.finishReason ? <p>{infoLabel("finishReason")} {loomNode.generation.finishReason}</p> : null
-
+  const finishReasonLine = loomNode.generation?.finishReason ? <p>{infoLabel("finish reason")} {loomNode.generation.finishReason}</p> : null
+  const promptLine = loomNode.generation?.model ? collapsibleInfo("prompt", loomNode.generation.prompt) : null
+  const rawResponseLine = loomNode.generation?.rawResponse ? collapsibleInfo("raw response", JSON.stringify(JSON.parse(loomNode.generation.rawResponse), null, 2)) : null
   return (
-    <div className="p-2 border rounded-md">
+    <div className="p-2 border rounded-md overflow-scroll max-h-[65vh]">
       <p>{infoLabel("id")} {loomNode.id}</p>
       <p>{infoLabel("timestamp")} {new Date(loomNode.timestamp).toUTCString()}</p>
       {parentLine}
@@ -179,6 +198,8 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
       {modelLine}
       {apiURLLine}
       {finishReasonLine}
+      {promptLine}
+      {rawResponseLine}
     </div>
   )
 }
