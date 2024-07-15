@@ -264,6 +264,7 @@ function Flow() {
   hotkeys.push(useHotkeyWithDesc("0", "Reset zoom", () => reactFlow?.fitView()));
   hotkeys.push(useHotkeyWithDesc("s+shift", "export tree to file", exportCurrentTree));
   hotkeys.push(useHotkeyWithDesc("o+shift", "import tree from file", importTree));
+  hotkeys.push(useHotkeyWithDesc("k", "new tree", newTree));
 
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
