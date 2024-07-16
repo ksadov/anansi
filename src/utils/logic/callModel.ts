@@ -42,7 +42,7 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
   const prompt = patchedText.slice(sliceStartIndex);
   const response = await callModel(modelSettings.apiURL, modelSettings.name, modelSettings.apiKey, prompt,
     modelSettings.params);
-  console.log("RESPONSE", response)
+  // console.log("RESPONSE", response)
   if (response.error) {
     const failMessage = `Model ${modelSettings.name} generation failed with code ${response.error.code}: ${response.error.message}`;
     toast.error(failMessage);

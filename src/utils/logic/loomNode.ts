@@ -102,7 +102,6 @@ function jsonToNode(json: any, parent: { loomNode: LoomNode, version: number } |
 }
 
 export function fromSavedTree(nodeList: SavedLoomNode[]): LoomNode[] {
-  console.log(nodeList)
   // sort nodes by timestamp, oldest first
   const nodeListSorted = nodeList.sort((a, b) => a.timestamp - b.timestamp)
   const createdNodes: LoomNode[] = []
