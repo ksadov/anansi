@@ -242,6 +242,7 @@ function App() {
   }
 
   function importTree() {
+    takeSnapshot();
     triggerTreeUpload(initFromSavedTree, () => { autoLayout(); setTimeout(() => setNeedsReveal(true), 50); });
   }
 
@@ -254,6 +255,7 @@ function App() {
   }
 
   function newTree() {
+    takeSnapshot();
     createNewTreeSession();
     setTimeout(autoLayout, 10);
     setTimeout(() => setNeedsReveal(true), 50);

@@ -14,7 +14,7 @@ import {
 } from 'reactflow';
 import Dagre from '@dagrejs/dagre';
 import { v4 as uuid } from 'uuid';
-import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS } from "utils/ui/constants";
+import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS, MAX_HISTORY_SIZE } from "utils/ui/constants";
 import { dagreLayout, basicLayout } from 'utils/ui/layout';
 import { NodeGraphData, AppState, HistoryItem } from "utils/ui/types";
 import { LoomNode, SavedLoomNode, ModelSettings, Generation } from "utils/logic/types";
@@ -158,6 +158,7 @@ const useStore = create<RFState>((set, get) => ({
     set({ edges });
   },
   spawnChildren: (nodeId: string, version: number, generations: Generation[]) => {
+    get().takeSnapshot();
     let nodes = get().nodes;
     let edges = get().edges;
     let newLoomNodes: LoomNode[] = [];
@@ -281,6 +282,9 @@ const useStore = create<RFState>((set, get) => ({
     set({ focusedNodeVersion });
   },
   deleteNode: (nodeId: string) => {
+    console.log("NODE CHILDREN", get().loomNodes.find(loomNode => loomNode.id === nodeId)?.children);
+    // take snapshot
+    get().takeSnapshot();
     // remove node and all children from loomNodes
     let loomNodes = get().loomNodes;
     let node = loomNodes.find(loomNode => loomNode.id === nodeId);
@@ -323,8 +327,9 @@ const useStore = create<RFState>((set, get) => ({
     let nodes = get().nodes;
     let edges = get().edges;
     let past = get().past;
-    past.push({ loomNodes, nodes, edges });
-    set({ past });
+    let newPast = [...past.slice(past.length - MAX_HISTORY_SIZE + 1, past.length),
+    { loomNodes, nodes, edges }];
+    set({ past: newPast });
     set({ future: [] });
   },
   undo: () => {
