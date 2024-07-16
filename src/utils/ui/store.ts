@@ -282,7 +282,6 @@ const useStore = create<RFState>((set, get) => ({
     set({ focusedNodeVersion });
   },
   deleteNode: (nodeId: string) => {
-    console.log("NODE CHILDREN", get().loomNodes.find(loomNode => loomNode.id === nodeId)?.children);
     // take snapshot
     get().takeSnapshot();
     // remove node and all children from loomNodes
