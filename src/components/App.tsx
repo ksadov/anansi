@@ -337,6 +337,7 @@ function App() {
                 nodeTypes={nodeTypes}
                 minZoom={0.01}
                 fitView
+                nodesConnectable={false}
               >
                 <Controls>
                   <LayoutButton layoutCallback={autoLayout} />
