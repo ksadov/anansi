@@ -18,7 +18,7 @@ import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS, MAX_HISTORY_SIZE } from "utils/
 import { dagreLayout, basicLayout } from 'utils/ui/layout';
 import { NodeGraphData, AppState, HistoryItem } from "utils/ui/types";
 import { LoomNode, SavedLoomNode, ModelSettings, Generation } from "utils/logic/types";
-import { createLoomNode, fromSavedTree, getSubTree } from "utils/logic/loomNode";
+import { createLoomNode, fromSavedTree, getSubTree, nodeToJson } from "utils/logic/loomNode";
 
 export type RFState = {
   loomNodes: LoomNode[];
@@ -323,7 +323,8 @@ const useStore = create<RFState>((set, get) => ({
   past: [],
   future: [],
   takeSnapshot: () => {
-    let loomNodes = get().loomNodes;
+    // we need to deepcopy the loomnodes to prevent delete from disowning every node's child
+    let loomNodes = fromSavedTree(get().loomNodes.map(loomNode => nodeToJson(loomNode)));
     let nodes = get().nodes;
     let edges = get().edges;
     let past = get().past;
