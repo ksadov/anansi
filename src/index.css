@@ -802,6 +802,10 @@ body {
   height: 1px;
 }
 
+.h-\[100px\] {
+  height: 100px;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -868,6 +872,10 @@ body {
 
 .w-px {
   width: 1px;
+}
+
+.w-\[200px\] {
+  width: 200px;
 }
 
 .min-w-\[12rem\] {
@@ -1014,6 +1022,16 @@ body {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
 }
 
 .whitespace-nowrap {

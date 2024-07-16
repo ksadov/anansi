@@ -6,8 +6,8 @@ import {
 } from 'reactflow';
 
 // get LoomNode default width from .react-flow__node-custom css class
-const defaultLoomNodeWidth = 200;
-const defaultLoomNodeHeight = 100;
+export const defaultLoomNodeWidth = 200;
+export const defaultLoomNodeHeight = 100;
 
 const OVERLAP_RANDOMNESS_MAX = 25;
 

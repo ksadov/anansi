@@ -1,9 +1,6 @@
 import { NodeProps, Handle, Position } from 'reactflow';
 import { NodeGraphData } from "utils/ui/types"
-
-function textPreview(text: string): string {
-  return text.length > 16 ? text.slice(0, 16) + "..." : text;
-}
+import { defaultLoomNodeWidth } from "utils/ui/layout"
 
 function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
   const borderHighlight = data.loomNode.inFocus ? "ring" : "";
@@ -14,8 +11,8 @@ function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
       <div
         className={"border-2 rounded-md p-2 " + borderHighlight}
         onClick={data.focusNode}>
-        <div>
-          {textPreview(data.loomNode.latestText)}
+        <div className={`w-[${defaultLoomNodeWidth}px] truncate`}>
+          {data.loomNode.latestText}
         </div>
       </div>
       <Handle type="source" position={Position.Bottom} id="a" />
