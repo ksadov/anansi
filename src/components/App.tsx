@@ -337,10 +337,6 @@ function App() {
                 nodeTypes={nodeTypes}
                 minZoom={0.01}
                 fitView
-                panOnScroll
-                selectionOnDrag
-                selectionMode={SelectionMode.Partial}
-                panOnDrag={[1, 2]}
               >
                 <Controls>
                   <LayoutButton layoutCallback={autoLayout} />
