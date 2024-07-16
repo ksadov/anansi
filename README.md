@@ -20,7 +20,6 @@ I used the [Create React App](https://github.com/facebook/create-react-app) to m
 ## To do
 - logprob view
 - less ugly color scheme(s?)
-- undo button
 - compress state stored to localStorage
 - navigate graph view via keybindings
 - llama.cpp compatability
