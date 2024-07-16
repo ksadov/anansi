@@ -221,6 +221,15 @@ function App() {
       editFocusedNode(text);
       setFocusedNodeVersion(version + 1);
     }
+    // visually disown existing children by making edge between them dotted
+    setEdges(
+      edges.map((edge) => {
+        if (edge.source === focusedNodeId) {
+          edge.style = { strokeDasharray: "5,5" };
+        }
+        return edge;
+      })
+    );
   }
 
   function exportCurrentTree() {
