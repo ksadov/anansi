@@ -20,7 +20,7 @@ function addBreaks(text: string) {
   const split = text.split('\n')
   // don't add a break after the last line
   return split.map((str, index) => {
-    return <span key={index}>{str}{index == split.length - 1 ? null : <br />}</span>
+    return <span key={index}>{str}{index === split.length - 1 ? null : <br />}</span>
   })
 }
 

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Accordion, { AccordionItem, AccordionProps } from 'components/searchlist/SearchAccordion';
 import { LoomNode } from 'utils/logic/types';
 

@@ -1,7 +1,7 @@
 import { useEffect, useState, memo } from "react";
 import { useShallow } from 'zustand/react/shallow';
 import { diff_match_patch } from "diff-match-patch";
-import ReactFlow, { SelectionMode, Controls, ReactFlowInstance, Node } from "reactflow";
+import ReactFlow, { Controls, ReactFlowInstance, Node } from "reactflow";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -217,7 +217,7 @@ function App() {
     const version = (focusedNodeVersion == null) ? focusedNode.diffs.length : focusedNodeVersion;
     setEditEnabled(false);
     const text = (document.getElementById("editNodeText") as HTMLInputElement).value;
-    if (text != focusedNode.latestText) {
+    if (text !== focusedNode.latestText) {
       editFocusedNode(text);
       setFocusedNodeVersion(version + 1);
     }
@@ -290,7 +290,7 @@ function App() {
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
   const [canSave, setCanSave] = useState(true);
-  const isSaving = useDebouncedEffect(
+  useDebouncedEffect(
     () => {
       if (canSave) {
         const appState: AppState = {

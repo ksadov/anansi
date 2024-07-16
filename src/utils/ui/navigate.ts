@@ -1,7 +1,7 @@
 import { LoomNode } from 'utils/logic/types';
 
 export function navToParent(focusedNode: LoomNode, setFocusedNodeId: (id: string) => void) {
-  if (focusedNode.parent == undefined) {
+  if (focusedNode.parent === undefined) {
     return;
   }
   else {
@@ -21,7 +21,7 @@ export function navToChild(focusedNode: LoomNode, setFocusedNodeId: (id: string)
 export function navToSibling(focusedNode: LoomNode,
   setFocusedNodeId: (id: string) => void, direction: 'next' | 'prev') {
   const siblings = focusedNode.parent?.loomNode.children;
-  if (siblings == undefined) {
+  if (siblings === undefined) {
     return;
   }
   const idx = siblings.findIndex((sibling) => sibling.id === focusedNode.id);

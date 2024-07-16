@@ -8,6 +8,7 @@ import FileMenu from "components/menu/FileMenu";
 import SettingsMenu from "components/menu/SettingsMenu";
 import ModelSelect from "components/menu/ModelSelect";
 import HelpMenu from "components/menu/HelpMenu"
+import EditMenu from "components/menu/EditMenu"
 import { ModelSettings } from "utils/logic/types"
 
 
@@ -37,6 +38,7 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
           exportCurrentTree={exportCurrentTree}
           newTree={newTree}
         />
+        <EditMenu />
         <div className="p-2">
           <SettingsMenu
             exportCurrentTree={exportCurrentTree}

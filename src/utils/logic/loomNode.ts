@@ -35,7 +35,7 @@ export function addDiff(loomNode: LoomNode, edit: string, dmp: any) {
 export function patchToVersion(loomNode: LoomNode, version: number, dmp: any) {
   // find index of corresponding diff
   const diffIndex = version - 1;
-  if (diffIndex == -1) {
+  if (diffIndex === -1) {
     return loomNode.originalText;
   }
   else {

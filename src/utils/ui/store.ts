@@ -112,6 +112,7 @@ function disownEdges(edges: Edge[], loomNodes: LoomNode[]) {
     if (sourceNodeVersion !== parentVersion) {
       edge.style = disownedEdgeStyle;
     }
+    return edge;
   });
 }
 
@@ -153,10 +154,9 @@ const useStore = create<RFState>((set, get) => ({
     let nodes = get().nodes;
     let edges = get().edges;
     let newLoomNodes: LoomNode[] = [];
-    let new_nodes: Node[] = [];
-    let new_edges: Edge[] = [];
+    let newNodes: Node[] = [];
+    let newEdges: Edge[] = [];
     let parentNode = get().loomNodes.find(loomNode => loomNode.id === nodeId);
-    let parentDict = parentNode ? { loomNode: parentNode, version: version } : undefined;
     for (let i = 0; i < generations.length; i++) {
       let new_node_id = getNodeId();
       let parentDict = parentNode ? { loomNode: parentNode, version: version } : undefined;
@@ -167,12 +167,11 @@ const useStore = create<RFState>((set, get) => ({
         generations[i],
       )
       // update parent node
-      let parent_node = get().loomNodes.find(loomNode => loomNode.id === nodeId);
-      if (parent_node) {
-        parent_node.children.push(newLoomNode);
+      if (parentNode) {
+        parentNode.children.push(newLoomNode);
       }
       newLoomNodes.push(newLoomNode);
-      new_nodes.push({
+      newNodes.push({
         id: new_node_id,
         type: "custom",
         data: {
@@ -181,10 +180,10 @@ const useStore = create<RFState>((set, get) => ({
         },
         position: { x: 0, y: 0 }
       });
-      new_edges.push({
+      newEdges.push({
         id: getEdgeId(),
         source: nodeId,
-        target: new_nodes[i].id
+        target: newNodes[i].id
       });
     }
     // layout nodes and edges
@@ -195,13 +194,13 @@ const useStore = create<RFState>((set, get) => ({
       edge => edge.source === nodeId && edge.target === node.id)
     )).length;
     const formattedNew = basicLayout(
-      new_nodes,
+      newNodes,
       existing_children,
       parent_x,
       parent_y
     );
     let layoutedNodes = nodes.concat(formattedNew);
-    let layoutedEdges = edges.concat(new_edges);
+    let layoutedEdges = edges.concat(newEdges);
     // set new nodes to be invisible
     layoutedNodes.forEach(node => {
       if (node.id !== nodeId) {
