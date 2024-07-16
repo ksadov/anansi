@@ -5,7 +5,7 @@ import { ModelSettings } from "utils/logic/types";
 
 export const HOTKEY_CONFIG: Options = {
   preventDefault: true,
-  enableOnFormTags: true,
+  enableOnFormTags: false,
 };
 
 export const helpMenuKey = "h";
