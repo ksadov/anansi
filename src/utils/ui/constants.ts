@@ -1,4 +1,5 @@
 import { Options } from "react-hotkeys-hook";
+import { v4 as uuid } from 'uuid';
 import { getPlatformModifierKeyText } from "utils/ui/modkey";
 import { ModelSettings } from "utils/logic/types";
 
@@ -21,7 +22,7 @@ export const DEFAULT_NODE_TEXT = "Quickstart:\n\n" +
 export const DEFAULT_INIT_MODELS: ModelSettings[] = [
   {
     name: "davinci-002",
-    id: "init0",
+    id: uuid(),
     apiURL: "https://api.openai.com/v1/completions",
     apiKey: "your-openai-api-key",
     maxLength: 16385,
@@ -34,7 +35,7 @@ export const DEFAULT_INIT_MODELS: ModelSettings[] = [
   },
   {
     name: "mistralai/Mixtral-8x7B-v0.1",
-    id: "init1",
+    id: uuid(),
     apiURL: "https://api.together.xyz/v1/completions",
     apiKey: "your-togetherai-api-key",
     maxLength: 128000,

@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
-import { Import, ArrowRightFromLine } from "lucide-react"
-import { toast } from "sonner"
+import { Import, ArrowRightFromLine } from "lucide-react";
+import { toast } from "sonner";
+import { v4 as uuid } from 'uuid';
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
   DialogTitle
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { MenubarContent, MenubarItem } from "@/components/ui/menubar"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { MenubarContent, MenubarItem } from "@/components/ui/menubar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import BackupRequestModal from "components/common/BackupRequestModal";
 import { clearLocalStorage } from "utils/ui/lstore";
 import { ModelSettings } from "utils/logic/types";
@@ -194,7 +195,7 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings, e
             />
             <div className="p-2 flex gap-2">
               <Button onClick={() => addModelSettings({
-                id: Math.random().toString(36).substring(2),
+                id: uuid(),
                 name: "New Model",
                 apiURL: "https://api.together.xyz/v1/completions",
                 apiKey: "your-api-key",
