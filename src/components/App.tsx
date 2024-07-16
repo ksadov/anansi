@@ -338,6 +338,7 @@ function App() {
                 minZoom={0.01}
                 fitView
                 nodesConnectable={false}
+                edgesFocusable={false}
               >
                 <Controls>
                   <LayoutButton layoutCallback={autoLayout} />
