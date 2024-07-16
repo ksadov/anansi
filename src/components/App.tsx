@@ -22,7 +22,7 @@ import { getPlatformModifierKey, getPlatformModifierKeyText } from "utils/ui/mod
 import { initialThemePref, saveThemePref } from "utils/ui/theme";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useDebouncedEffect } from "../utils/ui/debounce";
-import { HOTKEY_CONFIG } from "utils/ui/constants";
+import { HOTKEY_CONFIG, hotkeyMenuKey } from "utils/ui/constants";
 import { navToParent, navToChild, navToSibling } from "utils/ui/navigate";
 import {
   dumpTreeToFile,
@@ -276,7 +276,7 @@ function App() {
   hotkeys.push(useHotkeyWithDesc("0", "Reset zoom", () => reactFlow?.fitView()));
   hotkeys.push(useHotkeyWithDesc("f", "Focus search bar", () => focusElement("loom-search-input")));
   hotkeys.push(useHotkeyWithDesc("k", "new tree (deletes current tree)", newTree));
-  hotkeys.push(useHotkeyWithDesc("return", "show hotkeys", () => clickElement("hotkey-menu-trigger")));
+  hotkeys.push(useHotkeyWithDesc(hotkeyMenuKey, "show hotkeys", () => clickElement("hotkey-menu-trigger")));
 
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
 
