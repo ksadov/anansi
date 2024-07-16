@@ -19,7 +19,6 @@ I used the [Create React App](https://github.com/facebook/create-react-app) to m
 
 ## To do
 - logprob view
-- edges between edited node and pre-edit children should look different
 - less ugly color scheme(s?)
 - undo button
 - compress state stored to localStorage
