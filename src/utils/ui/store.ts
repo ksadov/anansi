@@ -51,6 +51,7 @@ export type RFState = {
   redo: () => void;
   canUndo: () => boolean;
   canRedo: () => boolean;
+  setLegalFocusedNode: () => void;
 };
 
 const initialEdges: Edge[] = [];
@@ -332,6 +333,19 @@ const useStore = create<RFState>((set, get) => ({
     set({ past: newPast });
     set({ future: [] });
   },
+  setLegalFocusedNode: () => {
+    // check if focused node id and version exist
+    const focusedNode = get().loomNodes.find(loomNode => get().focusedNodeId === loomNode.id);
+    if (focusedNode) {
+      const focusedNodeVersion = get().focusedNodeVersion
+      if (focusedNodeVersion && focusedNodeVersion > focusedNode.diffs.length) {
+        set({ focusedNodeVersion: null });
+      }
+    }
+    else {
+      set({ focusedNodeId: get().loomNodes[0].id })
+    }
+  },
   undo: () => {
     let past = get().past;
     let future = get().future;
@@ -345,6 +359,7 @@ const useStore = create<RFState>((set, get) => ({
         set({ loomNodes: lastPast.loomNodes });
         set({ nodes: lastPast.nodes });
         set({ edges: lastPast.edges });
+        get().setLegalFocusedNode()
       }
     }
   },
@@ -363,6 +378,7 @@ const useStore = create<RFState>((set, get) => ({
         set({ edges: lastFuture.edges });
       }
     }
+    get().setLegalFocusedNode()
   },
   canUndo: () => get().past.length > 0,
   canRedo: () => get().future.length > 0
