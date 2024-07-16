@@ -275,8 +275,6 @@ function App() {
   hotkeys.push(useHotkeyWithDesc("l", "Auto-layout", autoLayout));
   hotkeys.push(useHotkeyWithDesc("0", "Reset zoom", () => reactFlow?.fitView()));
   hotkeys.push(useHotkeyWithDesc("f", "Focus search bar", () => focusElement("loom-search-input")));
-  hotkeys.push(useHotkeyWithDesc("i", "Focus info tab", () => focusElement("info-tab")));
-  hotkeys.push(useHotkeyWithDesc("r", "Focus read tab", () => focusElement("read-tab")));
   hotkeys.push(useHotkeyWithDesc("k", "new tree (deletes current tree)", newTree));
   hotkeys.push(useHotkeyWithDesc("return", "show hotkeys", () => clickElement("hotkey-menu-trigger")));
 
