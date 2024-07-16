@@ -1,4 +1,4 @@
-A React-based implementation of the [Loom](https://generative.ink/posts/loom-interface-to-the-multiverse/) interface for LLM completion inference.
+A React-based implementation of the [Loom](https://generative.ink/posts/loom-interface-to-the-multiverse/) interface for LLM completion inference. You can try it out [here](https://www.ksadov.com/anansi/).
 
 ## Docs
 Real documentation coming soon, hopefully. In the meantime, some pointers:
