@@ -7,12 +7,12 @@ export const HOTKEY_CONFIG: Options = {
   enableOnFormTags: true,
 };
 
-export const hotkeyMenuKey = "h";
-const hotkeyMenuString = getPlatformModifierKeyText() + "+" + hotkeyMenuKey;
+export const helpMenuKey = "h";
+const helpMenuString = getPlatformModifierKeyText() + "+" + helpMenuKey;
 
 export const DEFAULT_NODE_TEXT = "Quickstart:\n\n" +
   "1. Fill in API keys and model configurations in Settings > Models\n" +
-  `2. Check the Hotkey menu (${hotkeyMenuString}) for shortcuts\n` +
+  `2. Check the Help menu (${helpMenuString}) for shortcuts and documentation\n` +
   "3. Hit Generate to see how the selected model completes this node, or edit it to generate continuations " +
   "of your own text." +
   "\n4. If you notice dizziness, confusion or notions that your reality may itself be nothing more than one of many " +

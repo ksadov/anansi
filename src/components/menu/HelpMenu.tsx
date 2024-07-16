@@ -1,10 +1,15 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogTrigger,
   DialogTitle
 } from "@/components/ui/dialog"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 import { MenubarContent, MenubarItem } from "@/components/ui/menubar"
 
 function HotkeyLine({ keyName, description }: { keyName: string, description: string }) {
@@ -12,7 +17,7 @@ function HotkeyLine({ keyName, description }: { keyName: string, description: st
     <div className="flex justify-between">
       <p>
         <span className="text-foreground">{keyName}</span>
-        <div className="w-1" />
+        <span className="w-1" />
         <span className="text-muted-foreground">{description}</span>
       </p>
     </div >
@@ -26,23 +31,34 @@ export default function HotkeyMenu({ hotkeys }: { hotkeys: { key: string, descri
   return (
     <Dialog >
       <DialogTrigger id="hotkey-menu-trigger" className="text-sm">
-        Hotkeys
+        Help
       </DialogTrigger>
       <MenubarContent>
         <MenubarItem>
-          Hotkeys
+          Help
         </MenubarItem>
       </MenubarContent>
-      <DialogContent className="max-h-[90vh] overflow-auto" aria-describedby="hotkey menu">
+      <DialogContent className="max-h-[90vh] overflow-auto" aria-describedby={undefined}>
         <DialogTitle>
-          Hotkeys
+          Help
         </DialogTitle>
-        <DialogDescription>
-          <div className="grid grid-cols-2 gap-2">
-            {hotkeyLines}
+        <Tabs defaultValue="hotkeys">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="hotkeys">Hotkeys</TabsTrigger>
+            <TabsTrigger value="documentation">Documentation</TabsTrigger>
+          </TabsList>
+          <div className="p-2">
+            <TabsContent value="hotkeys">
+              <div className="grid grid-cols-2 gap-2 p-2">
+                {hotkeyLines}
+              </div>
+            </TabsContent>
+            <TabsContent value="documentation">
+              For documentation and source code, see <a className="underline" href="https://github.com/ksadov/anansi">GitHub</a>.
+            </TabsContent>
           </div>
-        </DialogDescription>
-      </DialogContent>
+        </Tabs >
+      </DialogContent >
     </Dialog >
   );
 }

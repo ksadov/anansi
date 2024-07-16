@@ -169,7 +169,7 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings, e
     );
   };
   return (
-    <DialogContent className="max-h-[90vh] overflow-auto" aria-describedby="Update app settings">
+    <DialogContent className="max-h-[90vh] overflow-auto" aria-describedby={undefined}>
       <DialogTitle>
         Settings
       </DialogTitle>
