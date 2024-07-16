@@ -47,24 +47,6 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
   }, []);
 
 
-  // Initialize expanded items and handle persistence
-  useEffect(() => {
-    const allIds = getAllItemIds(items);
-    const storedCollapsed = localStorage.getItem('collapsedItems');
-    if (storedCollapsed) {
-      const collapsedSet = new Set(JSON.parse(storedCollapsed));
-      setExpandedItems(new Set(allIds.filter(id => !collapsedSet.has(id))));
-    } else {
-      setExpandedItems(new Set(allIds));
-    }
-  }, [items]);
-
-  // Update local storage when expanded items change
-  useEffect(() => {
-    const allIds = getAllItemIds(items);
-    const collapsedItems = allIds.filter(id => !expandedItems.has(id));
-    localStorage.setItem('collapsedItems', JSON.stringify(collapsedItems));
-  }, [expandedItems, items]);
   const itemMatchesSearch = (item: AccordionItem): boolean => {
     const titleMatch = item.loomNode.latestText.toLowerCase().includes(searchTerm.toLowerCase());
     const contentMatch = item.content ? item.content.toLowerCase().includes(searchTerm.toLowerCase()) : false;
@@ -87,13 +69,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
   // Initialize expanded items and handle persistence
   useEffect(() => {
     const allIds = getAllItemIds(items);
-    const storedCollapsed = localStorage.getItem('collapsedItems');
-    if (storedCollapsed) {
-      const collapsedSet = new Set(JSON.parse(storedCollapsed));
-      setExpandedItems(new Set(allIds.filter(id => !collapsedSet.has(id))));
-    } else {
-      setExpandedItems(new Set(allIds));
-    }
+    setExpandedItems(new Set(allIds));
   }, [items, getAllItemIds]);
 
   // Update local storage when expanded items change
@@ -134,8 +110,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, setFocusedNodeId }) => {
 
     const bgColor = isSelected ? 'bg-accent' : 'transparent'
     const cursor = hasChildren ? 'cursor-pointer' : 'cursor-default'
-    const fontWeight = isExpanded ? 'font-bold' : 'font-normal'
-    const classString = `${bgColor} ${cursor} ${fontWeight} flex items-center rounded-md text-nowrap`
+    const classString = `${bgColor} ${cursor} flex items-center rounded-md text-nowrap`
 
     return (
       <div key={item.loomNode.id}>
