@@ -15,10 +15,8 @@ import { MenubarContent, MenubarItem } from "@/components/ui/menubar"
 function HotkeyLine({ keyName, description }: { keyName: string, description: string }) {
   return (
     <div className="flex justify-between">
-      <p>
-        <span className="text-foreground">{keyName}</span>
-        <span className="w-1" />
-        <span className="text-muted-foreground">{description}</span>
+      <p className="text-muted-foreground">
+        <span className="text-foreground">{keyName}</span> {description}
       </p>
     </div >
   );
