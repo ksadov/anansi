@@ -47,3 +47,5 @@ export const DEFAULT_INIT_MODELS: ModelSettings[] = [
     }
   }
 ]
+
+export const MAX_HISTORY_SIZE = 256;

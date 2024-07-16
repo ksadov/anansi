@@ -57,7 +57,12 @@ const selector = (state: RFState) => ({
   setModelsSettings: state.setModelsSettings,
   setActiveModelIndex: state.setActiveModelIndex,
   activeModelIndex: state.activeModelIndex,
-  createNewTreeSession: state.createNewTreeSession
+  createNewTreeSession: state.createNewTreeSession,
+  takeSnapshot: state.takeSnapshot,
+  undo: state.undo,
+  redo: state.redo,
+  canUndo: state.canUndo,
+  canRedo: state.canRedo
 });
 
 const nodeTypes = {
@@ -83,7 +88,7 @@ function App() {
   const { loomNodes, nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, spawnChildren,
     layoutDagre, focusedNodeId, setFocusedNodeId, focusedNodeVersion, setFocusedNodeVersion, initFromSavedTree,
     initFromSaveAppState, deleteNode, modelsSettings, setModelsSettings, activeModelIndex,
-    setActiveModelIndex, createNewTreeSession } = useStore(
+    setActiveModelIndex, createNewTreeSession, takeSnapshot, undo, redo, canUndo, canRedo } = useStore(
       useShallow(selector),
     );
 
@@ -334,6 +339,10 @@ function App() {
               importSettings={importSettings}
               isGenerating={isGenerating}
               hotkeys={hotkeys}
+              canUndo={canUndo}
+              canRedo={canRedo}
+              undo={undo}
+              redo={redo}
             />
             <div className="h-[calc(100vh-40px)]">
               <ReactFlow

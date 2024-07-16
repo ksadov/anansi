@@ -16,7 +16,7 @@ import Dagre from '@dagrejs/dagre';
 import { v4 as uuid } from 'uuid';
 import { DEFAULT_NODE_TEXT, DEFAULT_INIT_MODELS } from "utils/ui/constants";
 import { dagreLayout, basicLayout } from 'utils/ui/layout';
-import { NodeGraphData, AppState } from "utils/ui/types";
+import { NodeGraphData, AppState, HistoryItem } from "utils/ui/types";
 import { LoomNode, SavedLoomNode, ModelSettings, Generation } from "utils/logic/types";
 import { createLoomNode, fromSavedTree, getSubTree } from "utils/logic/loomNode";
 
@@ -44,6 +44,13 @@ export type RFState = {
   activeModelIndex: number;
   setActiveModelIndex: (index: number) => void;
   createNewTreeSession: () => void;
+  past: HistoryItem[];
+  future: HistoryItem[];
+  takeSnapshot: () => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: () => boolean;
+  canRedo: () => boolean;
 };
 
 const initialEdges: Edge[] = [];
@@ -308,7 +315,52 @@ const useStore = create<RFState>((set, get) => ({
     set({ edges: initialEdges });
     set({ focusedNodeId: defaultLoomNode.id });
     set({ focusedNodeVersion: 0 });
-  }
+  },
+  past: [],
+  future: [],
+  takeSnapshot: () => {
+    let loomNodes = get().loomNodes;
+    let nodes = get().nodes;
+    let edges = get().edges;
+    let past = get().past;
+    past.push({ loomNodes, nodes, edges });
+    set({ past });
+    set({ future: [] });
+  },
+  undo: () => {
+    let past = get().past;
+    let future = get().future;
+    let loomNodes = get().loomNodes;
+    let nodes = get().nodes;
+    let edges = get().edges;
+    if (past.length > 0) {
+      future.push({ loomNodes, nodes, edges });
+      let lastPast = past.pop();
+      if (lastPast) {
+        set({ loomNodes: lastPast.loomNodes });
+        set({ nodes: lastPast.nodes });
+        set({ edges: lastPast.edges });
+      }
+    }
+  },
+  redo: () => {
+    let past = get().past;
+    let future = get().future;
+    let loomNodes = get().loomNodes;
+    let nodes = get().nodes;
+    let edges = get().edges;
+    if (future.length > 0) {
+      past.push({ loomNodes, nodes, edges });
+      let lastFuture = future.pop();
+      if (lastFuture) {
+        set({ loomNodes: lastFuture.loomNodes });
+        set({ nodes: lastFuture.nodes });
+        set({ edges: lastFuture.edges });
+      }
+    }
+  },
+  canUndo: () => get().past.length > 0,
+  canRedo: () => get().future.length > 0
 }));
 
 export default useStore;
