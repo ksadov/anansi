@@ -245,11 +245,11 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     <Button variant="ghost" disabled> Delete </Button> :
     <Button variant="ghost" onClick={() => deleteNode(loomNode.id)}> Delete </Button>
 
-  const deleteButton = <div
+  const deleteButton = loomNode.parent ? <div
     className="flex p-1 generateDisabled place-content-center text-red-500"
   >
     {delButton}
-  </div >
+  </div > : null
 
   return (
     <div className="p-2">
