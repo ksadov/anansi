@@ -11,7 +11,7 @@ import { Toaster, toast } from "sonner";
 import NodeList from "components/searchlist/NodeList";
 import Menubar from "components/menu/Menubar";
 import "reactflow/dist/style.css";
-import useStore, { RFState } from '../utils/ui/store';
+import useStore, { RFState, disownedEdgeStyle } from '../utils/ui/store';
 import LoomGraphNode from "components/graph/LoomGraphNode"
 import LayoutButton from "components/graph/LayoutButton";
 import NodeDetails from "components/details/NodeDetails";
@@ -225,7 +225,7 @@ function App() {
     setEdges(
       edges.map((edge) => {
         if (edge.source === focusedNodeId) {
-          edge.style = { strokeDasharray: "5,5" };
+          edge.style = disownedEdgeStyle;
         }
         return edge;
       })

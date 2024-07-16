@@ -70,11 +70,7 @@ const defaultNodes: Node<NodeGraphData>[] = [
   }
 ]
 
-
 const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-
-const new_child_nodes = 3;
-// this is our useStore hook that we can use in our components to get parts of the store and call actions
 
 function initGraphNodesFromLoomNodes(loomNodes: LoomNode[]): Node<NodeGraphData>[] {
   const graphNodes = loomNodes.map(loomNode => {
@@ -106,6 +102,20 @@ function initEdgesFromGraphNodes(nodes: Node<NodeGraphData>[]): Edge[] {
   return edges;
 }
 
+export const disownedEdgeStyle = { strokeDasharray: "5,5" };
+
+function disownEdges(edges: Edge[], loomNodes: LoomNode[]) {
+  edges.map((edge) => {
+    const sourceNode = loomNodes.find(loomNode => loomNode.id === edge.source);
+    const sourceNodeVersion = sourceNode?.diffs.length;
+    const parentVersion = sourceNode?.parent?.version;
+    if (sourceNodeVersion !== parentVersion) {
+      edge.style = disownedEdgeStyle;
+    }
+  });
+}
+
+// this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useStore = create<RFState>((set, get) => ({
   loomNodes: [defaultLoomNode],
   nodes: defaultNodes,
@@ -233,6 +243,7 @@ const useStore = create<RFState>((set, get) => ({
     const loomNodes = fromSavedTree(savedLoomNodes);
     const graphNodes = initGraphNodesFromLoomNodes(loomNodes);
     const edges = initEdgesFromGraphNodes(graphNodes);
+    disownEdges(edges, loomNodes);
     const { nodes: layoutedNodes, edges: layoutedEdges } = dagreLayout(
       get().dagreGraph,
       graphNodes,

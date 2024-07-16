@@ -183,7 +183,7 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings, e
           <TabsContent value="reset">
             <BackupRequestModal
               destructiveDesc="clear all your data and reset the app to its initial state"
-              backupFn={exportCurrentTree}
+              backupFn={() => { exportCurrentTree(); exportSettings() }}
               destructiveFn={clearLocalStorage}
             />
           </TabsContent >
