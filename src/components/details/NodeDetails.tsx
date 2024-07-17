@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import Loader from "@/components/ui/loadingspinner";
 import NodeLink from "components/common/NodeLink";
+import LogprobView from "components/details/LogprobView";
 import { LoomNode } from "utils/logic/types";
 import { constructLineage, patchToVersion } from "utils/logic/loomNode";
 
@@ -251,12 +252,16 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     {delButton}
   </div > : null
 
+  const logprobTrigger = loomNode.generation?.logprobs ? <TabsTrigger id="logprob-tab" value="logprob">Logprobs</TabsTrigger> : null;
+  const logprobView = loomNode.generation?.logprobs ? <TabsContent value="logprob">Logprobs</TabsContent> : null;
+
   return (
     <div className="p-2">
       <Tabs defaultValue="read">
         <TabsList>
           <TabsTrigger id="read-tab" value="read">Read</TabsTrigger>
           <TabsTrigger id="info-tab" value="info">Info</TabsTrigger>
+          {logprobTrigger}
         </TabsList>
         <TabsContent className="p-2" value="read">
           {ReadView(
@@ -271,6 +276,7 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
           {generateButton}
           {deleteButton}
         </TabsContent>
+        {logprobView}
       </Tabs>
     </div>
   )
