@@ -24,7 +24,7 @@ export const DEFAULT_INIT_MODELS: ModelSettings[] = [
     name: "davinci-002",
     id: uuid(),
     apiURL: "https://api.openai.com/v1/completions",
-    apiKey: "your-openai-api-key",
+    apiKey: "",
     maxLength: 16385,
     params: {
       temperature: 1,
@@ -37,8 +37,21 @@ export const DEFAULT_INIT_MODELS: ModelSettings[] = [
     name: "mistralai/Mixtral-8x7B-v0.1",
     id: uuid(),
     apiURL: "https://api.together.xyz/v1/completions",
-    apiKey: "your-togetherai-api-key",
+    apiKey: "",
     maxLength: 128000,
+    params: {
+      temperature: 1,
+      n: 3,
+      max_tokens: 64,
+      logprobs: 1
+    }
+  },
+  {
+    name: "Meta-Llama-3-8B-Q4_5_M.gguf",
+    id: uuid(),
+    apiURL: "http://localhost:8009/v1/completions",
+    apiKey: "",
+    maxLength: 8192,
     params: {
       temperature: 1,
       n: 3,
