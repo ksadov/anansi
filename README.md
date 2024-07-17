@@ -18,7 +18,6 @@ If you want to mess with the CSS, [install tailwind](https://tailwindcss.com/doc
 I used the [Create React App](https://github.com/facebook/create-react-app) to make this thing, so it should obey the commands outlined there. 
 
 ## To do
-- logprob view
 - less ugly color scheme(s?)
 - compress state stored to localStorage
 - navigate graph view via keybindings
