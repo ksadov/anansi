@@ -81,35 +81,33 @@ function ReadView(
 
   if (editEnabled) {
     return (
-      <div className="">
-        <div className="">
-          <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
-            {previousRead}
-            <span ref={bottomRef}></span>
-          </div>
-          <div className="m-2">
-            <Textarea
-              ref={editCancelRef}
-              defaultValue={patchToVersion(loomNode, version, dmp)}
-              id="editNodeText"
-              autoFocus
-              onChange={() => {
-              }}
-            />
-            <div className="flex justify-end space-x-1 pt-2">
-              <Button
-                size="sm"
-                onClick={saveEdit}
-              >Save</Button>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={
-                  () => {
-                    setEditEnabled(false);
-                  }
-                }>Cancel</Button>
-            </div>
+      <div>
+        <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
+          {previousRead}
+          <span ref={bottomRef}></span>
+        </div>
+        <div className="m-2">
+          <Textarea
+            ref={editCancelRef}
+            defaultValue={patchToVersion(loomNode, version, dmp)}
+            id="editNodeText"
+            autoFocus
+            onChange={() => {
+            }}
+          />
+          <div className="flex justify-end space-x-1 pt-2">
+            <Button
+              size="sm"
+              onClick={saveEdit}
+            >Save</Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={
+                () => {
+                  setEditEnabled(false);
+                }
+              }>Cancel</Button>
           </div>
         </div>
       </div>
@@ -117,27 +115,25 @@ function ReadView(
   }
   else {
     return (
-      <div className="">
-        <div className="">
-          <div className="flex justify-end items-center m-0.5">
-            {isLatest ? <Button variant="ghost" size="xs" onClick={() => setEditEnabled(true)}>Edit</Button> : null}
-            <Select
-              value={version.toString()}
-              onValueChange={(value) => { setFocusedNodeVersion(parseInt(value)) }}
-            >
-              <SelectTrigger className="w-16">
-                <SelectValue placeholder={"v" + version} />
-              </SelectTrigger>
-              {VersionSelectContent(loomNode)}
-            </Select>
-          </div>
-          <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
-            {previousRead}
-            <span ref={bottomRef}></span>
-            <span>{addBreaks(patchToVersion(loomNode, version, dmp))}</span>
-          </div>
+      <div>
+        <div className="flex justify-end items-center m-0.5">
+          {isLatest ? <Button variant="ghost" size="xs" onClick={() => setEditEnabled(true)}>Edit</Button> : null}
+          <Select
+            value={version.toString()}
+            onValueChange={(value) => { setFocusedNodeVersion(parseInt(value)) }}
+          >
+            <SelectTrigger className="w-16">
+              <SelectValue placeholder={"v" + version} />
+            </SelectTrigger>
+            {VersionSelectContent(loomNode)}
+          </Select>
         </div>
-      </div >
+        <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
+          {previousRead}
+          <span ref={bottomRef}></span>
+          <span>{addBreaks(patchToVersion(loomNode, version, dmp))}</span>
+        </div>
+      </div>
     );
   }
 }
