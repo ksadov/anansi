@@ -41,7 +41,8 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
   const response = await callModel(modelSettings.apiURL, modelSettings.name, modelSettings.apiKey, prompt,
     modelSettings.params);
   if (response.error) {
-    const failMessage = `Model ${modelSettings.name} generation failed with code ${response.error.code}: ${response.error.message}`;
+    const codeString = response.error.code ? ` with code ${response.error.code.toString()}` : "";
+    const failMessage = `Model ${modelSettings.name} generation failed${codeString}: ${response.error.message}`;
     throw new Error(failMessage);
   }
   else if (!response.choices || response.choices.length === 0) {
