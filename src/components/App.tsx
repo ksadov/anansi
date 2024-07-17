@@ -286,14 +286,19 @@ function App() {
     () => navToSibling(focusedNode, setFocusedNodeId, 'prev')));
   hotkeys.push(useHotkeyWithDesc("right", "Navigate to next sibling of focused node",
     () => navToSibling(focusedNode, setFocusedNodeId, 'next')));
-  hotkeys.push(useHotkeyWithDesc("s+shift", "export tree to file", exportCurrentTree));
-  hotkeys.push(useHotkeyWithDesc("o+shift", "import tree from file", importTree));
+  const exportDesc = useHotkeyWithDesc("s+shift", "export tree to file", exportCurrentTree);
+  hotkeys.push(exportDesc);
+  const importDesc = useHotkeyWithDesc("o+shift", "import tree from file", importTree);
+  hotkeys.push(importDesc);
   hotkeys.push(useHotkeyWithDesc("l", "Auto-layout", autoLayout));
   hotkeys.push(useHotkeyWithDesc("0", "Reset zoom", () => reactFlow?.fitView()));
   hotkeys.push(useHotkeyWithDesc("f", "Focus search bar", () => focusElement("loom-search-input")));
-  hotkeys.push(useHotkeyWithDesc("k", "new tree (deletes current tree)", newTree));
-  hotkeys.push(useHotkeyWithDesc("z", "Undo", undo));
-  hotkeys.push(useHotkeyWithDesc("z+shift", "Redo", redo));
+  const newTreeDesc = useHotkeyWithDesc("k", "new tree (deletes current tree)", newTree);
+  hotkeys.push(newTreeDesc);
+  const undoDesc = useHotkeyWithDesc("z", "Undo", undo);
+  hotkeys.push(undoDesc);
+  const redoDesc = useHotkeyWithDesc("z+shift", "Redo", redo);
+  hotkeys.push(redoDesc);
   hotkeys.push(useHotkeyWithDesc(helpMenuKey, "show hotkeys", () => clickElement("hotkey-menu-trigger")));
 
   const editCancelRef = useHotkeys<HTMLTextAreaElement>(`ctrl+c`, () => { setEditEnabled(false); }, HOTKEY_CONFIG);
@@ -347,6 +352,11 @@ function App() {
               canRedo={canRedo}
               undo={undo}
               redo={redo}
+              importKey={importDesc.key}
+              exportKey={exportDesc.key}
+              newTreeKey={newTreeDesc.key}
+              undoKey={undoDesc.key}
+              redoKey={redoDesc.key}
             />
             <div className="h-[calc(100vh-40px)]">
               <ReactFlow

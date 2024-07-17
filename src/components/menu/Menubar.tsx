@@ -14,7 +14,7 @@ import { ModelSettings } from "utils/logic/types"
 
 export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, exportCurrentTree, setModelsSettings,
   activeModelIndex, setActiveModelIndex, newTree, exportSettings, importSettings, isGenerating, hotkeys,
-  canUndo, canRedo, undo, redo }: {
+  canUndo, canRedo, undo, redo, importKey, exportKey, newTreeKey, undoKey, redoKey }: {
     theme: string,
     modelsSettings: ModelSettings[],
     setTheme: (theme: string) => void,
@@ -32,6 +32,11 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
     canRedo: () => boolean,
     undo: () => void,
     redo: () => void,
+    importKey: string,
+    exportKey: string,
+    newTreeKey: string,
+    undoKey: string,
+    redoKey: string
   }
 ) {
   const loadSpinner = isGenerating ? <Loader className="w-8" /> : null;
@@ -42,12 +47,17 @@ export default function LoomMenu({ theme, modelsSettings, setTheme, importTree, 
           importTree={importTree}
           exportCurrentTree={exportCurrentTree}
           newTree={newTree}
+          importKey={importKey}
+          exportKey={exportKey}
+          newTreeKey={newTreeKey}
         />
         <EditMenu
           canUndo={canUndo}
           canRedo={canRedo}
           undo={undo}
           redo={redo}
+          undoKey={undoKey}
+          redoKey={redoKey}
         />
         <div className="p-2">
           <SettingsMenu
