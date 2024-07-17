@@ -10,10 +10,10 @@ function clampedProbString(prob: number) {
   return prob < 0.01 ? "<0.01" : prob > 0.99 ? ">0.99" : prob.toFixed(2);
 }
 
-function LinprobHighlight({ token, lp, top }: { token: string, lp: number, top: Logprob[] }) {
+function LinprobHighlight({ token, lp, top }: { token: string, lp: number, top: Logprob[] | null }) {
   const linprob = Math.exp(lp);
   const bgColor = `rgba(${Math.round(255 * (1 - linprob))},${Math.round(255 * linprob)},0,0.5)`;
-  const topdivs = top.map((top, i) => {
+  const topdivs = top?.map((top, i) => {
     return <div key={i}>{top.token}: {clampedProbString(Math.exp(top.lp))}</div>
   });
   return (
@@ -35,10 +35,9 @@ function LinprobHighlight({ token, lp, top }: { token: string, lp: number, top: 
 }
 
 export default function LogprobView({ loomNode }: { loomNode: LoomNode }) {
-  const top: Logprob[][] = loomNode.generation?.logprobs?.top ?? [];
-  console.log("top", top);
+  const top: Logprob[][] | null = loomNode.generation?.logprobs?.top ?? null;
   const highlightedText = loomNode.generation?.logprobs?.text.map((logprob, i) => {
-    return <LinprobHighlight key={i} token={logprob.token} lp={logprob.lp} top={top[i]} />;
+    return <LinprobHighlight key={i} token={logprob.token} lp={logprob.lp} top={top ? top[i] : null} />
   });
   return (
     <TooltipProvider>
