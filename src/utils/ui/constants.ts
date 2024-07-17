@@ -54,9 +54,9 @@ export const DEFAULT_INIT_MODELS: ModelSettings[] = [
     maxLength: 8192,
     params: {
       temperature: 1,
-      n: 3,
+      n: 1,
       max_tokens: 64,
-      logprobs: 1
+      logprobs: 10
     }
   }
 ]
