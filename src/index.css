@@ -1172,6 +1172,11 @@ body {
   padding-bottom: 0.75rem;
 }
 
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
 .pl-8 {
   padding-left: 2rem;
 }

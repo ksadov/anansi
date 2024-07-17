@@ -252,9 +252,8 @@ export default function NodeDetails({ loomNode, setVersion, setFocusedNodeVersio
     {delButton}
   </div > : null
 
-  const logprobTrigger = loomNode.generation?.logprobs ? <TabsTrigger id="logprob-tab" value="logprob">Logprobs</TabsTrigger> : null;
-  const logprobView = loomNode.generation?.logprobs ? <TabsContent value="logprob">Logprobs</TabsContent> : null;
-
+  const logprobTrigger = loomNode.generation?.logprobs ? <TabsTrigger id="logprob-tab" value="logprobs">Logprobs</TabsTrigger> : null;
+  const logprobView = loomNode.generation?.logprobs ? <TabsContent className="p-2" value="logprobs"><LogprobView loomNode={loomNode} /></TabsContent> : null;
   return (
     <div className="p-2">
       <Tabs defaultValue="read">
