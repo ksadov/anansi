@@ -178,16 +178,21 @@ function App() {
       const parentNode = focusedNode;
       const parentVersion = focusedNodeVersion ?? parentNode.diffs.length;
       setIsGenerating(true);
-      const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
-      setIsGenerating(false);
-      const newNodes = spawnChildren(parentNode.id, parentVersion, generation);
-      window.requestAnimationFrame(() => {
-        setViewForNodes(newNodes);
-        setTimeout(() => {
-          setNeedsReveal(true);
-        }, 20);
+      try {
+        const generation = await generate(focusedNode, modelsSettings[activeModelIndex], dmp);
+        setIsGenerating(false);
+        const newNodes = spawnChildren(parentNode.id, parentVersion, generation);
+        window.requestAnimationFrame(() => {
+          setViewForNodes(newNodes);
+          setTimeout(() => {
+            setNeedsReveal(true);
+          }, 20);
+        }
+        );
+      } catch (error) {
+        setIsGenerating(false);
+        toast.error("Generation failed: " + error);
       }
-      );
     }
   }
 

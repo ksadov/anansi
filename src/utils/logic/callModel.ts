@@ -13,7 +13,6 @@ export async function callModel(apiURL: string, modelName: string, apiKey: strin
       model: modelName,
       prompt: prompt,
       stream: false,
-      echo: false,
       ...genParams
     })
   }).then(response => response.json());
@@ -41,32 +40,39 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
   const prompt = patchedText.slice(sliceStartIndex);
   const response = await callModel(modelSettings.apiURL, modelSettings.name, modelSettings.apiKey, prompt,
     modelSettings.params);
-  // console.log("RESPONSE", response)
+  console.log("RESPONSE", response);
   if (response.error) {
+    console.log("ERROR", response.error)
     const failMessage = `Model ${modelSettings.name} generation failed with code ${response.error.code}: ${response.error.message}`;
-    toast.error(failMessage);
-    return [];
+    throw new Error(failMessage);
   }
-  return response.choices.map((choice: any) => {
-    const textLogprobs: Logprob[] = choice.logprobs ? choice.logprobs.tokens.map((token: string, i: number) => {
-      return { token: token, lp: choice.logprobs.token_logprobs[i] }
-    }) : null;
-    const topLogprobDictArray: any[] = choice.logprobs ? choice.logprobs.top_logprobs : null;
-    const topLogprobs: Logprob[][] | null = topLogprobDictArray ? topLogprobDictArray.map((topLogprobDict: any) => {
-      return Object.keys(topLogprobDict).map((token: string) => {
-        return { token: token, lp: topLogprobDict[token] }
-      });
-    }) : null;
-    const logprobs = choice.logprobs ? { text: textLogprobs, top: topLogprobs } : null;
-    return {
-      text: choice.text,
-      timestamp: response.created,
-      model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
-      logprobs: logprobs,
-      prompt: prompt,
-      finishReason: response.finish_reason,
-      rawResponse: JSON.stringify(response)
+  else if (!response.choices || response.choices.length === 0) {
+    const fail_reason = response.detail ? response.detail.toString() : "No choices returned";
+    const failMessage = `Model ${modelSettings.name} generation failed: ${fail_reason}`;
+    throw new Error(failMessage);
+  }
+  else {
+    return response.choices.map((choice: any) => {
+      const textLogprobs: Logprob[] = choice.logprobs ? choice.logprobs.tokens.map((token: string, i: number) => {
+        return { token: token, lp: choice.logprobs.token_logprobs[i] }
+      }) : null;
+      const topLogprobDictArray: any[] = choice.logprobs ? choice.logprobs.top_logprobs : null;
+      const topLogprobs: Logprob[][] | null = topLogprobDictArray ? topLogprobDictArray.map((topLogprobDict: any) => {
+        return Object.keys(topLogprobDict).map((token: string) => {
+          return { token: token, lp: topLogprobDict[token] }
+        });
+      }) : null;
+      const logprobs = choice.logprobs ? { text: textLogprobs, top: topLogprobs } : null;
+      return {
+        text: choice.text,
+        timestamp: response.created,
+        model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
+        logprobs: logprobs,
+        prompt: prompt,
+        finishReason: response.finish_reason,
+        rawResponse: JSON.stringify(response)
+      }
     }
+    );
   }
-  );
 }
