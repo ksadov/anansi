@@ -21,7 +21,6 @@ I used the [Create React App](https://github.com/facebook/create-react-app) to m
 - less ugly color scheme(s?)
 - compress state stored to localStorage
 - navigate graph view via keybindings
-- llama.cpp compatability
 
 ## Acknowledgements 
 * https://github.com/socketteer/loom: inspiration for GUI and features
