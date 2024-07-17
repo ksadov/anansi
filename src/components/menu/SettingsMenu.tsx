@@ -54,7 +54,8 @@ function ModelSettingsDisplay({ modelSettings, updateModelSettings, deleteModelS
       onClick={() => {
         if (localModel.params == null) {
           toast(`Invalid JSON for parameters of ${localModel.name}.`);
-        } else {
+        }
+        else {
           updateModelSettings(localModel);
           toast.success(`Updated ${localModel.name}.`);
           setIsEditing(false);
@@ -198,7 +199,7 @@ function SettingsModal({ exportCurrentTree, modelsSettings, setModelsSettings, e
                 id: uuid(),
                 name: "New Model",
                 apiURL: "https://api.together.xyz/v1/completions",
-                apiKey: "your-api-key",
+                apiKey: "",
                 maxLength: 2048,
                 params: {}
               })}>Add Model</Button>
