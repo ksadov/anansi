@@ -1,15 +1,17 @@
 import { LoomNode } from "utils/logic/types";
 
 function LinprobHighlight({ token, lp }: { token: string, lp: number }) {
-  const linProb = Math.exp(lp);
+  const linprob = Math.exp(lp);
+  const bgColor = `rgba(${Math.round(255 * (1 - linprob))},${Math.round(255 * linprob)},0, 0.5)`;
   return (
-    <span className="inline-block px-1" style={{ backgroundColor: `rgba(0, 0, 255, ${linProb})` }}>
+    <span style={{ backgroundColor: bgColor }}>
       {token}
     </span>
   );
 }
 
 export default function LogprobView({ loomNode }: { loomNode: LoomNode }) {
+  console.log("LOGPROBS", loomNode.generation?.logprobs);
   const highlightedText = loomNode.generation?.logprobs?.text.map((logprob, i) => {
     return <LinprobHighlight key={i} token={logprob.token} lp={logprob.lp} />
   });
