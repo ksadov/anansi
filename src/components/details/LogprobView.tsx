@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator"
 import {
   Tooltip,
   TooltipContent,
@@ -13,9 +14,11 @@ function clampedProbString(prob: number) {
 function LinprobHighlight({ token, lp, top }: { token: string, lp: number, top: Logprob[] | null }) {
   const linprob = Math.exp(lp);
   const bgColor = `rgba(${Math.round(255 * (1 - linprob))},${Math.round(255 * linprob)},0,0.5)`;
-  const topdivs = top?.map((top, i) => {
+  const tops = top?.map((top, i) => {
     return <div key={i}>{top.token}: {clampedProbString(Math.exp(top.lp))}</div>
   });
+  const wrappedTop = top ? <div>{tops}</div> : null;
+  const sep = top ? <Separator className="my-1" orientation="horizontal" /> : null;
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -26,8 +29,8 @@ function LinprobHighlight({ token, lp, top }: { token: string, lp: number, top: 
       <TooltipContent>
         <div>
           <div>{token}: {clampedProbString(linprob)}</div>
-          <div>---</div>
-          {topdivs}
+          {sep}
+          {wrappedTop}
         </div>
       </TooltipContent>
     </Tooltip>
