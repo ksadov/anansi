@@ -1276,6 +1276,10 @@ body {
   color: hsl(var(--secondary-foreground));
 }
 
+.text-secondary {
+  color: hsl(var(--secondary));
+}
+
 .underline {
   text-decoration-line: underline;
 }

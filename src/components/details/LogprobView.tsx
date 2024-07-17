@@ -17,7 +17,7 @@ function LinprobHighlight({ token, lp, top }: { token: string, lp: number, top: 
   const tops = top?.map((top, i) => {
     return <div key={i}>{top.token}: {clampedProbString(Math.exp(top.lp))}</div>
   });
-  const wrappedTop = top ? <div>{tops}</div> : null;
+  const wrappedTop = top ? <div className="text-muted-foreground">{tops}</div> : null;
   const sep = top ? <Separator className="my-1" orientation="horizontal" /> : null;
   return (
     <Tooltip>
