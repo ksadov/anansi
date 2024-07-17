@@ -27,8 +27,7 @@ export async function debugGenerate(loomNode: LoomNode, modelSettings: ModelSett
     text: "Debug generation " + Math.random().toString(36).substring(7),
     timestamp: Date.now(),
     model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
-    textLogprobs: [],
-    topLogprobs: [],
+    logprobs: null,
     prompt: prompt,
     finishReason: "debug",
     rawResponse: "debug"
@@ -49,16 +48,16 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
     return [];
   }
   return response.choices.map((choice: any) => {
-    const topLogprobs: Logprob[][] = choice.logprobs ? choice.logprobs.top_logprobs : [];
+    const topLogprobs: Logprob[][] = choice.logprobs ? choice.logprobs.top_logprobs : null;
     const textLogprobs: Logprob[] = choice.logprobs ? choice.logprobs.tokens.map((token: string, i: number) => {
-      return { token: token, logprob: choice.logprobs.token_logprobs[i] }
-    }) : [];
+      return { token: token, lp: choice.logprobs.token_logprobs[i] }
+    }) : null;
+    const logprobs = choice.logprobs ? { text: textLogprobs, top: topLogprobs } : null;
     return {
       text: choice.text,
       timestamp: response.created,
       model: { name: modelSettings.name, apiURL: modelSettings.apiURL, params: modelSettings.params },
-      textLogprobs: textLogprobs,
-      topLogprobs: topLogprobs,
+      logprobs: logprobs,
       prompt: prompt,
       finishReason: response.finish_reason,
       rawResponse: JSON.stringify(response)

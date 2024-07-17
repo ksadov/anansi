@@ -45,15 +45,17 @@ export type ModelSettings = {
 
 export type Logprob = {
   token: string,
-  logprob: number
+  lp: number
 }
 
 export type Generation = {
   text: string,
   timestamp: number,
   model: { name: string, apiURL: string, params: { [key: string]: any } }
-  textLogprobs: Logprob[],
-  topLogprobs: Logprob[][],
+  logprobs: {
+    text: Logprob[],
+    top: Logprob[][]
+  } | null,
   finishReason: string
   rawResponse: string
   prompt: string
