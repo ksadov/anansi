@@ -802,6 +802,10 @@ body {
   height: 1px;
 }
 
+.h-\[1px\] {
+  height: 1px;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -868,6 +872,10 @@ body {
 
 .w-\[200px\] {
   width: 200px;
+}
+
+.w-\[1px\] {
+  width: 1px;
 }
 
 .min-w-\[12rem\] {

@@ -48,9 +48,14 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
     return [];
   }
   return response.choices.map((choice: any) => {
-    const topLogprobs: Logprob[][] = choice.logprobs ? choice.logprobs.top_logprobs : null;
     const textLogprobs: Logprob[] = choice.logprobs ? choice.logprobs.tokens.map((token: string, i: number) => {
       return { token: token, lp: choice.logprobs.token_logprobs[i] }
+    }) : null;
+    const topLogprobDictArray: any[] = choice.logprobs ? choice.logprobs.top_logprobs : null;
+    const topLogprobs: Logprob[][] | null = topLogprobDictArray ? topLogprobDictArray.map((topLogprobDict: any) => {
+      return Object.keys(topLogprobDict).map((token: string) => {
+        return { token: token, lp: topLogprobDict[token] }
+      });
     }) : null;
     const logprobs = choice.logprobs ? { text: textLogprobs, top: topLogprobs } : null;
     return {

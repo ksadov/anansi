@@ -4,12 +4,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { LoomNode } from "utils/logic/types";
+import { LoomNode, Logprob } from "utils/logic/types";
 
-function LinprobHighlight({ token, lp }: { token: string, lp: number }) {
+function clampedProbString(prob: number) {
+  return prob < 0.01 ? "<0.01" : prob > 0.99 ? ">0.99" : prob.toFixed(2);
+}
+
+function LinprobHighlight({ token, lp, top }: { token: string, lp: number, top: Logprob[] }) {
   const linprob = Math.exp(lp);
-  const bgColor = `rgba(${Math.round(255 * (1 - linprob))},${Math.round(255 * linprob)},0, 0.5)`;
-  const linprobStr = linprob < 0.01 ? "<0.01" : linprob > 0.99 ? ">0.99" : linprob.toFixed(2);
+  const bgColor = `rgba(${Math.round(255 * (1 - linprob))},${Math.round(255 * linprob)},0,0.5)`;
+  const topdivs = top.map((top, i) => {
+    return <div key={i}>{top.token}: {clampedProbString(Math.exp(top.lp))}</div>
+  });
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -19,7 +25,9 @@ function LinprobHighlight({ token, lp }: { token: string, lp: number }) {
       </TooltipTrigger>
       <TooltipContent>
         <div>
-          <div>{token}: {linprobStr}</div>
+          <div>{token}: {clampedProbString(linprob)}</div>
+          <div>---</div>
+          {topdivs}
         </div>
       </TooltipContent>
     </Tooltip>
@@ -27,9 +35,10 @@ function LinprobHighlight({ token, lp }: { token: string, lp: number }) {
 }
 
 export default function LogprobView({ loomNode }: { loomNode: LoomNode }) {
-  console.log("LOGPROBS", loomNode.generation?.logprobs);
+  const top: Logprob[][] = loomNode.generation?.logprobs?.top ?? [];
+  console.log("top", top);
   const highlightedText = loomNode.generation?.logprobs?.text.map((logprob, i) => {
-    return <LinprobHighlight key={i} token={logprob.token} lp={logprob.lp} />
+    return <LinprobHighlight key={i} token={logprob.token} lp={logprob.lp} top={top[i]} />;
   });
   return (
     <TooltipProvider>

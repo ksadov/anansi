@@ -54,7 +54,7 @@ export type Generation = {
   model: { name: string, apiURL: string, params: { [key: string]: any } }
   logprobs: {
     text: Logprob[],
-    top: Logprob[][]
+    top: Logprob[][] | null
   } | null,
   finishReason: string
   rawResponse: string
