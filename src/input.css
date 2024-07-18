@@ -99,6 +99,29 @@ html[data-theme='wilderness'] {
   --radius: 0.5rem;
 }
 
+html[data-theme='dream'] {
+  --background: 249 33% 96%;
+  --foreground: 247 100% 21%;
+  --muted: 249 12% 90%;
+  --muted-foreground: 249 12% 30%;
+  --popover: 249 33% 93%;
+  --popover-foreground: 247 100% 11%;
+  --card: 249 33% 94%;
+  --card-foreground: 247 100% 16%;
+  --border: 249 23% 91%;
+  --input: 249 23% 88%;
+  --primary: 247 78% 65%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 247 30% 75%;
+  --secondary-foreground: 247 30% 15%;
+  --accent: 249 33% 81%;
+  --accent-foreground: 249 33% 21%;
+  --destructive: 3 93% 20%;
+  --destructive-foreground: 3 93% 80%;
+  --ring: 247 78% 65%;
+  --radius: 0.5rem;
+}
+
 @layer base {
   * {
     @apply border-border;

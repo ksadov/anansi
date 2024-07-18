@@ -1,18 +1,22 @@
-import { Moon, Sun, Earth, TentTree } from "lucide-react"
+import { Moon, Sun, Sparkle, Earth, TentTree } from "lucide-react"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar"
 
 function themeIcon(theme: string) {
+  const className = "h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"
   if (theme === "dark") {
-    return <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+    return <Moon className={className} />
   }
   if (theme === 'greenhouse') {
-    return <Earth className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+    return <Earth className={className} />
   }
   if (theme === 'wilderness') {
-    return <TentTree className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+    return <TentTree className={className} />
+  }
+  if (theme == 'dream') {
+    return <Sparkle className={className} />
   }
   else {
-    return <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100  transition-all" />
+    return <Sun className={className} />
   }
 }
 
@@ -45,6 +49,11 @@ export default function Themeswitch(
           onClick={() => setTheme("wilderness")}
         >
           Wilderness
+        </MenubarItem>
+        <MenubarItem
+          onClick={() => setTheme("dream")}
+        >
+          Dream
         </MenubarItem>
       </MenubarContent>
     </MenubarMenu>
