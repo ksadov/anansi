@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/anansi/static/css/main.a8d6ebb4.css",
-    "main.js": "/anansi/static/js/main.3c097f98.js",
+    "main.js": "/anansi/static/js/main.b90d7edf.js",
     "index.html": "/anansi/index.html",
     "main.a8d6ebb4.css.map": "/anansi/static/css/main.a8d6ebb4.css.map",
-    "main.3c097f98.js.map": "/anansi/static/js/main.3c097f98.js.map"
+    "main.b90d7edf.js.map": "/anansi/static/js/main.b90d7edf.js.map"
   },
   "entrypoints": [
     "static/css/main.a8d6ebb4.css",
-    "static/js/main.3c097f98.js"
+    "static/js/main.b90d7edf.js"
   ]
 }
