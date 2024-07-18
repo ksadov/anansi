@@ -19,7 +19,6 @@ I used the [Create React App](https://github.com/facebook/create-react-app) to m
 
 ## To do
 - less ugly color scheme(s?)
-- compress state stored to localStorage
 - navigate graph view via keybindings
 
 ## Acknowledgements 
