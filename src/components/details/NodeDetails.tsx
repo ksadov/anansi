@@ -82,7 +82,7 @@ function ReadView(
   if (editEnabled) {
     return (
       <div>
-        <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
+        <div className="rounded-md bg-card border p-2 overflow-scroll max-h-[65vh]">
           {previousRead}
           <span ref={bottomRef}></span>
         </div>
@@ -128,7 +128,7 @@ function ReadView(
             {VersionSelectContent(loomNode)}
           </Select>
         </div>
-        <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
+        <div className="rounded-md bg-card border p-2 overflow-scroll max-h-[65vh]">
           {previousRead}
           <span ref={bottomRef}></span>
           <span>{addBreaks(patchToVersion(loomNode, version, dmp))}</span>
@@ -149,7 +149,7 @@ function collapsibleInfo(label: string, content: string) {
         <span className="font-semibold">{label}</span><ChevronsUpDown className="size-4" />
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className="p-2 border rounded-md font-mono">
+        <div className="p-2 bg-card border rounded-md font-mono">
           {addBreaks(content)}
         </div>
       </CollapsibleContent>
@@ -192,7 +192,7 @@ function infoCard(loomNode: LoomNode, setFocusedNodeId: (id: string) => void) {
     "raw response", JSON.stringify(JSON.parse(loomNode.generation.rawResponse), null, 2)
   ) : null
   return (
-    <div className="p-2 border rounded-md overflow-scroll max-h-[65vh]">
+    <div className="p-2 bg-card text-card-foreground border rounded-md overflow-scroll max-h-[65vh]">
       <p>{infoLabel("id")} {loomNode.id}</p>
       <p>{infoLabel("timestamp")} {new Date(loomNode.timestamp).toUTCString()}</p>
       {parentLine}

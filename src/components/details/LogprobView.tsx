@@ -44,7 +44,7 @@ export default function LogprobView({ loomNode }: { loomNode: LoomNode }) {
   });
   return (
     <TooltipProvider>
-      <div className="rounded-md border p-2 overflow-scroll max-h-[65vh]">
+      <div className="rounded-md bg-card text-card-foreground border p-2 overflow-scroll max-h-[65vh]">
         {highlightedText}
       </div>
     </TooltipProvider>
