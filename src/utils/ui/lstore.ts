@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 import { AppState } from "utils/ui/types";
 
 // modified from https://github.com/paradigmxyz/flux/blob/main/src/utils/lstore.ts
@@ -10,11 +11,13 @@ export function clearLocalStorage() {
 
 export function readLocalStorage<T>(key: string): T | null {
   const storedValue = localStorage.getItem(key);
-  return storedValue ? JSON.parse(storedValue) : null;
+  const decompressed = storedValue ? decompressFromUTF16(storedValue) : null;
+  return decompressed ? JSON.parse(decompressed) : null;
 }
 
 export function writeLocalStorage(key: string, value: any) {
-  localStorage.setItem(key, JSON.stringify(value));
+  const compressed = compressToUTF16(JSON.stringify(value));
+  localStorage.setItem(key, compressed);
 }
 
 export function useLocalStorage<T>(
