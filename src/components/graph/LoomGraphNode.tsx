@@ -9,7 +9,7 @@ function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
     <div className={invisibleString}>
       <Handle type="target" position={Position.Top} />
       <div
-        className={"bg-accent text-accent-foreground rounded-md p-2 " + borderHighlight}
+        className={"bg-accent text-accent-foreground border-2 rounded-md p-2 " + borderHighlight}
         onClick={data.focusNode}>
         <div className={`w-[200px] truncate`}>
           {data.loomNode.latestText}
