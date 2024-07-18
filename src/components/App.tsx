@@ -97,14 +97,19 @@ function App() {
   const [reactFlow, setReactFlow] = useState<ReactFlowInstance | null>(null);
 
   function initFromLocal(rf: ReactFlowInstance) {
-    loadAppStateLocal(initFromSaveAppState);
-    setReactFlow(rf);
-    setTimeout(() =>
-      window.requestAnimationFrame(() => {
-        rf.fitView();
-        setNeedsReveal(true);
-      })
-    );
+    try {
+      loadAppStateLocal(initFromSaveAppState);
+      setReactFlow(rf);
+      setTimeout(() =>
+        window.requestAnimationFrame(() => {
+          rf.fitView();
+          setNeedsReveal(true);
+        })
+      );
+    }
+    catch (error) {
+      toast.error(`Error restoring app state: ${error}. Starting new tree.`);
+    }
   }
 
   // Reveal nodes and edges after view for newly-generated nodes has been set
