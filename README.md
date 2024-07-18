@@ -17,10 +17,6 @@ If you want to mess with the CSS, [install tailwind](https://tailwindcss.com/doc
 
 I used the [Create React App](https://github.com/facebook/create-react-app) to make this thing, so it should obey the commands outlined there. 
 
-## To do
-- less ugly color scheme(s?)
-- navigate graph view via keybindings
-
 ## Acknowledgements 
 * https://github.com/socketteer/loom: inspiration for GUI and features
 * https://github.com/paradigmxyz/flux: inspiration for interactive graph view and localStorage autosave
