@@ -25,3 +25,8 @@ I used the [Create React App](https://github.com/facebook/create-react-app) to m
 * https://github.com/socketteer/loom: inspiration for GUI and features
 * https://github.com/paradigmxyz/flux: inspiration for interactive graph view and localStorage autosave
 * https://github.com/JD-P/minihf: inspiration for [diff-match-patch](https://github.com/google/diff-match-patch)-based version control for tree nodes
+
+### Themes
+* "Light" and "Dark" are modified from [shadcn Slate](https://ui.shadcn.com/colors)
+* "Dream" is modified from [Noctis Twilight](https://github.com/liviuschera/noctis?tab=readme-ov-file#noctis-lilac)
+* "Wilderness" is modified from [Origamid](https://github.com/origamid/origamid-next-vscode)
