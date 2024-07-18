@@ -1,4 +1,4 @@
-import { Moon, Sun, Sparkle, Earth, TentTree } from "lucide-react"
+import { Moon, Sun, Sparkles, Earth, TentTree } from "lucide-react"
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar"
 
 function themeIcon(theme: string) {
@@ -13,7 +13,7 @@ function themeIcon(theme: string) {
     return <TentTree className={className} />
   }
   if (theme == 'dream') {
-    return <Sparkle className={className} />
+    return <Sparkles className={className} />
   }
   else {
     return <Sun className={className} />

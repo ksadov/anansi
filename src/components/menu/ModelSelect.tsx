@@ -47,7 +47,7 @@ export default function ModelSelect({ modelsSettings, activeModelIndex, setActiv
   }
   else
     return (
-      <div>
+      <div className="mx-1">
         <Select
           value={activeModelIndex.toString()}
           onValueChange={(value) => setActiveModelIndex(parseInt(value))}
