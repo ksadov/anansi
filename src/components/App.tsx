@@ -370,6 +370,7 @@ function App() {
             />
             <div className="h-[calc(100vh-40px)]">
               <ReactFlow
+                className="bg-card"
                 nodes={nodes}
                 edges={edges}
                 onInit={initFromLocal}

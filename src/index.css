@@ -443,6 +443,29 @@ video {
 
 html[data-theme='light'] {
   --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --muted: 0 12% 90%;
+  --muted-foreground: 0 12% 30%;
+  --popover: 0 0% 97%;
+  --popover-foreground: 0 0% 0%;
+  --card: 0 0% 98%;
+  --card-foreground: 0 0% 0%;
+  --border: 0 0% 90%;
+  --input: 0 0% 92%;
+  --primary: 0 0% 17%;
+  --primary-foreground: 0 0% 77%;
+  --secondary: 0 0% 75%;
+  --secondary-foreground: 0 0% 15%;
+  --accent: 0 0% 85%;
+  --accent-foreground: 0 0% 25%;
+  --destructive: 10 91% 22%;
+  --destructive-foreground: 10 91% 82%;
+  --ring: 0 0% 17%;
+  --radius: 0.5rem;
+}
+
+html[data-theme='old-light'] {
+  --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
@@ -674,10 +697,6 @@ body {
   margin: 0.5rem;
 }
 
-.m-1 {
-  margin: 0.25rem;
-}
-
 .-mx-1 {
   margin-left: -0.25rem;
   margin-right: -0.25rem;
@@ -790,6 +809,10 @@ body {
   height: 1.2rem;
 }
 
+.h-\[1px\] {
+  height: 1px;
+}
+
 .h-\[calc\(100vh-40px\)\] {
   height: calc(100vh - 40px);
 }
@@ -803,10 +826,6 @@ body {
 }
 
 .h-px {
-  height: 1px;
-}
-
-.h-\[1px\] {
   height: 1px;
 }
 
@@ -866,11 +885,7 @@ body {
   width: 1.2rem;
 }
 
-.w-full {
-  width: 100%;
-}
-
-.w-px {
+.w-\[1px\] {
   width: 1px;
 }
 
@@ -878,7 +893,11 @@ body {
   width: 200px;
 }
 
-.w-\[1px\] {
+.w-full {
+  width: 100%;
+}
+
+.w-px {
   width: 1px;
 }
 
@@ -1082,6 +1101,10 @@ body {
   background-color: hsl(var(--border));
 }
 
+.bg-card {
+  background-color: hsl(var(--card));
+}
+
 .bg-destructive {
   background-color: hsl(var(--destructive));
 }
@@ -1182,14 +1205,6 @@ body {
   padding-top: 0.5rem;
 }
 
-.pb-1 {
-  padding-bottom: 0.25rem;
-}
-
-.pt-1 {
-  padding-top: 0.25rem;
-}
-
 .text-center {
   text-align: center;
 }
@@ -1233,6 +1248,10 @@ body {
   letter-spacing: 0.1em;
 }
 
+.text-accent-foreground {
+  color: hsl(var(--accent-foreground));
+}
+
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
@@ -1241,6 +1260,10 @@ body {
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
+.text-card-foreground {
+  color: hsl(var(--card-foreground));
 }
 
 .text-destructive-foreground {
@@ -1274,10 +1297,6 @@ body {
 
 .text-secondary-foreground {
   color: hsl(var(--secondary-foreground));
-}
-
-.text-secondary {
-  color: hsl(var(--secondary));
 }
 
 .underline {
