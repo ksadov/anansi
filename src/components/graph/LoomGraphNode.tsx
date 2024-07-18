@@ -11,7 +11,7 @@ function LoomGraphNode({ data }: NodeProps<NodeGraphData>) {
       <div
         className={"border-2 rounded-md p-2 " + borderHighlight}
         onClick={data.focusNode}>
-        <div className={`w-[${defaultLoomNodeWidth}px] truncate`}>
+        <div className={`w-[200px] truncate`}>
           {data.loomNode.latestText}
         </div>
       </div>
