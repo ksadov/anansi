@@ -52,10 +52,27 @@ export async function generate(loomNode: LoomNode, modelSettings: ModelSettings,
   }
   else {
     return response.choices.map((choice: any) => {
-      const textLogprobs: Logprob[] = choice.logprobs ? choice.logprobs.tokens.map((token: string, i: number) => {
-        return { token: token, lp: choice.logprobs.token_logprobs[i] }
-      }) : null;
-      const topLogprobDictArray: any[] = choice.logprobs ? choice.logprobs.top_logprobs : null;
+      const textLogprobs: Logprob[] = choice.logprobs ? (
+        // This is the standard OpenAI format
+        choice.logprobs.tokens ? choice.logprobs.tokens.map((token: string, i: number) => {
+          return { token: token, lp: choice.logprobs.token_logprobs[i] }
+        }) :
+          // This is the format that llama.cpp server gives us
+          choice.logprobs.content ? choice.logprobs.content.map((item: any) => {
+            return { token: item.token, lp: item.logprob }
+          }) : null
+      ) : null;
+      const topLogprobDictArray: any[] = choice.logprobs ? (
+        // OAI
+        choice.logprobs.top_logprobs ? choice.logprobs.top_logprobs :
+          // llama.cpp
+          choice.logprobs.content ? choice.logprobs.content.map((item: any) => {
+            return item.top_logprobs.reduce((acc: any, top: any) => {
+              acc[top.token] = top.logprob;
+              return acc;
+            }, {});
+          }) : null
+      ) : null;
       const topLogprobs: Logprob[][] | null = topLogprobDictArray ? topLogprobDictArray.map((topLogprobDict: any) => {
         return Object.keys(topLogprobDict).map((token: string) => {
           return { token: token, lp: topLogprobDict[token] }
